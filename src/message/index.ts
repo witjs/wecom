@@ -6,6 +6,24 @@ export class Message extends Wecom {
   constructor(config: Partial<WecomConfig>) {
     super(config);
   }
+  /**
+   * @description
+   * @template T
+   * @template R
+   * @param {(IMessage.Text
+   *       | IMessage.Image
+   *       | IMessage.Voice
+   *       | IMessage.File
+   *       | IMessage.TextCard
+   *       | IMessage.News
+   *       | IMessage.MPNews
+   *       | IMessage.Markdown
+   *       | IMessage.MiniProgramNotice
+   *       | IMessage.TaskCard)} message 发送的消息主题
+   * @param {number} agentId 应用ID
+   * @return {*}  {Promise<R>}
+   * @memberof Message
+   */
   async send<T = any, R = AxiosResponse<T>>(
     message:
       | IMessage.Text
@@ -17,9 +35,10 @@ export class Message extends Wecom {
       | IMessage.MPNews
       | IMessage.Markdown
       | IMessage.MiniProgramNotice
-      | IMessage.TaskCard
+      | IMessage.TaskCard,
+    agentId?: number
   ): Promise<R> {
-    message.agentid = message.agentid || this.config.agentId;
+    message.agentid = message.agentid || agentId;
     return this.request({
       url: "message/send",
       method: "POST",

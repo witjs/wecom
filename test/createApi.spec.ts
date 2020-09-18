@@ -6,7 +6,6 @@ describe("createApi", () => {
   beforeEach(() => {
     dotenv.config();
     return (wecom = new Wecom({
-      agentId: Number(process.env.AGENT_ID),
       corpId: process.env.CORPID,
       corpSecret: process.env.CORP_SECRET,
     }));

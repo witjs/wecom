@@ -7,7 +7,6 @@ describe("message", () => {
   beforeEach(() => {
     dotenv.config();
     return (media = new Media({
-      agentId: Number(process.env.AGENT_ID),
       corpId: process.env.CORPID,
       corpSecret: process.env.CORP_SECRET,
     }));

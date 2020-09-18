@@ -11,7 +11,6 @@ import {Message} from 'wecom'
 ```javascript
 // 消息推送模块
 const message = new Message({
-  agentId: Number(process.env.AGENT_ID),
   corpId: process.env.CORPID,
   corpSecret: process.env.CORP_SECRET,
 });
