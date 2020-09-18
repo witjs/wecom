@@ -1,21 +1,22 @@
-# 素材管理模块
+# 通讯录管理模块
 
 ## 模块安装
 
 ```
-import {Media} from 'wecom'
+import {Directory} from 'wecom'
 ```
 
 ## 快速开始
 
 ```javascript
 // 素材管理模块实例化
-const media = new Media({
+const directory = new Directory({
+  agentId: Number(process.env.AGENT_ID),
   corpId: process.env.CORPID,
   corpSecret: process.env.CORP_SECRET,
 });
 // 上传素材
-const ret = await media.upload(
+const ret = await directory.upload(
   fs.createReadStream("/Users/aidenxiong/Downloads/abac.png")
 );
 ```
@@ -28,7 +29,7 @@ const ret = await media.upload(
 **例子**：
 
 ```javascript
-media.upload(file, type);
+directory.upload(file, type);
 ```
 
 **参数说明**：

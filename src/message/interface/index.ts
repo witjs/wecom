@@ -11,6 +11,7 @@ export namespace IMessage {
       | "markdown"
       | "miniprogram_notice"
       | "taskcard";
+    // 应用ID
     agentid?: number;
     //指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）。
     //特殊情况：指定为”@all”，则向该企业应用的全部成员发送

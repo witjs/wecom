@@ -2,9 +2,7 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
 export interface WecomConfig {
   // =============================下面这几项都是申请企业微信应用时分配给到的，需要和相关负责人说明需要
   // =============================企业微信应用的申请地址 http://office.oa.com/applyfill.aspx?flowid=151
-  // 企业微信的的ID
-  agentId: number;
-  // 企业微信corpid
+  // 企业微信企业ID
   corpId: string;
   // 企业微信corpsecret
   corpSecret: string;
@@ -15,8 +13,6 @@ export interface WecomConfig {
 }
 
 const globalConfig: WecomConfig = {
-  // 企业微信的的ID
-  agentId: null,
   // 企业微信corpid
   corpId: null,
   // 企业微信corpsecret
@@ -62,6 +58,7 @@ export class Wecom {
       ...globalConfig,
       ...config,
     };
+    console.log(this.config);
     // 对参数做一些简单的校验 如果必要的参数不完整的话 直接抛出异常
     for (const [key, value] of Object.entries(this.config)) {
       if (!value) {
@@ -165,7 +162,6 @@ export class Wecom {
         if (currentPath[key]) {
           throw new Error("Path Conflic");
         }
-        console.log("已经到了最后一位了", this.api, key);
         currentPath[key] = fn.bind(this);
       } else {
         // 添加命名空间
