@@ -16,7 +16,7 @@ const media = new Media({
 });
 // 上传素材
 const ret = await media.upload(
-  fs.createReadStream("/Users/aidenxiong/Downloads/abac.png")
+  fs.createReadStream("/file/path/to/your/file.png")
 );
 ```
 
