@@ -13,7 +13,7 @@ describe("message", () => {
 
   it("show agent detail", async () => {
     const ret = await agent.get(1000604);
-    console.log(ret.data);
-    // expect(ret.data.english_name).toEqual("aidenxiong");
+    // console.log(ret.data);
+    expect(ret.data.agentid).toEqual(1000604);
   });
 });
