@@ -8,7 +8,7 @@ describe("message", () => {
     dotenv.config();
     return (media = new Media({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.TEST_SECRET,
     }));
   });
 

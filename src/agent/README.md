@@ -14,10 +14,10 @@ import {Agent} from 'wecom'
 // 应用管理模块实例化
 const agent = new Agent({
   corpId: process.env.CORPID,
-  corpSecret: process.env.MTEAM_SECRET,
+  corpSecret: process.env.TEST_SECRET,
 });
 // 获取应用详情
-const ret = await agent.get(Number(process.env.MTEAM_AGENT_ID));
+const ret = await agent.get(Number(process.env.TEST_AGENT_ID));
 ```
 
 ## 实例方法
@@ -28,7 +28,7 @@ const ret = await agent.get(Number(process.env.MTEAM_AGENT_ID));
 **例子**：
 
 ```javascript
-agent.get(Number(process.env.MTEAM_AGENT_ID));
+agent.get(Number(process.env.TEST_AGENT_ID));
 ```
 
 | 参数名  | 参数类型 | 必填 | 参数描述      |

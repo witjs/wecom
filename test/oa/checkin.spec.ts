@@ -6,7 +6,7 @@ describe("Checkin Manager", () => {
     dotenv.config();
     return (checkin = new Checkin({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.CHECKIN_SECRET,
     }));
   });
   it("Get Checkin Data", async () => {

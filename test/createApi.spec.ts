@@ -7,7 +7,7 @@ describe("createApi", () => {
     dotenv.config();
     return (wecom = new Wecom({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.TEST_SECRET,
     }));
   });
   it("Create Api", async () => {
