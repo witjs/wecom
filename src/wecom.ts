@@ -58,7 +58,6 @@ export class Wecom {
       ...globalConfig,
       ...config,
     };
-    console.log(this.config);
     // 对参数做一些简单的校验 如果必要的参数不完整的话 直接抛出异常
     for (const [key, value] of Object.entries(this.config)) {
       if (!value) {
