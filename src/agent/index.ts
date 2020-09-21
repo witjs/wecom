@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Wecom, WecomConfig } from "../wecom";
+import { ISetAgent } from "./interface";
 
 /**
  * @description 应用管理相关接口
@@ -26,6 +27,14 @@ export class Agent extends Wecom {
       params: {
         agentid,
       },
+    });
+  }
+
+  set<T = any, R = AxiosResponse<T>>(data: ISetAgent): Promise<R> {
+    return this.request({
+      url: "/agent/set",
+      method: "POST",
+      data,
     });
   }
 }
