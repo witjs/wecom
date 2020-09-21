@@ -18,8 +18,6 @@ export enum IsReportEnter {
  * @interface ISetAgent
  */
 export interface ISetAgent {
-  // 企业应用的id
-  agentid: number;
   // 企业应用是否打开地理位置上报 0：不上报；1：进入会话上报；
   report_location_flag?: ReportLocationFlag;
   // 企业应用头像的mediaid，通过素材管理接口上传图片获得mediaid，上传后会自动裁剪成方形和圆形两个头像
@@ -34,6 +32,4 @@ export interface ISetAgent {
   isreportenter?: number;
   // 应用主页url。url必须以http或者https开头（为了提高安全性，建议使用https）。
   home_url?: string;
-  // agentid的别名
-  id?: number;
 }
