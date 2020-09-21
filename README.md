@@ -13,7 +13,6 @@
 ```javascript
 // 初始化企业微信对象
 const wecom = new Wecom({
-  agentId: Number(process.env.AGENT_ID),
   corpId: process.env.CORPID,
   corpSecret: process.env.CORP_SECRET,
 });
@@ -23,9 +22,9 @@ wecom.request({
   method: "POST",
   // 发送消息的参数参照 https://work.weixin.qq.com/api/doc/90000/90135/90236
   data: {
-    touser: "aidenxiong",
+    touser: "username",
     msgtype: "text",
-    agentid: Number(process.env.AGENT_ID),
+    agentid: Number(process.env.TEST_AGENT_ID),
     text: {
       content: "test",
     },
