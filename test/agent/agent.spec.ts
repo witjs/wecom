@@ -1,4 +1,4 @@
-import { Agent } from "../src/agent/index";
+import { Agent } from "../../src/agent/index";
 import dotenv from "dotenv";
 
 describe("message", () => {
