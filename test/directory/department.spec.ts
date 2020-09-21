@@ -26,7 +26,6 @@ describe("Department Manager", () => {
       id: 2,
       name: "总办",
     });
-    console.log(ret.data);
     expect(ret.data.errcode).toEqual(0);
   });
 

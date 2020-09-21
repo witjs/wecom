@@ -30,6 +30,14 @@ export class Agent extends Wecom {
     });
   }
 
+  /**
+   * @description 修改自建应用信息
+   * @template T
+   * @template R
+   * @param {ISetAgent} data
+   * @return {*}  {Promise<R>}
+   * @memberof Agent
+   */
   set<T = any, R = AxiosResponse<T>>(data: ISetAgent): Promise<R> {
     return this.request({
       url: "/agent/set",

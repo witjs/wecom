@@ -10,7 +10,7 @@ describe("User Manager", () => {
     }));
   });
   it("Get User Info", async () => {
-    const ret = await user.get("kaireewu");
-    expect(ret.data.english_name).toEqual("aidenxiong");
+    const ret = await user.get("XiongPing");
+    expect(ret.data.userid).toEqual("XiongPing");
   });
 });

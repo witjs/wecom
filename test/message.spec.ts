@@ -7,33 +7,33 @@ describe("message", () => {
     dotenv.config();
     return (message = new Message({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.TEST_SECRET,
     }));
   });
 
   it("Send Text Message", async () => {
     const { data } = await message.send(
       {
-        touser: "aidenxiong",
+        touser: "XiongPing",
         msgtype: "text",
         text: {
           content: "test",
         },
       },
-      Number(process.env.AGENT_ID)
+      Number(process.env.TEST_AGENT_ID)
     );
     expect(data.errcode).toEqual(0);
   });
   it("Send Text Message", async () => {
     const { data } = await message.send(
       {
-        touser: "aidenxiong",
+        touser: "XiongPing",
         msgtype: "text",
         text: {
           content: "test",
         },
       },
-      Number(process.env.AGENT_ID)
+      Number(process.env.TEST_AGENT_ID)
     );
     expect(data.errcode).toEqual(0);
   });
