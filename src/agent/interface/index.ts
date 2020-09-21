@@ -34,4 +34,6 @@ export interface ISetAgent {
   isreportenter?: number;
   // 应用主页url。url必须以http或者https开头（为了提高安全性，建议使用https）。
   home_url?: string;
+  // agentid的别名
+  id?: number;
 }

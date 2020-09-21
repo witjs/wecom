@@ -39,6 +39,7 @@ export class Agent extends Wecom {
    * @memberof Agent
    */
   set<T = any, R = AxiosResponse<T>>(data: ISetAgent): Promise<R> {
+    data.agentid = data.agentid || data.id;
     return this.request({
       url: "/agent/set",
       method: "POST",
