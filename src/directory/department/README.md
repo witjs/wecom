@@ -8,11 +8,14 @@ import {Department} from 'wecom'
 
 ## 快速开始
 
+> 该模块的 corpSecret 的查看路径 企业微信> 管理工具> [通讯录同步](https://work.weixin.qq.com/wework_admin/frame#apps/contactsApi)
+> 同时需要开启 API 编辑通讯录权限
+
 ```javascript
 // 部门管理模块实例化
 const department = new Department({
   corpId: process.env.CORPID,
-  corpSecret: process.env.CORP_SECRET,
+  corpSecret: process.env.DIRECTORY_SECRET,
 });
 // 获取部门列表 不传参数的话表示获取全部部门信息
 const ret = await department.list();
@@ -71,7 +74,7 @@ department.update({
 **例子**：
 
 ```javascript
-department.delete(123456);
+department.delete(<number>id);
 ```
 
 **参数说明**
@@ -86,12 +89,14 @@ department.delete(123456);
 **例子**：
 
 ```javascript
-department.list();
+department.list(<number>id);
 ```
+
+**参数说明**
 
 | 参数名 | 参数类型 | 必填 | 参数描述 |
 | :----- | :------: | :--: | :------- |
 | id     |  number  |  否  | 部门 id  |
 
-**参数说明**：
+**官方地址**：
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90204)

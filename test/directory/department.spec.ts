@@ -7,7 +7,7 @@ describe("Department Manager", () => {
     dotenv.config();
     return (department = new Department({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.DIRECTORY_SECRET,
     }));
   });
 

@@ -6,7 +6,7 @@ describe("User Manager", () => {
     dotenv.config();
     return (user = new User({
       corpId: process.env.CORPID,
-      corpSecret: process.env.CORP_SECRET,
+      corpSecret: process.env.DIRECTORY_SECRET,
     }));
   });
   it("Get User Info", async () => {
