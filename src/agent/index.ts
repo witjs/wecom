@@ -1,6 +1,10 @@
 import { AxiosResponse } from "axios";
 import { Wecom, WecomConfig } from "../wecom";
-import { ISetAgent } from "./interface";
+import { ISetAgent } from "./interface/agent";
+
+export interface IAgentWecom extends Partial<WecomConfig> {
+  agentId: number;
+}
 
 /**
  * @description 应用管理相关接口
@@ -9,8 +13,15 @@ import { ISetAgent } from "./interface";
  * @extends {Wecom}
  */
 export class Agent extends Wecom {
-  constructor(config: Partial<WecomConfig>) {
+  agentId: number;
+  constructor(config: IAgentWecom) {
     super(config);
+    this.agentId = config.agentId;
+
+    // 如果没有传入agentId 直接抛出异常
+    if (!this.agentId) {
+      throw new Error("agentId must be specified");
+    }
   }
 
   /**
@@ -21,11 +32,11 @@ export class Agent extends Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Agent
    */
-  get<T = any, R = AxiosResponse<T>>(agentid: number): Promise<R> {
+  get<T = any, R = AxiosResponse<T>>(): Promise<R> {
     return this.request({
       url: "/agent/get",
       params: {
-        agentid,
+        agentid: this.agentId,
       },
     });
   }
@@ -39,11 +50,10 @@ export class Agent extends Wecom {
    * @memberof Agent
    */
   set<T = any, R = AxiosResponse<T>>(data: ISetAgent): Promise<R> {
-    data.agentid = data.agentid || data.id;
     return this.request({
       url: "/agent/set",
       method: "POST",
-      data,
+      data: Object.assign(data, { agentid: this.agentId }),
     });
   }
 }

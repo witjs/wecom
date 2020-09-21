@@ -15,9 +15,10 @@ import {Agent} from 'wecom'
 const agent = new Agent({
   corpId: process.env.CORPID,
   corpSecret: process.env.TEST_SECRET,
+  agentId: process.env.TEST_AGENT_ID,
 });
 // 获取应用详情
-const ret = await agent.get(Number(process.env.TEST_AGENT_ID));
+const ret = await agent.get();
 ```
 
 ## 实例方法
@@ -28,7 +29,7 @@ const ret = await agent.get(Number(process.env.TEST_AGENT_ID));
 **例子**：
 
 ```javascript
-agent.get(Number(process.env.TEST_AGENT_ID));
+agent.get();
 ```
 
 | 参数名  | 参数类型 | 必填 | 参数描述      |
@@ -42,7 +43,6 @@ agent.get(Number(process.env.TEST_AGENT_ID));
 
 ```javascript
 agent.set({
-  agentid: 123456,
   name: "新应用名称",
 });
 ```
@@ -51,7 +51,6 @@ agent.set({
 
 | 参数名               | 参数类型 | 必填 | 参数描述                                                                                           |
 | :------------------- | :------: | :--: | :------------------------------------------------------------------------------------------------- |
-| agentid              |  number  |  是  | 企业应用的 id                                                                                      |
 | report_location_flag |  number  |  否  | 企业应用是否打开地理位置上报 0：不上报；1：进入会话上报；                                          |
 | logo_mediaid         |  string  |  否  | 企业应用头像的 mediaid，通过素材管理接口上传图片获得 mediaid，上传后会自动裁剪成方形和圆形两个头像 |
 | name                 |  string  |  否  | 企业应用名称，长度不超过 32 个 utf8 字符                                                           |
