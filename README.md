@@ -38,7 +38,6 @@ wecom.request({
 
 | 参数名     | 参数类型 | 必填 | 参数描述                                                       |
 | :--------- | :------: | :--: | :------------------------------------------------------------- |
-| agentId    |  number  |  是  | 企业微信的的 agentID                                           |
 | corpId     |  string  |  是  | 企业微信 corpid                                                |
 | corpSecret |  string  |  是  | 企业微信 corpsecret                                            |
 | baseURL    |  string  |  否  | 企业微信服务器地址 (默认:https://qyapi.weixin.qq.com/cgi-bin/) |
