@@ -16,6 +16,5 @@ describe("Checkin Manager", () => {
       endtime: 1580486400,
       useridlist: ["aidenxiong"],
     });
-    console.log(ret.data);
   });
 });

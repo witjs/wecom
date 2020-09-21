@@ -16,7 +16,6 @@ describe("message", () => {
     const ret = await media.upload(
       fs.createReadStream("/Users/aidenxiong/Downloads/abac.png")
     );
-    console.log(ret);
     expect(ret.data.errcode).toEqual(0);
   });
 });

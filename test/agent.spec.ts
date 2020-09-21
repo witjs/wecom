@@ -12,8 +12,7 @@ describe("message", () => {
   });
 
   it("show agent detail", async () => {
-    const ret = await agent.get(1000604);
-    // console.log(ret.data);
-    expect(ret.data.agentid).toEqual(1000604);
+    const ret = await agent.get(Number(process.env.AGENT_ID));
+    expect(ret.data.agentid).toEqual(Number(process.env.AGENT_ID));
   });
 });

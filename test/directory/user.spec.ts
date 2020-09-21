@@ -11,7 +11,6 @@ describe("User Manager", () => {
   });
   it("Get User Info", async () => {
     const ret = await user.get("kaireewu");
-    console.log(ret.data);
     expect(ret.data.english_name).toEqual("aidenxiong");
   });
 });
