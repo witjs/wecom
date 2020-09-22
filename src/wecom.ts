@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
 export interface WecomConfig {
-  // =============================下面这几项都是申请企业微信应用时分配给到的，需要和相关负责人说明需要
-  // =============================企业微信应用的申请地址 http://office.oa.com/applyfill.aspx?flowid=151
   // 企业微信企业ID
   corpId: string;
   // 企业微信corpsecret
