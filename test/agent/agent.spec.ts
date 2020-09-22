@@ -1,7 +1,7 @@
 import { Agent } from "../../src/agent/index";
 import dotenv from "dotenv";
 
-describe("message", () => {
+describe("Agent Manager", () => {
   let agent: Agent;
   beforeEach(() => {
     dotenv.config();

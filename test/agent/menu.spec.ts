@@ -5,7 +5,7 @@ import {
   ICreateAgentMenuButton,
 } from "../../src/agent/interface/menu";
 
-describe("Agent Menu", () => {
+describe("Agent Menu Manger", () => {
   let menu: AgentMenu;
   let originalButton: Array<ICreateAgentMenuButton>;
   beforeEach(() => {

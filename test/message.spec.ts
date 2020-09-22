@@ -1,7 +1,7 @@
 import { Message } from "../src/message/index";
 import dotenv from "dotenv";
 
-describe("message", () => {
+describe("Message Module", () => {
   let message: Message;
   beforeEach(() => {
     dotenv.config();
