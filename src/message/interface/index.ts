@@ -69,14 +69,10 @@ export namespace IMessage {
   // 文本卡片消息
   export interface TextCard extends Common {
     msgtype: "textcard";
-    voice: {
-      // 标题，不超过128个字节，超过会自动截断（支持id转译）
+    textcard: {
       title: string;
-      // 描述，不超过512个字节，超过会自动截断（支持id转译）
       description: string;
-      // 点击后跳转的链接。
       url: string;
-      // 按钮文字。 默认为“详情”， 不超过4个文字，超过自动截断。
       btntxt?: string;
     };
     enable_id_trans?: 0 | 1;
@@ -119,7 +115,7 @@ export namespace IMessage {
   // 图文消息
   export interface MPNews extends Common {
     msgtype: "mpnews";
-    news: {
+    mpnews: {
       // 图文消息，一个图文消息支持1到8条图文
       articles: MPNewsArticleItem[];
     };
