@@ -3,13 +3,24 @@
   "version": "0.5.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/witjs/wecom.git",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/witjs/wecom.git"
+  },
+  "keywords": [
+    "企业微信",
+    "wecom",
+    "sdk",
+    "nodejs",
+    "typescript"
+  ],
   "homepage": "https://github.com/witjs/wecom",
   "author": "witjs <github@sina.cn>",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "lint": "eslint . --ext .jsx,.ts,.tsx",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
@@ -21,8 +32,11 @@
     "@commitlint/config-conventional": "^9.1.2",
     "@types/jest": "^26.0.13",
     "@types/node": "^14.6.4",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
     "conventional-changelog-cli": "^2.1.0",
     "dotenv": "^8.2.0",
+    "eslint": "^7.9.0",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "prettier": "2.1.2",

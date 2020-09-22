@@ -1,10 +1,6 @@
 import { AxiosResponse } from "axios";
-import { Wecom, WecomConfig } from "../wecom";
-import { ISetAgent } from "./interface/agent";
-
-export interface IAgentWecom extends Partial<WecomConfig> {
-  agentId: number;
-}
+import { Wecom } from "../wecom";
+import { AgentRet, IAgentWecom, ISetAgent } from "./interface/agent";
 
 /**
  * @description 应用管理相关接口
@@ -32,8 +28,8 @@ export class Agent extends Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Agent
    */
-  get<T = any, R = AxiosResponse<T>>(): Promise<R> {
-    return this.request({
+  get<T = AgentRet>(): Promise<AxiosResponse<T>> {
+    return this.request<T>({
       url: "/agent/get",
       params: {
         agentid: this.agentId,
@@ -49,8 +45,8 @@ export class Agent extends Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Agent
    */
-  set<T = any, R = AxiosResponse<T>>(data: ISetAgent): Promise<R> {
-    return this.request({
+  set(data: ISetAgent): Promise<AxiosResponse<AgentRet>> {
+    return this.request<AgentRet>({
       url: "/agent/set",
       method: "POST",
       data: Object.assign(data, { agentid: this.agentId }),

@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
+import { BaseRet } from "./common/interface";
 export interface WecomConfig {
   // 企业微信企业ID
   corpId: string;
@@ -31,11 +32,12 @@ export class Wecom {
   public readonly config: WecomConfig;
   // 发送请求的client
   public readonly client: AxiosInstance;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public readonly api: Record<string, any> = {};
   // 请求需要用到的token
   private _token: string;
   // 当前的尝试次数
-  private _RetryTimes: number = 0;
+  private _RetryTimes = 0;
 
   /**
    * @description 设置全局配置
@@ -43,7 +45,7 @@ export class Wecom {
    * @param {Partial<WecomConfig>} config
    * @memberof Wecom
    */
-  public static setGlobal(config: Partial<WecomConfig>) {
+  public static setGlobal(config: Partial<WecomConfig>): void {
     Object.assign(globalConfig, config);
   }
   /**
@@ -130,25 +132,21 @@ export class Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Wecom
    */
-  async request<T = any, R = AxiosResponse<T>>(
+  async request<T = BaseRet, R = AxiosResponse<T>>(
     config: AxiosRequestConfig
   ): Promise<R> {
     return this.client.request(config);
   }
 
   /**
-   * @description 创建新的API
+   * @description 添加API
    * @template T
-   * @template R
    * @param {string} path
-   * @param {() => Promise<R>} fn
-   * @return {*}
+   * @param {() => T} fn
+   * @return {*}  {Wecom}
    * @memberof Wecom
    */
-  createApi<T = any, R = AxiosResponse<T>>(
-    path: string,
-    fn: () => Promise<R>
-  ): any {
+  createApi<T = unknown>(path: string, fn: () => T): Wecom {
     let currentPath = this.api;
     const pathArr = path.split(".");
     while (pathArr.length) {
@@ -166,6 +164,6 @@ export class Wecom {
         currentPath = currentPath[key];
       }
     }
-    return currentPath;
+    return this;
   }
 }

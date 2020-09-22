@@ -1,3 +1,5 @@
+import { BaseRet } from "../../../src/common/interface";
+
 /**
  * @description 菜单按钮的类型
  * @export
@@ -83,3 +85,5 @@ export type ICreateAgentMenuButton =
 export interface ICreateAgentMenu {
   button: Array<ICreateAgentMenuButton>;
 }
+
+export interface AgentMenuRet extends BaseRet, ICreateAgentMenu {}

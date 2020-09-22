@@ -1,3 +1,5 @@
+import { BaseRet } from "../../../src/common/interface";
+
 export namespace IMessage {
   interface Common {
     msgtype:
@@ -176,4 +178,10 @@ export namespace IMessage {
     };
     enable_id_trans?: 0 | 1;
   }
+}
+
+export interface IMessageRet extends BaseRet {
+  invaliduser?: string;
+  invalidparty?: string;
+  invalidtag?: string;
 }

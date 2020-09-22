@@ -1,5 +1,5 @@
 import { Wecom, WecomConfig } from "../wecom";
-import { IMessage } from "./interface/index";
+import { IMessage, IMessageRet } from "./interface/index";
 import { AxiosResponse } from "axios";
 
 export class Message extends Wecom {
@@ -24,7 +24,7 @@ export class Message extends Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Message
    */
-  async send<T = any, R = AxiosResponse<T>>(
+  async send(
     message:
       | IMessage.Text
       | IMessage.Image
@@ -37,9 +37,9 @@ export class Message extends Wecom {
       | IMessage.MiniProgramNotice
       | IMessage.TaskCard,
     agentId?: number
-  ): Promise<R> {
+  ): Promise<AxiosResponse<IMessageRet>> {
     message.agentid = message.agentid || agentId;
-    return this.request({
+    return this.request<IMessageRet>({
       url: "message/send",
       method: "POST",
       data: message,

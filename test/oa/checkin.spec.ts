@@ -14,7 +14,8 @@ describe("Checkin Manager", () => {
       opencheckindatatype: 3,
       starttime: 1577808000,
       endtime: 1580486400,
-      useridlist: ["aidenxiong"],
+      useridlist: ["XiongPing"],
     });
+    expect(ret.data.errcode).toEqual(0);
   });
 });

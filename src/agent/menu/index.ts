@@ -1,6 +1,8 @@
 import { AxiosResponse } from "axios";
-import { Agent, IAgentWecom } from "..";
-import { ICreateAgentMenu } from "../interface/menu";
+import { BaseRet } from "src/common/interface";
+import { Agent } from "..";
+import { IAgentWecom } from "../interface/agent";
+import { ICreateAgentMenu, AgentMenuRet } from "../interface/menu";
 
 export class AgentMenu extends Agent {
   constructor(config: IAgentWecom) {
@@ -13,8 +15,8 @@ export class AgentMenu extends Agent {
    * @return {*}
    * @memberof AgentMenu
    */
-  create(data: ICreateAgentMenu) {
-    return this.request({
+  create(data: ICreateAgentMenu): Promise<AxiosResponse<BaseRet>> {
+    return this.request<BaseRet>({
       url: "menu/create",
       method: "POST",
       params: { agentid: this.agentId },
@@ -29,16 +31,16 @@ export class AgentMenu extends Agent {
    * @return {*}  {Promise<R>}
    * @memberof AgentMenu
    */
-  get<T = any, R = AxiosResponse<T>>(): Promise<R> {
-    return this.request({
+  get<T = AgentMenuRet>(): Promise<AxiosResponse<T>> {
+    return this.request<T>({
       url: "menu/get",
       method: "GET",
       params: { agentid: this.agentId },
     });
   }
 
-  delete<T = any, R = AxiosResponse<T>>(): Promise<R> {
-    return this.request({
+  delete(): Promise<AxiosResponse<BaseRet>> {
+    return this.request<BaseRet>({
       url: "menu/delete",
       method: "GET",
       params: { agentid: this.agentId },
