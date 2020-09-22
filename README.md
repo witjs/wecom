@@ -2,25 +2,25 @@
 
 **目前只封装了基本的模块 有兴趣的同学可以一起加入并丰富其 API**
 
-> 各个子模块相关文档 请前往 github 各个项目中[查看](wecom/tree/master/src)
+> 各个子模块相关文档 请前往 github 各个项目中[查看](src)
 
 ## 目前已完成模块
 
-[应用管理模块](wecom/tree/master/src/agent)
+[应用管理模块](src/agent)
 
-[通讯录管理模块](wecom/tree/master/src/directory)
+[通讯录管理模块](src/directory)
 
-- [部门管理模块](wecom/tree/master/src/directory/department)
+- [部门管理模块](src/directory/department)
 
-- [成员管理模块](wecom/tree/master/src/directory/user)
+- [成员管理模块](src/directory/user)
 
-[素材管理模块](wecom/tree/master/src/media)
+[素材管理模块](src/media)
 
-[消息推送模块](wecom/tree/master/src/message)
+[消息推送模块](src/message)
 
-[oa 管理模块](wecom/tree/master/src/oa)
+[oa 管理模块](src/oa)
 
-- [企业微信打卡应用模块](wecom/tree/master/src/oa/checkin)
+- [企业微信打卡应用模块](src/oa/checkin)
 
 企业微信文档地址 [点击前往](https://work.weixin.qq.com/api/doc/90000/90135/90236)
 
