@@ -18,7 +18,7 @@
   "author": "witjs <github@sina.cn>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.build.json",
     "test": "jest",
     "lint": "eslint . --ext .jsx,.ts,.tsx",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
