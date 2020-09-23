@@ -1,5 +1,4 @@
 import { AxiosResponse } from "axios";
-import { BaseRet } from "src/common/interface";
 import { Wecom, WecomConfig } from "../../wecom";
 import {
   ICheckinDataRet,

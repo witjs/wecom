@@ -1,4 +1,4 @@
-import { BaseRet } from "../../../../src/common/interface";
+import { BaseRet } from "src/common/interface";
 
 export interface QueryCheckinData {
   opencheckindatatype: 1 | 2 | 3;

@@ -1,4 +1,4 @@
-import { BaseRet } from "../../../../src/common/interface";
+import { BaseRet } from "src/common/interface";
 
 export interface IAttrBase {
   // 属性类型: 0-文本 1-网页 2-小程序
