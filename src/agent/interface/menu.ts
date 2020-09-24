@@ -1,4 +1,4 @@
-import { BaseRet } from "src/common/interface";
+import { BaseRet } from "../../common/interface";
 
 /**
  * @description 菜单按钮的类型

@@ -1,4 +1,4 @@
-import { Message } from "../src/message/index";
+import { Message } from "wecom";
 import dotenv from "dotenv";
 
 describe("Message Module", () => {

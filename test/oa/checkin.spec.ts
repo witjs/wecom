@@ -1,4 +1,4 @@
-import { Checkin } from "../../src/oa";
+import { Checkin } from "wecom";
 import dotenv from "dotenv";
 describe("Checkin Manager", () => {
   let checkin: Checkin;

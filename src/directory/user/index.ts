@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { Wecom, WecomConfig } from "src/wecom";
+import { Wecom, WecomConfig } from "../../../src/wecom";
 import { IUserRet } from "./interface";
 
 export class User extends Wecom {

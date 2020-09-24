@@ -1,4 +1,4 @@
-import { User } from "../../src/directory";
+import { User } from "wecom";
 import dotenv from "dotenv";
 describe("User Manager", () => {
   let user: User;

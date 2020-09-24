@@ -1,4 +1,4 @@
-import { Agent } from "../../src/agent/index";
+import { Agent } from "wecom";
 import dotenv from "dotenv";
 
 describe("Agent Manager", () => {

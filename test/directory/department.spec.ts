@@ -1,4 +1,4 @@
-import { Department } from "../../src/directory";
+import { Department } from "wecom";
 import dotenv from "dotenv";
 describe("Department Manager", () => {
   let department: Department;

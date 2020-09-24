@@ -53,3 +53,5 @@ export class Agent extends Wecom {
     });
   }
 }
+
+export * from "./menu";

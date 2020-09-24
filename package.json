@@ -19,8 +19,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "test": "jest",
-    "lint": "eslint . --ext .jsx,.ts,.tsx",
+    "test": "yarn run build && yarn link && yarn link \"wecom\" && jest",
+    "lint": "eslint . --ext .ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {

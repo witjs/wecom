@@ -1,4 +1,4 @@
-import { Media } from "../src/media/index";
+import { Media } from "wecom";
 import dotenv from "dotenv";
 import * as fs from "fs";
 

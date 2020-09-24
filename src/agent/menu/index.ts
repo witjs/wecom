@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { BaseRet } from "src/common/interface";
+import { BaseRet } from "../../common/interface";
 import { Agent } from "..";
 import { IAgentWecom } from "../interface/agent";
 import { ICreateAgentMenu, AgentMenuRet } from "../interface/menu";
@@ -39,6 +39,11 @@ export class AgentMenu extends Agent {
     });
   }
 
+  /**
+   * @description 删除菜单
+   * @return {*}  {Promise<AxiosResponse<BaseRet>>}
+   * @memberof AgentMenu
+   */
   delete(): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
       url: "menu/delete",

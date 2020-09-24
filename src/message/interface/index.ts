@@ -1,4 +1,4 @@
-import { BaseRet } from "src/common/interface";
+import { BaseRet } from "../../common/interface";
 
 export namespace IMessage {
   interface Common {

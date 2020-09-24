@@ -1,4 +1,4 @@
-import { Wecom } from "../src/wecom";
+import { Wecom } from "wecom";
 import dotenv from "dotenv";
 
 describe("createApi", () => {

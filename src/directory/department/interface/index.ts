@@ -1,4 +1,4 @@
-import { BaseRet } from "src/common/interface";
+import { BaseRet } from "../../../common/interface";
 
 // export interface ICreateDepartment {
 //   // 部门名称。同一个层级的部门名称不能重复。长度限制为1~32个字符，字符不能包括\:?”<>｜

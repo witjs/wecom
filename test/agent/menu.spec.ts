@@ -1,4 +1,4 @@
-import { AgentMenu } from "../../src/agent/menu";
+import { AgentMenu } from "wecom";
 import dotenv from "dotenv";
 import {
   AgentMenuButtonType,
