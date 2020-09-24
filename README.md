@@ -103,7 +103,9 @@ yarn run build
 
 ## 单元测试
 
-> 单元测试之前 请按照`.env.example`的格式 完善相关的内容配置
+> 请先创建`.env`文件，并将`.env.example`中的内容复制过去
+>
+> 相关的配置信息为作者创建的测试企业。如果有其他的需求，请通过[issue](https://github.com/witjs/wecom/issues)提出
 
 ```shell
 yarn run test
