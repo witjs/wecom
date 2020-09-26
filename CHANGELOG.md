@@ -1,4 +1,4 @@
-## [0.6.1](https://github.com/witjs/wecom/compare/0.5.6...0.6.1) (2020-09-26)
+## [0.7.1](https://github.com/witjs/wecom/compare/0.5.6...0.7.1) (2020-09-26)
 
 
 ### Bug Fixes
@@ -10,6 +10,7 @@
 
 * add tag module ([e1116fe](https://github.com/witjs/wecom/commit/e1116feabe89d1ff315067401d492a569f8edace))
 * add user funcitons ([22345df](https://github.com/witjs/wecom/commit/22345df36afae8bda0fe106572a9f6029cf40cb2))
+* move all modules to modules folder ([fcae227](https://github.com/witjs/wecom/commit/fcae2271caae1bbea1e32fc6bc2a65ebc62a1e8b))
 
 
 
