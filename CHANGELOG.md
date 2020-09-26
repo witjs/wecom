@@ -1,4 +1,4 @@
-# [0.6.0](https://github.com/witjs/wecom/compare/0.5.5...0.6.0) (2020-09-25)
+## [0.6.1](https://github.com/witjs/wecom/compare/0.5.6...0.6.1) (2020-09-26)
 
 
 ### Bug Fixes
@@ -9,6 +9,14 @@
 ### Features
 
 * add user funcitons ([22345df](https://github.com/witjs/wecom/commit/22345df36afae8bda0fe106572a9f6029cf40cb2))
+
+
+
+## [0.5.6](https://github.com/witjs/wecom/compare/0.5.5...0.5.6) (2020-09-24)
+
+
+### Features
+
 * eslint for test ([8f0367d](https://github.com/witjs/wecom/commit/8f0367d6b11c0885c0c85c0d4268e6992c22e434))
 
 
