@@ -22,7 +22,8 @@ const ret = await checkin.getCheckinData((data: QueryCheckinData));
 
 ### **方法名**：`getCheckinData`
 
-**说明** 获取打卡数据
+**说明**：获取打卡数据
+
 **例子**：
 
 ```javascript
@@ -31,7 +32,8 @@ checkin.getCheckinData((data: QueryCheckinData));
 
 ### **方法名**：`getCheckinOption`
 
-**说明** 获取打卡规则
+**说明**：获取打卡规则
+
 **例子**：
 
 ```javascript
@@ -39,4 +41,5 @@ checkin.getCheckinOption((data: QueryCheckinOption));
 ```
 
 **参数说明**：
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90262)

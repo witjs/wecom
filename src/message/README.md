@@ -29,6 +29,7 @@ wecom.send({
 ### **方法名**：`send`
 
 **说明**：发送消息
+
 **例子**：
 
 ```javascript
@@ -36,4 +37,5 @@ message.send(message);
 ```
 
 **参数说明**
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90236)

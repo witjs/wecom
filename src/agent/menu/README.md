@@ -26,6 +26,7 @@ const ret = await agent.get();
 ### **方法名**：`create`
 
 **说明**：创建菜单
+
 **例子**：
 
 ```javascript
@@ -67,6 +68,7 @@ agent.create({
 ### **方法名**：`get`
 
 **说明**：获取应用菜单数据
+
 **例子**：
 
 ```javascript
@@ -76,6 +78,7 @@ agent.get();
 ### **方法名**：`delete`
 
 **说明**：删除应用菜单
+
 **例子**：
 
 ```javascript
@@ -83,4 +86,5 @@ agent.delete();
 ```
 
 **官方地址**：
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90227)

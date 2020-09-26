@@ -25,7 +25,8 @@ const ret = await department.list();
 
 ### **方法名**：`create`
 
-**说明** 创建部门
+**说明**：创建部门
+
 **例子**：
 
 ```javascript
@@ -47,7 +48,8 @@ department.create({
 
 ### **方法名**：`update`
 
-**说明** 修改部门
+**说明**：修改部门
+
 **例子**：
 
 ```javascript
@@ -70,7 +72,8 @@ department.update({
 
 ### **方法名**：`delete`
 
-**说明** 删除部门
+**说明**：删除部门
+
 **例子**：
 
 ```javascript
@@ -85,7 +88,8 @@ department.delete(<number>id);
 
 ### **方法名**：`list`
 
-**说明** 获取部门列表
+**说明**：获取部门列表
+
 **例子**：
 
 ```javascript
@@ -99,4 +103,5 @@ department.list(<number>id);
 | id     |  number  |  否  | 部门 id  |
 
 **官方地址**：
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90204)

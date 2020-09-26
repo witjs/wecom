@@ -25,6 +25,7 @@ const ret = await media.upload(
 ### **方法名**：`upload`
 
 **说明**：发送消息
+
 **例子**：
 
 ```javascript
@@ -32,4 +33,5 @@ media.upload(file, type);
 ```
 
 **参数说明**：
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/91054)

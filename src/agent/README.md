@@ -26,6 +26,7 @@ const ret = await agent.get();
 ### **方法名**：`get`
 
 **说明**：获取应用详情
+
 **例子**：
 
 ```javascript
@@ -35,6 +36,7 @@ agent.get();
 ### **方法名**：`set`
 
 **说明**：设置应用详情
+
 **例子**：
 
 ```javascript
@@ -56,4 +58,5 @@ agent.set({
 | home_url             |  string  |  否  | 应用主页 url。url 必须以 http 或者 https 开头（为了提高安全性，建议使用 https）。                  |
 
 **官方地址**：
+
 详情参考[官方文档](https://work.weixin.qq.com/api/doc/90000/90135/90227)
