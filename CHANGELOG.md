@@ -8,6 +8,7 @@
 
 ### Features
 
+* add tag module ([e1116fe](https://github.com/witjs/wecom/commit/e1116feabe89d1ff315067401d492a569f8edace))
 * add user funcitons ([22345df](https://github.com/witjs/wecom/commit/22345df36afae8bda0fe106572a9f6029cf40cb2))
 
 
