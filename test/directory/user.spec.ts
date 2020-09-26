@@ -1,6 +1,6 @@
 import { User } from "wecom";
 import dotenv from "dotenv";
-import { IUser } from "../../src/directory/user/interface";
+import { IUser } from "../../src/modules/directory/user/interface";
 describe("User Manager", () => {
   let user: User;
   let userinfo: IUser;

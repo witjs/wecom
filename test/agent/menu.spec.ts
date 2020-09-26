@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import {
   AgentMenuButtonType,
   ICreateAgentMenuButton,
-} from "../../src/agent/interface/menu";
+} from "../../src/modules/agent/interface/menu";
 
 describe("Agent Menu Manger", () => {
   let menu: AgentMenu;
