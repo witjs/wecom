@@ -48,7 +48,6 @@ describe("User Manager", () => {
 
   it("Tag List", async () => {
     const ret = await tag.list();
-    console.log(ret.data);
     expect(ret.data.errcode).toEqual(0);
   });
 
