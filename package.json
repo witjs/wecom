@@ -24,6 +24,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
+    "@tencent/eslint-config-tencent": "^0.15.2",
     "axios": "^0.20.0",
     "form-data": "^3.0.0"
   },

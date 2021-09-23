@@ -2,7 +2,7 @@ import { Department } from 'wecom';
 import dotenv from 'dotenv';
 describe('Department Manager', () => {
   let department: Department;
-  const TestDepartmentId = 1999999;
+  const testDepartmentId = 1999999;
   beforeEach(() => {
     dotenv.config();
     return (department = new Department({
@@ -15,7 +15,7 @@ describe('Department Manager', () => {
     const ret = await department.create({
       name: '测试部门',
       parentid: 1,
-      id: TestDepartmentId,
+      id: testDepartmentId,
     });
     // 已存在 或者创建成功都算成功
     expect([0, 60008]).toEqual(expect.arrayContaining([ret.data.errcode]));
@@ -30,15 +30,15 @@ describe('Department Manager', () => {
   });
 
   it('Get Department Info', async () => {
-    const ret = await department.list(TestDepartmentId);
+    const ret = await department.list(testDepartmentId);
     expect(ret.data.department).toBeDefined();
     expect(ret.data.department[0]).toMatchObject({
-      id: TestDepartmentId,
+      id: testDepartmentId,
     });
   });
 
   it('Delete Department', async () => {
-    const ret = await department.delete(TestDepartmentId);
+    const ret = await department.delete(testDepartmentId);
     // 删除成功或者是 部门不存在 都算成功
     expect([0, 60123]).toEqual(expect.arrayContaining([ret.data.errcode]));
   });

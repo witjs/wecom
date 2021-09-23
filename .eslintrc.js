@@ -11,7 +11,11 @@ module.exports = {
     tsconfigRootDir: './',
   },
   plugins: ['@typescript-eslint'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    '@tencent/eslint-config-tencent',
+    '@tencent/eslint-config-tencent/ts',
+    '@tencent/eslint-config-tencent/prettier',
+  ],
   rules: {
     '@typescript-eslint/no-namespace': 'off',
   },
