@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
-import { BaseRet } from "./common/interface";
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import { BaseRet } from './common/interface';
 export interface WecomConfig {
   // 企业微信企业ID
   corpId: string;
@@ -17,7 +17,7 @@ const globalConfig: WecomConfig = {
   // 企业微信corpsecret
   corpSecret: null,
   // 企业微信服务器地址
-  baseURL: "https://qyapi.weixin.qq.com/cgi-bin/",
+  baseURL: 'https://qyapi.weixin.qq.com/cgi-bin/',
   // 认证失败的错误重试次数 其他错误信息不进行重试
   retryTimes: 3,
 };
@@ -74,11 +74,11 @@ export class Wecom {
     });
     // 拦截器添加access_token
     this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
-      if (config.url !== "/gettoken") {
+      if (config.url !== '/gettoken') {
         if (!this._token) {
           await this.getToken();
         }
-        config.params["access_token"] = this._token;
+        config.params['access_token'] = this._token;
       }
       return config;
     });
@@ -112,7 +112,7 @@ export class Wecom {
    * @memberof Wecom
    */
   async getToken(): Promise<string> {
-    const { data } = await this.client.get("/gettoken", {
+    const { data } = await this.client.get('/gettoken', {
       params: {
         corpid: this.config.corpId,
         corpsecret: this.config.corpSecret,
@@ -148,14 +148,14 @@ export class Wecom {
    */
   createApi<T = unknown>(path: string, fn: () => T): Wecom {
     let currentPath = this.api;
-    const pathArr = path.split(".");
+    const pathArr = path.split('.');
     while (pathArr.length) {
       const key = pathArr.shift();
       // 如果已经到了最后一位
       if (pathArr.length === 0) {
         // 查询是否已经在当前的命名空间下有内容
         if (currentPath[key]) {
-          throw new Error("Path Conflic");
+          throw new Error('Path Conflic');
         }
         currentPath[key] = fn.bind(this);
       } else {

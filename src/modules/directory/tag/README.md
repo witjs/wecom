@@ -29,7 +29,7 @@ const tag = new Tag({
 ```javascript
 tag.create({
   tagid: 12346,
-  tagname: "测试专属",
+  tagname: '测试专属',
 });
 ```
 
@@ -49,7 +49,7 @@ tag.create({
 ```javascript
 user.update({
   tagid: 12346,
-  tagname: "修改后的名称",
+  tagname: '修改后的名称',
 });
 ```
 
@@ -101,7 +101,7 @@ user.get(12346);
 ```javascript
 user.addTagUser({
   tagid: 12346,
-  userlist: ["userid", "userid2"],
+  userlist: ['userid', 'userid2'],
 });
 ```
 
@@ -121,7 +121,7 @@ user.addTagUser({
 ```javascript
 user.delTagUser({
   tagid: 12346,
-  userlist: ["userid", "userid2"],
+  userlist: ['userid', 'userid2'],
 });
 ```
 

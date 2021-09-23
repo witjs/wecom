@@ -16,10 +16,10 @@ const message = new Message({
 });
 // 发送消息
 wecom.send({
-  touser: "aidenxiong",
-  msgtype: "text",
+  touser: 'aidenxiong',
+  msgtype: 'text',
   text: {
-    content: "test",
+    content: 'test',
   },
 });
 ```

@@ -40,15 +40,15 @@ const wecom = new Wecom({
 });
 // 发送消息
 wecom.request({
-  url: "/message/send",
-  method: "POST",
+  url: '/message/send',
+  method: 'POST',
   // 发送消息的参数参照 [（官方文档）](https://work.weixin.qq.com/api/doc/90000/90135/90236) [（API 文档）]()
   data: {
-    touser: "username",
-    msgtype: "text",
+    touser: 'username',
+    msgtype: 'text',
     agentid: Number(process.env.TEST_AGENT_ID),
     text: {
-      content: "test",
+      content: 'test',
     },
   },
 });

@@ -1,6 +1,6 @@
-import { Wecom, WecomConfig } from "../wecom";
-import { IMessage } from "./interface/index";
-import { AxiosResponse } from "axios";
+import { Wecom, WecomConfig } from '../wecom';
+import { IMessage } from './interface/index';
+import { AxiosResponse } from 'axios';
 
 export class Message extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -40,8 +40,8 @@ export class Message extends Wecom {
   ): Promise<R> {
     message.agentid = message.agentid || agentId;
     return this.request({
-      url: "message/send",
-      method: "POST",
+      url: 'message/send',
+      method: 'POST',
       data: message,
     });
   }

@@ -1,18 +1,18 @@
 module.exports = {
   root: true,
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {},
     },
   },
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: "./tsconfig.json",
-    tsconfigRootDir: "./",
+    project: './tsconfig.json',
+    tsconfigRootDir: './',
   },
-  plugins: ["@typescript-eslint"],
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  plugins: ['@typescript-eslint'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   rules: {
-    "@typescript-eslint/no-namespace": "off",
+    '@typescript-eslint/no-namespace': 'off',
   },
 };

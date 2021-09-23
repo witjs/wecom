@@ -1,8 +1,8 @@
-import { Media } from "wecom";
-import dotenv from "dotenv";
-import * as fs from "fs";
+import { Media } from 'wecom';
+import dotenv from 'dotenv';
+import * as fs from 'fs';
 
-describe("Media Manager", () => {
+describe('Media Manager', () => {
   let media: Media;
   beforeEach(() => {
     dotenv.config();
@@ -12,9 +12,9 @@ describe("Media Manager", () => {
     }));
   });
 
-  it("Media Upload", async () => {
+  it('Media Upload', async () => {
     const ret = await media.upload(
-      fs.createReadStream("/Users/aidenxiong/Downloads/abac.png")
+      fs.createReadStream('/Users/aidenxiong/Downloads/abac.png')
     );
     expect(ret.data.errcode).toEqual(0);
   });

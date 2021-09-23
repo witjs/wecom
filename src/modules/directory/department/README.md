@@ -31,7 +31,7 @@ const ret = await department.list();
 
 ```javascript
 department.create({
-  name: "行政部",
+  name: '行政部',
   parentid: 1,
 });
 ```

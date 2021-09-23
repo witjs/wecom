@@ -1,16 +1,16 @@
 export namespace IMessage {
   interface Common {
     msgtype:
-      | "text"
-      | "image"
-      | "voice"
-      | "file"
-      | "textcard"
-      | "news"
-      | "mpnews"
-      | "markdown"
-      | "miniprogram_notice"
-      | "taskcard";
+      | 'text'
+      | 'image'
+      | 'voice'
+      | 'file'
+      | 'textcard'
+      | 'news'
+      | 'mpnews'
+      | 'markdown'
+      | 'miniprogram_notice'
+      | 'taskcard';
     // 应用ID
     agentid?: number;
     //指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）。
@@ -31,7 +31,7 @@ export namespace IMessage {
   }
   // 文本消息
   export interface Text extends Common {
-    msgtype: "text";
+    msgtype: 'text';
     text: {
       // 消息内容，最长不超过2048个字节，超过将截断（支持id转译）
       content: string;
@@ -41,14 +41,14 @@ export namespace IMessage {
   }
   // 图片消息
   export interface Image extends Common {
-    msgtype: "image";
+    msgtype: 'image';
     image: {
       media_id: string;
     };
   }
   // 语音消息
   export interface Voice extends Common {
-    msgtype: "voice";
+    msgtype: 'voice';
     voice: {
       // 视频媒体文件id，可以调用上传临时素材接口获取
       media_id: string;
@@ -60,7 +60,7 @@ export namespace IMessage {
   }
   // 文件
   export interface File extends Common {
-    msgtype: "file";
+    msgtype: 'file';
     voice: {
       // 视频媒体文件id，可以调用上传临时素材接口获取
       media_id: string;
@@ -68,7 +68,7 @@ export namespace IMessage {
   }
   // 文本卡片消息
   export interface TextCard extends Common {
-    msgtype: "textcard";
+    msgtype: 'textcard';
     voice: {
       // 标题，不超过128个字节，超过会自动截断（支持id转译）
       title: string;
@@ -94,7 +94,7 @@ export namespace IMessage {
   }
   // 图文消息
   export interface News extends Common {
-    msgtype: "news";
+    msgtype: 'news';
     news: {
       // 图文消息，一个图文消息支持1到8条图文
       articles: NewsArticleItem[];
@@ -118,7 +118,7 @@ export namespace IMessage {
   }
   // 图文消息
   export interface MPNews extends Common {
-    msgtype: "mpnews";
+    msgtype: 'mpnews';
     news: {
       // 图文消息，一个图文消息支持1到8条图文
       articles: MPNewsArticleItem[];
@@ -128,7 +128,7 @@ export namespace IMessage {
 
   // 图文消息
   export interface Markdown extends Common {
-    msgtype: "markdown";
+    msgtype: 'markdown';
     markdown: {
       // markdown内容，最长不超过2048个字节，必须是utf8编码
       content: string;
@@ -136,12 +136,12 @@ export namespace IMessage {
   }
   // 小程序通知消息
   export interface MiniProgramNotice extends Common {
-    msgtype: "miniprogram_notice";
+    msgtype: 'miniprogram_notice';
     miniprogram_notice: {
       // 小程序appid，必须是与当前小程序应用关联的小程序
       appid: string;
       // 消息标题，长度限制4-12个汉字（支持id转译）
-      title: "会议室预订成功通知";
+      title: '会议室预订成功通知';
       // 点击消息卡片后的小程序页面，仅限本小程序内的页面。该字段不填则消息点击后不跳转。
       page?: string;
       // 消息描述，长度限制4-12个汉字（支持id转译）
@@ -155,7 +155,7 @@ export namespace IMessage {
   }
   // 任务卡片消息 仅企业微信2.8.2及以上版本支持
   export interface TaskCard extends Common {
-    msgtype: "taskcard";
+    msgtype: 'taskcard';
     taskcard: {
       // 标题，不超过128个字节，超过会自动截断（支持id转译）
       title: string;
@@ -173,7 +173,7 @@ export namespace IMessage {
         // 点击按钮后显示的名称，默认为“已处理”
         replace_name?: string;
         // 按钮字体颜色，可选“red”或者“blue”,默认为“blue”
-        color?: "red" | "blue";
+        color?: 'red' | 'blue';
         // 按钮字体是否加粗，默认false
         is_bold?: boolean;
       }[];

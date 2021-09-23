@@ -24,7 +24,7 @@ const user = new User({
 **例子**：
 
 ```javascript
-user.get("aidenxiong");
+user.get('aidenxiong');
 ```
 
 **参数说明**：

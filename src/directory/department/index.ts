@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import { Wecom, WecomConfig } from "../../wecom";
-import { ICreateDepartment, IUpdateDepartment } from "./interface";
+import { AxiosResponse } from 'axios';
+import { Wecom, WecomConfig } from '../../wecom';
+import { ICreateDepartment, IUpdateDepartment } from './interface';
 
 export class Department extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -15,8 +15,8 @@ export class Department extends Wecom {
    */
   create(data: ICreateDepartment): Promise<AxiosResponse<any>> {
     return this.request({
-      url: "department/create",
-      method: "POST",
+      url: 'department/create',
+      method: 'POST',
       data,
     });
   }
@@ -29,8 +29,8 @@ export class Department extends Wecom {
    */
   update(data: IUpdateDepartment): Promise<AxiosResponse<any>> {
     return this.request({
-      url: "department/update",
-      method: "POST",
+      url: 'department/update',
+      method: 'POST',
       data,
     });
   }
@@ -43,8 +43,8 @@ export class Department extends Wecom {
    */
   delete(id: number): Promise<AxiosResponse<any>> {
     return this.request({
-      url: "department/delete",
-      method: "GET",
+      url: 'department/delete',
+      method: 'GET',
       params: {
         id,
       },
@@ -59,8 +59,8 @@ export class Department extends Wecom {
    */
   list(id?: number): Promise<AxiosResponse<any>> {
     return this.request({
-      url: "department/list",
-      method: "GET",
+      url: 'department/list',
+      method: 'GET',
       params: {
         id,
       },

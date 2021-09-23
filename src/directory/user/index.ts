@@ -1,4 +1,4 @@
-import { Wecom, WecomConfig } from "../../wecom";
+import { Wecom, WecomConfig } from '../../wecom';
 
 export class User extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -7,8 +7,8 @@ export class User extends Wecom {
 
   get(userid: string) {
     return this.request({
-      url: "user/get",
-      method: "GET",
+      url: 'user/get',
+      method: 'GET',
       params: {
         userid,
       },

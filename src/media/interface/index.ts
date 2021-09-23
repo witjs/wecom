@@ -1,1 +1,1 @@
-export type IMediaType = "image" | "voice" | "video" | "file";
+export type IMediaType = 'image' | 'voice' | 'video' | 'file';
