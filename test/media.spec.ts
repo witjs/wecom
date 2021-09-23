@@ -1,8 +1,8 @@
-import { Media } from "../src/media/index";
+import { Media } from "wecom";
 import dotenv from "dotenv";
 import * as fs from "fs";
 
-describe("message", () => {
+describe("Media Manager", () => {
   let media: Media;
   beforeEach(() => {
     dotenv.config();

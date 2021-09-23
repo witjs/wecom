@@ -1,4 +1,4 @@
-import { Checkin } from "../../src/oa";
+import { Checkin } from "wecom";
 import dotenv from "dotenv";
 describe("Checkin Manager", () => {
   let checkin: Checkin;
@@ -14,7 +14,9 @@ describe("Checkin Manager", () => {
       opencheckindatatype: 3,
       starttime: 1577808000,
       endtime: 1580486400,
-      useridlist: ["aidenxiong"],
+      useridlist: ["XiongPing"],
     });
+    // expect(ret.data.errcode).toEqual(0);
+    expect([0, 301023]).toEqual(expect.arrayContaining([ret.data.errcode]));
   });
 });

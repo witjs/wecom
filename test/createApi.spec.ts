@@ -1,4 +1,4 @@
-import { Wecom } from "../src/wecom";
+import { Wecom } from "wecom";
 import dotenv from "dotenv";
 
 describe("createApi", () => {
@@ -11,7 +11,7 @@ describe("createApi", () => {
     }));
   });
   it("Create Api", async () => {
-    wecom.createApi("message.send", (): any => {
+    wecom.createApi<void>("message.send", () => {
       console.log("adcd");
     });
     expect(wecom.api.message.send).toBeDefined();
