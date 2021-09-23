@@ -2,7 +2,7 @@ import { Tag } from 'wecom';
 import dotenv from 'dotenv';
 describe('User Manager', () => {
   let tag: Tag;
-  const TestTag = {
+  const testTag = {
     tagid: 20200925,
     tagname: '测试标签',
   };
@@ -15,32 +15,32 @@ describe('User Manager', () => {
   });
 
   it('Create Tag', async () => {
-    const ret = await tag.create(TestTag);
+    const ret = await tag.create(testTag);
     expect(ret.data.errcode).toEqual(0);
   });
 
   it('Update Tag', async () => {
-    TestTag.tagname = '修改后的测试标签';
-    const ret = await tag.update(TestTag);
+    testTag.tagname = '修改后的测试标签';
+    const ret = await tag.update(testTag);
     expect(ret.data.errcode).toEqual(0);
   });
 
   it('Add Tag User', async () => {
     const ret = await tag.addTagUser({
-      tagid: TestTag.tagid,
+      tagid: testTag.tagid,
       userlist: ['XiongPing'],
     });
     expect(ret.data.errcode).toEqual(0);
   });
 
   it('Get Tag User', async () => {
-    const ret = await tag.get(TestTag.tagid);
+    const ret = await tag.get(testTag.tagid);
     expect(ret.data.errcode).toEqual(0);
   });
 
   it('Del Tag User', async () => {
     const ret = await tag.delTagUser({
-      tagid: TestTag.tagid,
+      tagid: testTag.tagid,
       userlist: ['XiongPing'],
     });
     expect(ret.data.errcode).toEqual(0);
@@ -52,7 +52,7 @@ describe('User Manager', () => {
   });
 
   it('Delete Tag', async () => {
-    const ret = await tag.delete(TestTag.tagid);
+    const ret = await tag.delete(testTag.tagid);
     expect(ret.data.errcode).toEqual(0);
   });
 });

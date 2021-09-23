@@ -4,7 +4,7 @@ import { IUser } from '../../src/modules/directory/user/interface';
 describe('User Manager', () => {
   let user: User;
   let userinfo: IUser;
-  const TestUserId = 'testtesttesttesttesttesttesttesttest';
+  const testUserId = 'testtesttesttesttesttesttesttesttest';
   beforeEach(() => {
     dotenv.config();
     return (user = new User({
@@ -16,7 +16,7 @@ describe('User Manager', () => {
   it('Create User', async () => {
     const ret = await user.create({
       name: '测试专属',
-      userid: TestUserId,
+      userid: testUserId,
       mobile: '17688716790',
       department: [2],
     });
@@ -24,13 +24,13 @@ describe('User Manager', () => {
     // 创建两个后面为了方便删除的成员
     await user.create({
       name: '测试专属',
-      userid: TestUserId + '1',
+      userid: testUserId + '1',
       mobile: '17688716791',
       department: [2],
     });
     await user.create({
       name: '测试专属',
-      userid: TestUserId + '2',
+      userid: testUserId + '2',
       mobile: '17688716792',
       department: [2],
     });
@@ -38,9 +38,9 @@ describe('User Manager', () => {
   });
 
   it('Get User Info', async () => {
-    const ret = await user.get(TestUserId);
+    const ret = await user.get(testUserId);
     userinfo = ret.data;
-    expect(ret.data.userid).toEqual(TestUserId);
+    expect(ret.data.userid).toEqual(testUserId);
   });
 
   it('Update User', async () => {
@@ -65,18 +65,18 @@ describe('User Manager', () => {
   });
 
   it('Convert To OpenId', async () => {
-    const ret = await user.convertToOpenid(TestUserId + '1');
+    const ret = await user.convertToOpenid(testUserId + '1');
     expect([0, 43004]).toEqual(expect.arrayContaining([ret.data.errcode]));
   });
 
   it('AuthSucc', async () => {
-    const ret = await user.authSucc(TestUserId + '1');
+    const ret = await user.authSucc(testUserId + '1');
     expect(ret.data.errcode).toEqual(0);
   });
 
   it('Invate', async () => {
     const ret = await user.invite({
-      user: [TestUserId + '1'],
+      user: [testUserId + '1'],
     });
     expect(ret.data.errcode).toEqual(0);
   });
@@ -92,7 +92,7 @@ describe('User Manager', () => {
   });
 
   it('Batch Delete User', async () => {
-    const ret = await user.batchDelete([TestUserId + '1', TestUserId + '2']);
+    const ret = await user.batchDelete([testUserId + '1', testUserId + '2']);
     expect(ret.data.errcode).toEqual(0);
   });
 });

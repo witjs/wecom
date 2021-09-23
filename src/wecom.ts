@@ -35,9 +35,9 @@ export class Wecom {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public readonly api: Record<string, any> = {};
   // 请求需要用到的token
-  private _token: string;
+  private token: string;
   // 当前的尝试次数
-  private _RetryTimes = 0;
+  private retryTimes = 0;
 
   /**
    * @description 设置全局配置
@@ -75,17 +75,17 @@ export class Wecom {
     // 拦截器添加access_token
     this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
       if (config.url !== '/gettoken') {
-        if (!this._token) {
+        if (!this.token) {
           await this.getToken();
         }
-        config.params['access_token'] = this._token;
+        config.params.access_token = this.token;
       }
       return config;
     });
     // 如果认证失败的话 尝试重新获取token然后重试
     this.client.interceptors.response.use(
       (response) => {
-        this._RetryTimes = 0;
+        this.retryTimes = 0;
         return response;
       },
       async (error) => {
@@ -94,13 +94,13 @@ export class Wecom {
           // 认证失败
           error.response.status === 401 &&
           // 请求次数未达上限
-          this._RetryTimes < this.config.retryTimes
+          this.retryTimes < this.config.retryTimes
         ) {
-          ++this._RetryTimes;
+          ++this.retryTimes;
           error.config.params.access_token = await this.getToken();
           return this.client.request(error.config);
         }
-        this._RetryTimes = 0;
+        this.retryTimes = 0;
         return Promise.reject(error);
       }
     );
@@ -121,7 +121,7 @@ export class Wecom {
     if (!data.access_token) {
       throw new Error(data.errmsg);
     }
-    return (this._token = data.access_token);
+    return (this.token = data.access_token);
   }
 
   /**
