@@ -25,15 +25,13 @@ export enum AgentMenuButtonType {
   // 跳转到小程序
   VIEW_MINIPROGRAM = 'view_miniprogram',
 }
-
+// prettier-ignore
 export interface BaseAgentMenuButtonItem {
   // 菜单的名字。不能为空，主菜单不能超过16字节，子菜单不能超过40字节。
   name: string;
   // 菜单的响应动作类型
   type?: AgentMenuButtonType;
-  sub_button?: Array<
-    BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem
-  >;
+  sub_button?: Array< BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem>;
 }
 
 /**

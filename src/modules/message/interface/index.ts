@@ -1,18 +1,19 @@
 import { BaseRet } from '../../../common/interface';
 
 export namespace IMessage {
+  // prettier-ignore
   interface Common {
     msgtype:
-      | 'text'
-      | 'image'
-      | 'voice'
-      | 'file'
-      | 'textcard'
-      | 'news'
-      | 'mpnews'
-      | 'markdown'
-      | 'miniprogram_notice'
-      | 'taskcard';
+    | 'text'
+    | 'image'
+    | 'voice'
+    | 'file'
+    | 'textcard'
+    | 'news'
+    | 'mpnews'
+    | 'markdown'
+    | 'miniprogram_notice'
+    | 'taskcard';
     // 应用ID
     agentid?: number;
     //指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）。

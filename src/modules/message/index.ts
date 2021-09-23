@@ -24,18 +24,19 @@ export class Message extends Wecom {
    * @return {*}  {Promise<R>}
    * @memberof Message
    */
+  // prettier-ignore
   async send(
     message:
-      | IMessage.Text
-      | IMessage.Image
-      | IMessage.Voice
-      | IMessage.File
-      | IMessage.TextCard
-      | IMessage.News
-      | IMessage.MPNews
-      | IMessage.Markdown
-      | IMessage.MiniProgramNotice
-      | IMessage.TaskCard,
+    | IMessage.Text
+    | IMessage.Image
+    | IMessage.Voice
+    | IMessage.File
+    | IMessage.TextCard
+    | IMessage.News
+    | IMessage.MPNews
+    | IMessage.Markdown
+    | IMessage.MiniProgramNotice
+    | IMessage.TaskCard,
     agentId?: number
   ): Promise<AxiosResponse<IMessageRet>> {
     message.agentid = message.agentid || agentId;
