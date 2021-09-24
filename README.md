@@ -1,3 +1,7 @@
+# 项目迁移至 github
+
+> [前往项目](https://github.com/witjs/wecom)
+
 # 企业微信 Node API
 
 **目前只封装了基本的模块 有兴趣的同学可以一起加入并丰富其 API**
