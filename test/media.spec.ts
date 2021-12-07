@@ -1,5 +1,6 @@
 import { Media } from "wecom";
 import dotenv from "dotenv";
+import path from "path";
 import * as fs from "fs";
 
 describe("Media Manager", () => {
@@ -14,7 +15,7 @@ describe("Media Manager", () => {
 
   it("Media Upload", async () => {
     const ret = await media.upload(
-      fs.createReadStream("/Users/aidenxiong/Downloads/abac.png")
+      fs.createReadStream(path.resolve(__dirname, "./assets/testlogo.png"))
     );
     expect(ret.data.errcode).toEqual(0);
   });
