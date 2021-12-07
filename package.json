@@ -1,6 +1,6 @@
 {
   "name": "wecom",
-  "version": "0.7.1",
+  "version": "0.8.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": {
@@ -47,5 +47,8 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }

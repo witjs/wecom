@@ -8,8 +8,6 @@ export class Message extends Wecom {
   }
   /**
    * @description
-   * @template T
-   * @template R
    * @param {(IMessage.Text
    *       | IMessage.Image
    *       | IMessage.Voice
@@ -19,9 +17,16 @@ export class Message extends Wecom {
    *       | IMessage.MPNews
    *       | IMessage.Markdown
    *       | IMessage.MiniProgramNotice
-   *       | IMessage.TaskCard)} message 发送的消息主题
-   * @param {number} agentId 应用ID
-   * @return {*}  {Promise<R>}
+   *       | IMessage.TaskCard
+   *       | IMessage.TemplateCard.TemplateCardCommon<
+   *           | IMessage.TemplateCard.TextNotice
+   *           | IMessage.TemplateCard.NewsNotice
+   *           | IMessage.TemplateCard.ButtonInteraction
+   *           | IMessage.TemplateCard.VoteInteraction
+   *           | IMessage.TemplateCard.MultipleInteraction
+   *         >)} message
+   * @param {number} [agentId]
+   * @return {*}  {Promise<AxiosResponse<IMessageRet>>}
    * @memberof Message
    */
   async send(
@@ -35,7 +40,14 @@ export class Message extends Wecom {
       | IMessage.MPNews
       | IMessage.Markdown
       | IMessage.MiniProgramNotice
-      | IMessage.TaskCard,
+      | IMessage.TaskCard
+      | IMessage.TemplateCard.TemplateCardCommon<
+          | IMessage.TemplateCard.TextNotice
+          | IMessage.TemplateCard.NewsNotice
+          | IMessage.TemplateCard.ButtonInteraction
+          | IMessage.TemplateCard.VoteInteraction
+          | IMessage.TemplateCard.MultipleInteraction
+        >,
     agentId?: number
   ): Promise<AxiosResponse<IMessageRet>> {
     message.agentid = message.agentid || agentId;
