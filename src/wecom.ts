@@ -22,6 +22,16 @@ const globalConfig: WecomConfig = {
   retryTimes: 3,
 };
 
+const retry = <T>(handler: () => Promise<T>, times = 3): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    handler()
+      .then(resolve)
+      .catch((e) => {
+        times > 0 ? retry(handler, --times) : reject(e);
+      });
+  });
+};
+
 /**
  * @description 企业微信Node Api
  * @export
@@ -36,8 +46,6 @@ export class Wecom {
   public readonly api: Record<string, any> = {};
   // 请求需要用到的token
   private _token: string;
-  // 当前的尝试次数
-  private _RetryTimes = 0;
 
   /**
    * @description 设置全局配置
@@ -81,26 +89,28 @@ export class Wecom {
         config.params["access_token"] = this._token;
       }
       return config;
-    });
+    }, Promise.reject);
     // 如果认证失败的话 尝试重新获取token然后重试
     this.client.interceptors.response.use(
-      (response) => {
-        this._RetryTimes = 0;
-        return response;
+      async (response) => {
+        if (
+          response.data.errcode === 40014 // 认证失败
+        ) {
+          this._token = null;
+          throw new axios.Cancel("TOKENERROR");
+        } else {
+          return response;
+        }
       },
       async (error) => {
         if (
           error.response &&
           // 认证失败
-          error.response.status === 401 &&
-          // 请求次数未达上限
-          this._RetryTimes < this.config.retryTimes
+          error.response.status === 401
         ) {
-          ++this._RetryTimes;
-          error.config.params.access_token = await this.getToken();
+          this._token = null;
           return this.client.request(error.config);
         }
-        this._RetryTimes = 0;
         return Promise.reject(error);
       }
     );
@@ -135,7 +145,12 @@ export class Wecom {
   async request<T = BaseRet, R = AxiosResponse<T>>(
     config: AxiosRequestConfig
   ): Promise<R> {
-    return this.client.request(config);
+    const doRequest = (): Promise<R> => {
+      return new Promise(async (resolve, reject) => {
+        this.client.request<T, R>(config).then(resolve).catch(reject);
+      });
+    };
+    return retry(doRequest, this.config.retryTimes);
   }
 
   /**
