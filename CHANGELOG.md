@@ -1,4 +1,19 @@
-## [0.7.1](https://github.com/witjs/wecom/compare/0.5.6...0.7.1) (2020-09-26)
+## [0.8.2](https://github.com/witjs/wecom/compare/0.6.1...0.8.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* 调整鉴权失败重试逻辑 ([61b3bf0](https://github.com/witjs/wecom/commit/61b3bf0495f550b486e8457ff6ff9d05c49c7e9d))
+
+
+### Features
+
+* move all modules to modules folder ([fcae227](https://github.com/witjs/wecom/commit/fcae2271caae1bbea1e32fc6bc2a65ebc62a1e8b))
+* support template_card ([f20090e](https://github.com/witjs/wecom/commit/f20090eff1e871578cba1fd2e44815f87a73f99b))
+
+
+
+## [0.6.1](https://github.com/witjs/wecom/compare/0.5.6...0.6.1) (2020-09-26)
 
 
 ### Bug Fixes
@@ -10,7 +25,6 @@
 
 * add tag module ([e1116fe](https://github.com/witjs/wecom/commit/e1116feabe89d1ff315067401d492a569f8edace))
 * add user funcitons ([22345df](https://github.com/witjs/wecom/commit/22345df36afae8bda0fe106572a9f6029cf40cb2))
-* move all modules to modules folder ([fcae227](https://github.com/witjs/wecom/commit/fcae2271caae1bbea1e32fc6bc2a65ebc62a1e8b))
 
 
 
