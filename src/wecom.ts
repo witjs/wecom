@@ -94,7 +94,7 @@ export class Wecom {
     this.client.interceptors.response.use(
       async (response) => {
         if (
-          response.data.errcode === 40014 // 认证失败
+          [40014, 42001].includes(response.data.errcode) // 认证失败
         ) {
           this._token = null;
           throw new axios.Cancel("TOKENERROR");
