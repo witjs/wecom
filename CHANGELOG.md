@@ -1,3 +1,12 @@
+## [0.8.3](https://github.com/witjs/wecom/compare/0.8.2...0.8.3) (2022-04-28)
+
+
+### Bug Fixes
+
+* 修改刷新token的错误码 ([c325ffd](https://github.com/witjs/wecom/commit/c325ffdcc0905df02658050a7c8c7d6c3c082acb))
+
+
+
 ## [0.8.2](https://github.com/witjs/wecom/compare/0.6.1...0.8.2) (2021-12-14)
 
 
