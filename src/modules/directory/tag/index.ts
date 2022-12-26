@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
-import { BaseRet } from '../../../common/interface';
-import { Wecom, WecomConfig } from '../../../wecom';
+import { AxiosResponse } from "axios";
+import { BaseRet } from "../../../common/interface";
+import { Wecom, WecomConfig } from "../../../wecom";
 import {
   TagUserRet,
   ITag,
@@ -9,7 +9,7 @@ import {
   TagCreateRet,
   TagListRet,
   TagUserListRet,
-} from './interface';
+} from "./interface";
 
 export class Tag extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -23,14 +23,14 @@ export class Tag extends Wecom {
    * @memberof Tag
    */
   create(tag: ITagCreateDto | string): Promise<AxiosResponse<TagCreateRet>> {
-    if (typeof tag === 'string') {
+    if (typeof tag === "string") {
       tag = {
         tagname: tag,
       };
     }
     return this.request<TagCreateRet>({
-      url: 'tag/create',
-      method: 'POST',
+      url: "tag/create",
+      method: "POST",
       data: tag,
     });
   }
@@ -43,8 +43,8 @@ export class Tag extends Wecom {
    */
   update(tag: ITag): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'tag/update',
-      method: 'POST',
+      url: "tag/update",
+      method: "POST",
       data: tag,
     });
   }
@@ -57,8 +57,8 @@ export class Tag extends Wecom {
    */
   delete(tagid: number): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'tag/delete',
-      method: 'GET',
+      url: "tag/delete",
+      method: "GET",
       params: {
         tagid,
       },
@@ -73,8 +73,8 @@ export class Tag extends Wecom {
    */
   get(tagid: number): Promise<AxiosResponse<TagUserListRet>> {
     return this.request<TagUserListRet>({
-      url: 'tag/get',
-      method: 'GET',
+      url: "tag/get",
+      method: "GET",
       params: { tagid },
     });
   }
@@ -87,8 +87,8 @@ export class Tag extends Wecom {
    */
   addTagUser(data: ITagUserDto): Promise<AxiosResponse<TagUserRet>> {
     return this.request<TagUserRet>({
-      url: 'tag/addtagusers',
-      method: 'POST',
+      url: "tag/addtagusers",
+      method: "POST",
       data,
     });
   }
@@ -101,8 +101,8 @@ export class Tag extends Wecom {
    */
   delTagUser(data: ITagUserDto): Promise<AxiosResponse<TagUserRet>> {
     return this.request<TagUserRet>({
-      url: 'tag/deltagusers',
-      method: 'POST',
+      url: "tag/deltagusers",
+      method: "POST",
       data,
     });
   }
@@ -114,8 +114,8 @@ export class Tag extends Wecom {
    */
   list(): Promise<AxiosResponse<TagListRet>> {
     return this.request<TagListRet>({
-      url: 'tag/list',
-      method: 'GET',
+      url: "tag/list",
+      method: "GET",
     });
   }
 }

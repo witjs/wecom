@@ -1,7 +1,7 @@
-import { AxiosResponse } from 'axios';
-import { BaseRet, ZeroOrOne } from '../../../common/interface';
-import { QrCodeSizeType } from '../../../common/interface';
-import { Wecom, WecomConfig } from '../../../wecom';
+import { AxiosResponse } from "axios";
+import { BaseRet, ZeroOrOne } from "../../../common/interface";
+import { QrCodeSizeType } from "../../../common/interface";
+import { Wecom, WecomConfig } from "../../../wecom";
 import {
   IUserCreateDto,
   UserRet,
@@ -13,7 +13,7 @@ import {
   InviteRet,
   GetJoinQrCodeRet,
   GetActiveStatRet,
-} from './interface';
+} from "./interface";
 
 export class User extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -28,8 +28,8 @@ export class User extends Wecom {
    */
   create(user: IUserCreateDto): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'user/create',
-      method: 'POST',
+      url: "user/create",
+      method: "POST",
       data: user,
     });
   }
@@ -42,8 +42,8 @@ export class User extends Wecom {
    */
   get(userid: string): Promise<AxiosResponse<UserRet>> {
     return this.request<UserRet>({
-      url: 'user/get',
-      method: 'GET',
+      url: "user/get",
+      method: "GET",
       params: {
         userid,
       },
@@ -58,8 +58,8 @@ export class User extends Wecom {
    */
   update(user: IUserUpdateDto): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'user/update',
-      method: 'POST',
+      url: "user/update",
+      method: "POST",
       data: user,
     });
   }
@@ -72,8 +72,8 @@ export class User extends Wecom {
    */
   delete(userid: string): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'user/delete',
-      method: 'GET',
+      url: "user/delete",
+      method: "GET",
       params: {
         userid,
       },
@@ -88,8 +88,8 @@ export class User extends Wecom {
    */
   batchDelete(useridlist: string[]): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'user/batchdelete',
-      method: 'POST',
+      url: "user/batchdelete",
+      method: "POST",
       data: {
         useridlist,
       },
@@ -108,8 +108,8 @@ export class User extends Wecom {
     fetch_child: ZeroOrOne = 0
   ): Promise<AxiosResponse<UserSampleListRet>> {
     return this.request<UserSampleListRet>({
-      url: 'user/simplelist',
-      method: 'GET',
+      url: "user/simplelist",
+      method: "GET",
       params: {
         department_id,
         fetch_child,
@@ -132,8 +132,8 @@ export class User extends Wecom {
     simple: ZeroOrOne = 0
   ): Promise<AxiosResponse<T>> {
     return this.request<T>({
-      url: `user/${simple === 0 ? '' : 'simple'}list`,
-      method: 'GET',
+      url: `user/${simple === 0 ? "" : "simple"}list`,
+      method: "GET",
       params: {
         department_id,
         fetch_child,
@@ -149,8 +149,8 @@ export class User extends Wecom {
    */
   convertToOpenid(userid: string): Promise<AxiosResponse<ConvertToOpenIdRet>> {
     return this.request<ConvertToOpenIdRet>({
-      url: 'user/convert_to_openid',
-      method: 'POST',
+      url: "user/convert_to_openid",
+      method: "POST",
       data: {
         userid,
       },
@@ -165,8 +165,8 @@ export class User extends Wecom {
    */
   authSucc(userid: string): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'user/authsucc',
-      method: 'GET',
+      url: "user/authsucc",
+      method: "GET",
       params: {
         userid,
       },
@@ -181,8 +181,8 @@ export class User extends Wecom {
    */
   invite(data: IUserInvite): Promise<AxiosResponse<InviteRet>> {
     return this.request<InviteRet>({
-      url: 'batch/invite',
-      method: 'POST',
+      url: "batch/invite",
+      method: "POST",
       data,
     });
   }
@@ -197,8 +197,8 @@ export class User extends Wecom {
     size_type: QrCodeSizeType
   ): Promise<AxiosResponse<GetJoinQrCodeRet>> {
     return this.request<GetJoinQrCodeRet>({
-      url: 'corp/get_join_qrcode',
-      method: 'GET',
+      url: "corp/get_join_qrcode",
+      method: "GET",
       params: {
         size_type,
       },
@@ -213,8 +213,8 @@ export class User extends Wecom {
    */
   getActiveStat(date: string): Promise<AxiosResponse<GetActiveStatRet>> {
     return this.request<GetActiveStatRet>({
-      url: 'user/get_active_stat',
-      method: 'POST',
+      url: "user/get_active_stat",
+      method: "POST",
       data: {
         date,
       },

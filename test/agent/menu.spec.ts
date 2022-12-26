@@ -1,11 +1,11 @@
-import { AgentMenu } from 'wecom';
-import dotenv from 'dotenv';
+import { AgentMenu } from "wecom";
+import dotenv from "dotenv";
 import {
   AgentMenuButtonType,
   ICreateAgentMenuButton,
-} from '../../src/modules/agent/interface/menu';
+} from "../../src/modules/agent/interface/menu";
 
-describe('Agent Menu Manger', () => {
+describe("Agent Menu Manger", () => {
   let menu: AgentMenu;
   let originalButton: Array<ICreateAgentMenuButton>;
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('Agent Menu Manger', () => {
     }));
   });
 
-  it('Create Menu', async () => {
+  it("Create Menu", async () => {
     // 获取原始的导航菜单
     const {
       data: { button: originalButton },
@@ -27,21 +27,21 @@ describe('Agent Menu Manger', () => {
       button: [
         {
           type: AgentMenuButtonType.CLICK,
-          name: '关于我们',
-          key: 'V1001_TODAY_MUSIC',
+          name: "关于我们",
+          key: "V1001_TODAY_MUSIC",
         },
         {
-          name: '个人中心',
+          name: "个人中心",
           sub_button: [
             {
               type: AgentMenuButtonType.VIEW,
-              name: '个人资料',
-              url: 'http://www.deno.me/',
+              name: "个人资料",
+              url: "http://www.deno.me/",
             },
             {
               type: AgentMenuButtonType.CLICK,
-              name: '我的团队',
-              key: 'V1001_GOOD',
+              name: "我的团队",
+              key: "V1001_GOOD",
             },
           ],
         },
@@ -54,12 +54,12 @@ describe('Agent Menu Manger', () => {
     });
   });
 
-  it('Get Menu', async () => {
+  it("Get Menu", async () => {
     const ret = await menu.get();
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Delete Menu', async () => {
+  it("Delete Menu", async () => {
     const ret = await menu.delete();
     expect(ret.data.errcode).toEqual(0);
     // 数据还原

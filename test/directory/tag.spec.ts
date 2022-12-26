@@ -1,10 +1,10 @@
-import { Tag } from 'wecom';
-import dotenv from 'dotenv';
-describe('User Manager', () => {
+import { Tag } from "wecom";
+import dotenv from "dotenv";
+describe("User Manager", () => {
   let tag: Tag;
-  const testTag = {
+  const TestTag = {
     tagid: 20200925,
-    tagname: '测试标签',
+    tagname: "测试标签",
   };
   beforeEach(() => {
     dotenv.config();
@@ -14,45 +14,45 @@ describe('User Manager', () => {
     }));
   });
 
-  it('Create Tag', async () => {
-    const ret = await tag.create(testTag);
+  it("Create Tag", async () => {
+    const ret = await tag.create(TestTag);
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Update Tag', async () => {
-    testTag.tagname = '修改后的测试标签';
-    const ret = await tag.update(testTag);
+  it("Update Tag", async () => {
+    TestTag.tagname = "修改后的测试标签";
+    const ret = await tag.update(TestTag);
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Add Tag User', async () => {
+  it("Add Tag User", async () => {
     const ret = await tag.addTagUser({
-      tagid: testTag.tagid,
-      userlist: ['XiongPing'],
+      tagid: TestTag.tagid,
+      userlist: ["XiongPing"],
     });
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Get Tag User', async () => {
-    const ret = await tag.get(testTag.tagid);
+  it("Get Tag User", async () => {
+    const ret = await tag.get(TestTag.tagid);
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Del Tag User', async () => {
+  it("Del Tag User", async () => {
     const ret = await tag.delTagUser({
-      tagid: testTag.tagid,
-      userlist: ['XiongPing'],
+      tagid: TestTag.tagid,
+      userlist: ["XiongPing"],
     });
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Tag List', async () => {
+  it("Tag List", async () => {
     const ret = await tag.list();
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it('Delete Tag', async () => {
-    const ret = await tag.delete(testTag.tagid);
+  it("Delete Tag", async () => {
+    const ret = await tag.delete(TestTag.tagid);
     expect(ret.data.errcode).toEqual(0);
   });
 });

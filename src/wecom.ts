@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
-import { BaseRet } from './common/interface';
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
+import { BaseRet } from "./common/interface";
 export interface WecomConfig {
   // 企业微信企业ID
   corpId: string;
@@ -17,9 +17,19 @@ const globalConfig: WecomConfig = {
   // 企业微信corpsecret
   corpSecret: null,
   // 企业微信服务器地址
-  baseURL: 'https://qyapi.weixin.qq.com/cgi-bin/',
+  baseURL: "https://qyapi.weixin.qq.com/cgi-bin/",
   // 认证失败的错误重试次数 其他错误信息不进行重试
   retryTimes: 3,
+};
+
+const retry = <T>(handler: () => Promise<T>, times = 3): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    handler()
+      .then(resolve)
+      .catch((e) => {
+        times > 0 ? retry(handler, --times) : reject(e);
+      });
+  });
 };
 
 /**
@@ -35,9 +45,7 @@ export class Wecom {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public readonly api: Record<string, any> = {};
   // 请求需要用到的token
-  private token: string;
-  // 当前的尝试次数
-  private retryTimes = 0;
+  private _token: string;
 
   /**
    * @description 设置全局配置
@@ -74,33 +82,35 @@ export class Wecom {
     });
     // 拦截器添加access_token
     this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
-      if (config.url !== '/gettoken') {
-        if (!this.token) {
+      if (config.url !== "/gettoken") {
+        if (!this._token) {
           await this.getToken();
         }
-        config.params.access_token = this.token;
+        config.params["access_token"] = this._token;
       }
       return config;
-    });
+    }, Promise.reject);
     // 如果认证失败的话 尝试重新获取token然后重试
     this.client.interceptors.response.use(
-      (response) => {
-        this.retryTimes = 0;
-        return response;
+      async (response) => {
+        if (
+          [40014, 42001].includes(response.data.errcode) // 认证失败
+        ) {
+          this._token = null;
+          throw new axios.Cancel("TOKENERROR");
+        } else {
+          return response;
+        }
       },
       async (error) => {
         if (
           error.response &&
           // 认证失败
-          error.response.status === 401 &&
-          // 请求次数未达上限
-          this.retryTimes < this.config.retryTimes
+          error.response.status === 401
         ) {
-          ++this.retryTimes;
-          error.config.params.access_token = await this.getToken();
+          this._token = null;
           return this.client.request(error.config);
         }
-        this.retryTimes = 0;
         return Promise.reject(error);
       }
     );
@@ -112,7 +122,7 @@ export class Wecom {
    * @memberof Wecom
    */
   async getToken(): Promise<string> {
-    const { data } = await this.client.get('/gettoken', {
+    const { data } = await this.client.get("/gettoken", {
       params: {
         corpid: this.config.corpId,
         corpsecret: this.config.corpSecret,
@@ -121,7 +131,7 @@ export class Wecom {
     if (!data.access_token) {
       throw new Error(data.errmsg);
     }
-    return (this.token = data.access_token);
+    return (this._token = data.access_token);
   }
 
   /**
@@ -135,7 +145,12 @@ export class Wecom {
   async request<T = BaseRet, R = AxiosResponse<T>>(
     config: AxiosRequestConfig
   ): Promise<R> {
-    return this.client.request(config);
+    const doRequest = (): Promise<R> => {
+      return new Promise(async (resolve, reject) => {
+        this.client.request<T, R>(config).then(resolve).catch(reject);
+      });
+    };
+    return retry(doRequest, this.config.retryTimes);
   }
 
   /**
@@ -148,14 +163,14 @@ export class Wecom {
    */
   createApi<T = unknown>(path: string, fn: () => T): Wecom {
     let currentPath = this.api;
-    const pathArr = path.split('.');
+    const pathArr = path.split(".");
     while (pathArr.length) {
       const key = pathArr.shift();
       // 如果已经到了最后一位
       if (pathArr.length === 0) {
         // 查询是否已经在当前的命名空间下有内容
         if (currentPath[key]) {
-          throw new Error('Path Conflic');
+          throw new Error("Path Conflic");
         }
         currentPath[key] = fn.bind(this);
       } else {

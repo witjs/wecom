@@ -26,9 +26,9 @@ const user = new User({
 
 ```javascript
 user.create({
-  name: '测试专属',
-  userid: 'userid',
-  mobile: '17688716790',
+  name: "测试专属",
+  userid: "userid",
+  mobile: "17688716790",
   department: [2],
 });
 ```
@@ -44,7 +44,7 @@ user.create({
 **例子**：
 
 ```javascript
-user.get('userid');
+user.get("userid");
 ```
 
 **参数说明**：
@@ -60,9 +60,9 @@ user.get('userid');
 
 ```javascript
 user.update({
-  name: '修改后的名称',
+  name: "修改后的名称",
   userid: TestUserId,
-  mobile: '17688716790',
+  mobile: "17688716790",
   department: [2],
 });
 ```
@@ -78,7 +78,7 @@ user.update({
 **例子**：
 
 ```javascript
-user.delete('userid');
+user.delete("userid");
 ```
 
 **参数说明**：
@@ -93,7 +93,7 @@ user.delete('userid');
 **例子**：
 
 ```javascript
-user.batchDelete(['userid', 'userid2']);
+user.batchDelete(["userid", "userid2"]);
 ```
 
 **参数说明**：
@@ -143,7 +143,7 @@ user.list(1, 0, 1);
 **例子**：
 
 ```javascript
-user.list('userid');
+user.list("userid");
 ```
 
 **参数说明**：
@@ -159,7 +159,7 @@ user.list('userid');
 **例子**：
 
 ```javascript
-user.authSucc('userid');
+user.authSucc("userid");
 ```
 
 **参数说明**：
@@ -176,7 +176,7 @@ user.authSucc('userid');
 
 ```javascript
 user.invite({
-  user: ['userid', 'userid2'],
+  user: ["userid", "userid2"],
 });
 ```
 
@@ -211,7 +211,7 @@ user.getJoinQrCode(1);
 **例子**：
 
 ```javascript
-user.getActiveStat('2020-09-25');
+user.getActiveStat("2020-09-25");
 ```
 
 **参数说明**：

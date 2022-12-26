@@ -1,5 +1,5 @@
-import { WecomConfig } from '../../../wecom';
-import { BaseRet } from '../../../common/interface';
+import { WecomConfig } from "../../../wecom";
+import { BaseRet } from "../../../common/interface";
 
 export interface IAgentWecom extends Partial<WecomConfig> {
   agentId: number;

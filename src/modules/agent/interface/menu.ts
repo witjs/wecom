@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../common/interface';
+import { BaseRet } from "../../../common/interface";
 
 /**
  * @description 菜单按钮的类型
@@ -7,31 +7,33 @@ import { BaseRet } from '../../../common/interface';
  */
 export enum AgentMenuButtonType {
   // 点击推事件
-  CLICK = 'click',
+  CLICK = "click",
   // 跳转URL
-  VIEW = 'view',
+  VIEW = "view",
   // 扫码推事件
-  SCANCODEPUSH = 'scancode_push',
+  SCANCODEPUSH = "scancode_push",
   //扫码推事件 且弹出“消息接收中”提示框
-  SCANCODEWAITMSG = 'scancode_waitmsg',
+  SCANCODEWAITMSG = "scancode_waitmsg",
   // 弹出系统拍照发图
-  PICSYSPHOTO = 'pic_sysphoto',
+  PICSYSPHOTO = "pic_sysphoto",
   // 弹出拍照或者相册发图
-  PICPHOTOORALBUM = 'pic_photo_or_album',
+  PICPHOTOORALBUM = "pic_photo_or_album",
   // 弹出企业微信相册发图器
-  PICWEIXIN = 'pic_weixin',
+  PICWEIXIN = "pic_weixin",
   // 弹出地理位置选择器
-  LOCATIONSELECT = 'location_select',
+  LOCATIONSELECT = "location_select",
   // 跳转到小程序
-  VIEW_MINIPROGRAM = 'view_miniprogram',
+  VIEW_MINIPROGRAM = "view_miniprogram",
 }
-// prettier-ignore
+
 export interface BaseAgentMenuButtonItem {
   // 菜单的名字。不能为空，主菜单不能超过16字节，子菜单不能超过40字节。
   name: string;
   // 菜单的响应动作类型
   type?: AgentMenuButtonType;
-  sub_button?: Array< BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem>;
+  sub_button?: Array<
+    BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem
+  >;
 }
 
 /**

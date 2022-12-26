@@ -1,8 +1,8 @@
-import { Wecom, WecomConfig } from '../../wecom';
-import { IMediaRet, IMediaType } from './interface';
-import FormData from 'form-data';
-import { AxiosResponse } from 'axios';
-import { ReadStream } from 'fs';
+import { Wecom, WecomConfig } from "../../wecom";
+import { IMediaRet, IMediaType } from "./interface";
+import FormData from "form-data";
+import { AxiosResponse } from "axios";
+import { ReadStream } from "fs";
 
 interface Boundary {
   _boundary?: string;
@@ -29,18 +29,18 @@ export class Media extends Wecom {
    */
   upload(
     file: Buffer | ReadStream,
-    type: IMediaType = 'file'
+    type: IMediaType = "file"
   ): Promise<AxiosResponse<IMediaRet>> {
     const form: FormData & Boundary = new FormData();
-    form.append('media', file);
+    form.append("media", file);
     return this.request<IMediaRet>({
-      url: 'media/upload',
-      method: 'POST',
+      url: "media/upload",
+      method: "POST",
       params: {
         type,
       },
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
+        "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
       },
       data: form,
     });

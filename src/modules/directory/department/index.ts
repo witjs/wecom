@@ -1,12 +1,12 @@
-import { AxiosResponse } from 'axios';
-import { BaseRet } from '../../../common/interface';
-import { Wecom, WecomConfig } from '../../../wecom';
+import { AxiosResponse } from "axios";
+import { BaseRet } from "../../../common/interface";
+import { Wecom, WecomConfig } from "../../../wecom";
 import {
   ICreateDepartment,
   ICreateDepartmentRet,
   IDepartmentRet,
   IUpdateDepartment,
-} from './interface';
+} from "./interface";
 
 export class Department extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -23,8 +23,8 @@ export class Department extends Wecom {
     data: ICreateDepartment
   ): Promise<AxiosResponse<ICreateDepartmentRet>> {
     return this.request<ICreateDepartmentRet>({
-      url: 'department/create',
-      method: 'POST',
+      url: "department/create",
+      method: "POST",
       data,
     });
   }
@@ -37,8 +37,8 @@ export class Department extends Wecom {
    */
   update(data: IUpdateDepartment): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'department/update',
-      method: 'POST',
+      url: "department/update",
+      method: "POST",
       data,
     });
   }
@@ -51,8 +51,8 @@ export class Department extends Wecom {
    */
   delete(id: number): Promise<AxiosResponse<BaseRet>> {
     return this.request<BaseRet>({
-      url: 'department/delete',
-      method: 'GET',
+      url: "department/delete",
+      method: "GET",
       params: {
         id,
       },
@@ -67,8 +67,8 @@ export class Department extends Wecom {
    */
   list(id?: number): Promise<AxiosResponse<IDepartmentRet>> {
     return this.request<IDepartmentRet>({
-      url: 'department/list',
-      method: 'GET',
+      url: "department/list",
+      method: "GET",
       params: {
         id,
       },
