@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
-import { Wecom, WecomConfig } from '../../../wecom';
-import {
+import type { WecomConfig } from '../../../wecom';
+import { Wecom } from '../../../wecom';
+import type {
   ICheckinDataRet,
   ICheckinOptionRet,
   QueryCheckinData,
@@ -8,21 +8,16 @@ import {
 } from './interface';
 
 export class Checkin extends Wecom {
-  constructor(config: Partial<WecomConfig>) {
+  constructor(config: Partial<WecomConfig> = {}) {
     super(config);
   }
 
   /**
    * @description 获取打卡数据
-   * @param {QueryCheckinData} data
-   * @return {*}  {Promise<AxiosResponse<ICheckinDataRet>>}
-   * @memberof Checkin
    */
-  getCheckinData(
-    data: QueryCheckinData
-  ): Promise<AxiosResponse<ICheckinDataRet>> {
+  getCheckinData(data: QueryCheckinData): Promise<ICheckinDataRet> {
     return this.request<ICheckinDataRet>({
-      url: 'checkin/getcheckindata',
+      url: '/checkin/getcheckindata',
       method: 'POST',
       data,
     });
@@ -30,17 +25,27 @@ export class Checkin extends Wecom {
 
   /**
    * @description 获取打卡规则
-   * @param {QueryCheckinOption} data
-   * @return {*}  {Promise<AxiosResponse<ICheckinOptionRet>>}
-   * @memberof Checkin
    */
-  getCheckinOption(
-    data: QueryCheckinOption
-  ): Promise<AxiosResponse<ICheckinOptionRet>> {
+  getCheckinOption(data: QueryCheckinOption): Promise<ICheckinOptionRet> {
     return this.request<ICheckinOptionRet>({
-      url: 'checkin/getcheckinoption',
+      url: '/checkin/getcheckinoption',
       method: 'POST',
       data,
     });
   }
 }
+
+export type {
+  ICheckinData,
+  ICheckinDataRet,
+  ICheckinDateItem,
+  ICheckinOptionInfoItem,
+  ICheckinOptionRet,
+  ICheckinTimeItem,
+  IDaysItem,
+  ILocInfo,
+  IRuleGroupItem,
+  IWifiMacInfo,
+  QueryCheckinData,
+  QueryCheckinOption,
+} from './interface';

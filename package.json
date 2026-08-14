@@ -1,8 +1,36 @@
 {
   "name": "wecom",
-  "version": "0.8.3",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "version": "1.0.0",
+  "description": "WeCom / WeChat Work Node.js SDK",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "MIGRATION.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "pnpm@10.28.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/witjs/wecom.git"
@@ -10,6 +38,7 @@
   "keywords": [
     "企业微信",
     "wecom",
+    "wechat-work",
     "sdk",
     "nodejs",
     "typescript"
@@ -18,63 +47,39 @@
   "author": "witjs <github@sina.cn>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
-    "test": "yarn run build && yarn link && yarn link \"wecom\" && jest",
-    "lint": "eslint . --ext .ts",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
-  },
-  "dependencies": {
-    "axios": "^0.30.3",
-    "form-data": "^4.0.4"
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "WECOM_INTEGRATION=1 vitest run test/integration",
+    "test:smoke": "node scripts/smoke.mjs",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "prepare": "husky",
+    "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
-    "@types/jest": "^26.0.13",
-    "@types/node": "^14.11.2",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/parser": "^4.2.0",
-    "conventional-changelog-cli": "^5.0.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.9.0",
-    "husky": "^4.3.0",
-    "jest": "^26.4.2",
-    "prettier": "2.1.2",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4.1.5"
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "@types/node": "^22.18.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "tsdown": "^0.22.14",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs}": [
+      "oxlint --fix",
+      "oxfmt --no-error-on-unmatched-pattern"
+    ],
+    "*.{json,md,yml,yaml}": "oxfmt --no-error-on-unmatched-pattern"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "resolutions": {
-    "ansi-regex": "^5.0.1",
-    "axios": "^0.30.3",
-    "braces": "^3.0.3",
-    "cross-spawn": "^7.0.6",
-    "decode-uri-component": "^0.2.2",
-    "dot-prop": "^5.3.0",
-    "follow-redirects": "^1.15.6",
-    "form-data": "^4.0.4",
-    "glob-parent": "^5.1.2",
-    "handlebars": "^4.7.8",
-    "ini": "^1.3.8",
-    "json-schema": "^0.4.0",
-    "json5": "^2.2.3",
-    "lodash": "^4.17.23",
-    "minimatch": "^3.1.3",
-    "minimist": "^1.2.8",
-    "qs": "^6.5.3",
-    "semver": "^7.6.3",
-    "semver-regex": "^3.1.4",
-    "shelljs": "^0.8.5",
-    "tmpl": "1.0.5",
-    "trim-newlines": "^3.0.1",
-    "ws": "^7.5.10",
-    "y18n": "^4.0.3"
   }
 }

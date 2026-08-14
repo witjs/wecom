@@ -1,8 +1,20 @@
-import { BaseRet } from '../../../common/interface';
+import type { BaseRet } from '../../../common/interface';
 
 export type IMediaType = 'image' | 'voice' | 'video' | 'file';
+
 export interface IMediaRet extends BaseRet {
   type: IMediaType;
   media_id: string;
-  create_at: string;
+  created_at: string;
+}
+
+export interface IMediaUploadImgRet extends BaseRet {
+  url: string;
+}
+
+export interface IMediaFile {
+  data: Buffer;
+  contentType: string;
+  filename?: string;
+  contentRange?: string;
 }

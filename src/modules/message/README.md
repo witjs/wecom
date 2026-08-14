@@ -15,13 +15,16 @@ const message = new Message({
   corpSecret: process.env.CORP_SECRET,
 });
 // 发送消息
-wecom.send({
-  touser: "aidenxiong",
-  msgtype: "text",
-  text: {
-    content: "test",
+await message.send(
+  {
+    touser: 'aidenxiong',
+    msgtype: 'text',
+    text: {
+      content: 'test',
+    },
   },
-});
+  Number(process.env.TEST_AGENT_ID)
+);
 ```
 
 ## 实例方法

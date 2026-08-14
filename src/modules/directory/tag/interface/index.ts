@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../../common/interface';
+import type { BaseRet } from '../../../../common/interface';
 
 export interface ITag {
   // 标签名称，长度限制为32个字以内（汉字或英文字母），标签名不可与其他标签重名。

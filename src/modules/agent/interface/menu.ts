@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../common/interface';
+import type { BaseRet } from '../../../common/interface';
 
 /**
  * @description 菜单按钮的类型
@@ -31,7 +31,9 @@ export interface BaseAgentMenuButtonItem {
   name: string;
   // 菜单的响应动作类型
   type?: AgentMenuButtonType;
-  sub_button?: Array<BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem>;
+  sub_button?: Array<
+    BaseAgentMenuButtonItem | ClickItem | ViewItem | MiniProgramItem
+  >;
 }
 
 /**

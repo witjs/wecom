@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../common/interface';
+import type { BaseRet } from '../../../common/interface';
 
 export namespace IMessage {
   type MsgType =
@@ -23,7 +23,7 @@ export namespace IMessage {
     touser?: string;
     // 指定接收消息的部门，部门ID列表，多个接收者用‘|’分隔，最多支持100个。
     // 当touser为”@all”时忽略本参数
-    topart?: string;
+    toparty?: string;
     // 指定接收消息的标签，标签ID列表，多个接收者用‘|’分隔，最多支持100个。
     // 当touser为”@all”时忽略本参数
     totag?: string;
@@ -66,8 +66,7 @@ export namespace IMessage {
   // 文件
   export interface File extends Omit<Common, 'enable_id_trans'> {
     msgtype: 'file';
-    voice: {
-      // 视频媒体文件id，可以调用上传临时素材接口获取
+    file: {
       media_id: string;
     };
   }
@@ -140,7 +139,7 @@ export namespace IMessage {
       // 小程序appid，必须是与当前小程序应用关联的小程序
       appid: string;
       // 消息标题，长度限制4-12个汉字（支持id转译）
-      title: '会议室预订成功通知';
+      title: string;
       // 点击消息卡片后的小程序页面，仅限本小程序内的页面。该字段不填则消息点击后不跳转。
       page?: string;
       // 消息描述，长度限制4-12个汉字（支持id转译）
@@ -452,4 +451,78 @@ export interface IMessageRet extends BaseRet {
   invaliduser?: string;
   invalidparty?: string;
   invalidtag?: string;
+  msgid?: string;
+  response_code?: string;
 }
+
+export interface RecallMessageDto {
+  msgid: string;
+}
+
+export interface UpdateTemplateCardDto {
+  userids?: string[];
+  partyids?: number[];
+  tagids?: number[];
+  atall?: 0 | 1;
+  agentid: number;
+  response_code: string;
+  button?: {
+    replace_name: string;
+  };
+}
+
+export interface GetMessageStatisticsDto {
+  time_type: 0 | 1;
+}
+
+export interface MessageStatisticsItem {
+  time: number;
+  app_send_cnt: number;
+}
+
+export interface GetMessageStatisticsRet extends BaseRet {
+  list: MessageStatisticsItem[];
+}
+
+export interface CreateAppChatDto {
+  name?: string;
+  owner?: string;
+  userlist: string[];
+  chatid?: string;
+}
+
+export interface CreateAppChatRet extends BaseRet {
+  chatid: string;
+}
+
+export interface UpdateAppChatDto {
+  chatid: string;
+  name?: string;
+  owner?: string;
+  add_user_list?: string[];
+  del_user_list?: string[];
+}
+
+export interface AppChatInfo {
+  chatid: string;
+  name: string;
+  owner: string;
+  userlist: string[];
+}
+
+export interface GetAppChatRet extends BaseRet {
+  chat_info: AppChatInfo;
+}
+
+export type AppChatMessage = {
+  chatid: string;
+} & (
+  | IMessage.Text
+  | IMessage.Image
+  | IMessage.Voice
+  | IMessage.File
+  | IMessage.TextCard
+  | IMessage.News
+  | IMessage.MPNews
+  | IMessage.Markdown
+);

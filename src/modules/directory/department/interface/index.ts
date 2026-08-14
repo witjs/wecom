@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../../common/interface';
+import type { BaseRet } from '../../../../common/interface';
 
 // export interface ICreateDepartment {
 //   // 部门名称。同一个层级的部门名称不能重复。长度限制为1~32个字符，字符不能包括\:?”<>｜
@@ -14,23 +14,20 @@ import { BaseRet } from '../../../../common/interface';
 // }
 
 export interface IDepartment {
-  // 部门id
   id: number;
-  // 部门名称。长度限制为1~32个字符，字符不能包括\:?”<>｜
   name: string;
-  // 父部门id，32位整型
   parentid: number;
-  // 英文名称。同一个层级的部门名称不能重复。需要在管理后台开启多语言支持才能生效。长度限制为1~32个字符，字符不能包括\:?”<>｜
-  name_en: string;
-  // 在父部门中的次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
-  order: number;
+  name_en?: string;
+  order?: number;
+  department_leader?: string[];
 }
 
-export interface ICreateDepartment extends Partial<Exclude<IDepartment, 'id'>> {
-  // 部门名称。长度限制为1~32个字符，字符不能包括\:?”<>｜
+export interface ICreateDepartment {
   name: string;
-  // 父部门id，32位整型
   parentid: number;
+  name_en?: string;
+  order?: number;
+  id?: number;
 }
 
 export interface IUpdateDepartment extends Partial<IDepartment> {
@@ -43,4 +40,18 @@ export interface IDepartmentRet extends BaseRet {
 }
 export interface ICreateDepartmentRet extends BaseRet {
   id: number;
+}
+
+export interface IDepartmentIdItem {
+  id: number;
+  parentid: number;
+  order: number;
+}
+
+export interface IDepartmentSimpleListRet extends BaseRet {
+  department_id: IDepartmentIdItem[];
+}
+
+export interface IDepartmentGetRet extends BaseRet {
+  department: IDepartment;
 }

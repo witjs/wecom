@@ -29,7 +29,7 @@ const tag = new Tag({
 ```javascript
 tag.create({
   tagid: 12346,
-  tagname: "测试专属",
+  tagname: '测试专属',
 });
 ```
 
@@ -49,7 +49,7 @@ tag.create({
 ```javascript
 user.update({
   tagid: 12346,
-  tagname: "修改后的名称",
+  tagname: '修改后的名称',
 });
 ```
 
@@ -73,9 +73,10 @@ user.delete(12346);
 ```
 
 **参数说明**：
+
 | 参数名 | 参数类型 | 必填 | 参数描述 |
 | :----- | :------: | :--: | :------- |
-| tagid | number | 是 | 标签 ID |
+| tagid  |  number  |  是  | 标签 ID  |
 
 ### **方法名**：`get`
 
@@ -88,9 +89,10 @@ user.get(12346);
 ```
 
 **参数说明**：
+
 | 参数名 | 参数类型 | 必填 | 参数描述 |
 | :----- | :------: | :--: | :------- |
-| tagid | number | 是 | 标签 ID |
+| tagid  |  number  |  是  | 标签 ID  |
 
 ### **方法名**：`addTagUser`
 
@@ -101,16 +103,17 @@ user.get(12346);
 ```javascript
 user.addTagUser({
   tagid: 12346,
-  userlist: ["userid", "userid2"],
+  userlist: ['userid', 'userid2'],
 });
 ```
 
 **参数说明**：
-| 参数名 | 参数类型 | 必填 | 参数描述 |
-| :----- | :------: | :--: | :------- |
-| tagid | number | 是 | 标签 ID |
-| userlist | string[] | 否 | 企业成员 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 1000 |
-| partylist | number[] | 否 | 企业部门 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 100 |
+
+| 参数名    | 参数类型 | 必填 | 参数描述                                                                          |
+| :-------- | :------: | :--: | :-------------------------------------------------------------------------------- |
+| tagid     |  number  |  是  | 标签 ID                                                                           |
+| userlist  | string[] |  否  | 企业成员 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 1000 |
+| partylist | number[] |  否  | 企业部门 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 100  |
 
 ### **方法名**：`delTagUser`
 
@@ -121,16 +124,17 @@ user.addTagUser({
 ```javascript
 user.delTagUser({
   tagid: 12346,
-  userlist: ["userid", "userid2"],
+  userlist: ['userid', 'userid2'],
 });
 ```
 
 **参数说明**：
-| 参数名 | 参数类型 | 必填 | 参数描述 |
-| :----- | :------: | :--: | :------- |
-| tagid | number | 是 | 标签 ID |
-| userlist | string[] | 否 | 企业成员 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 1000 |
-| partylist | number[] | 否 | 企业部门 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 100 |
+
+| 参数名    | 参数类型 | 必填 | 参数描述                                                                          |
+| :-------- | :------: | :--: | :-------------------------------------------------------------------------------- |
+| tagid     |  number  |  是  | 标签 ID                                                                           |
+| userlist  | string[] |  否  | 企业成员 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 1000 |
+| partylist | number[] |  否  | 企业部门 ID 列表，注意：userlist、partylist 不能同时为空，单次请求个数不超过 100  |
 
 ### **方法名**：`list`
 

@@ -1,43 +1,37 @@
-import { AxiosResponse } from 'axios';
-import { BaseRet } from '../../../common/interface';
-import { Wecom, WecomConfig } from '../../../wecom';
-import {
+import type { BaseRet } from '../../../common/interface';
+import type { WecomConfig } from '../../../wecom';
+import { Wecom } from '../../../wecom';
+import type {
   ICreateDepartment,
   ICreateDepartmentRet,
+  IDepartmentGetRet,
   IDepartmentRet,
+  IDepartmentSimpleListRet,
   IUpdateDepartment,
 } from './interface';
 
 export class Department extends Wecom {
-  constructor(config: Partial<WecomConfig>) {
+  constructor(config: Partial<WecomConfig> = {}) {
     super(config);
   }
 
   /**
-   * @description 创建部门： 使用该接口 您需要去到管理工具中 选择通讯录同步 在权限 中开启 接口调用权限
-   * @param {ICreateDepartment} data
-   * @return {*}
-   * @memberof Department
+   * @description 创建部门
    */
-  create(
-    data: ICreateDepartment
-  ): Promise<AxiosResponse<ICreateDepartmentRet>> {
+  create(data: ICreateDepartment): Promise<ICreateDepartmentRet> {
     return this.request<ICreateDepartmentRet>({
-      url: 'department/create',
+      url: '/department/create',
       method: 'POST',
       data,
     });
   }
 
   /**
-   * @description 修改部门： 使用该接口 您需要去到管理工具中 选择通讯录同步 在权限 中开启 接口调用权限
-   * @param {IUpdateDepartment} data
-   * @return {*}  {Promise<AxiosResponse<any>>}
-   * @memberof Department
+   * @description 修改部门
    */
-  update(data: IUpdateDepartment): Promise<AxiosResponse<BaseRet>> {
+  update(data: IUpdateDepartment): Promise<BaseRet> {
     return this.request<BaseRet>({
-      url: 'department/update',
+      url: '/department/update',
       method: 'POST',
       data,
     });
@@ -45,33 +39,56 @@ export class Department extends Wecom {
 
   /**
    * @description 删除部门
-   * @param {number} id
-   * @return {*}  {Promise<AxiosResponse<any>>}
-   * @memberof Department
    */
-  delete(id: number): Promise<AxiosResponse<BaseRet>> {
+  delete(id: number): Promise<BaseRet> {
     return this.request<BaseRet>({
-      url: 'department/delete',
+      url: '/department/delete',
       method: 'GET',
-      params: {
-        id,
-      },
+      params: { id },
     });
   }
 
   /**
-   * @description 获取部门详情
-   * @param {number} [id]
-   * @return {*}
-   * @memberof Department
+   * @description 获取部门列表
    */
-  list(id?: number): Promise<AxiosResponse<IDepartmentRet>> {
+  list(id?: number): Promise<IDepartmentRet> {
     return this.request<IDepartmentRet>({
-      url: 'department/list',
+      url: '/department/list',
       method: 'GET',
-      params: {
-        id,
-      },
+      params: { id },
+    });
+  }
+
+  /**
+   * @description 获取子部门 ID 列表
+   */
+  simpleList(id?: number): Promise<IDepartmentSimpleListRet> {
+    return this.request<IDepartmentSimpleListRet>({
+      url: '/department/simplelist',
+      method: 'GET',
+      params: { id },
+    });
+  }
+
+  /**
+   * @description 获取单个部门详情
+   */
+  get(id: number): Promise<IDepartmentGetRet> {
+    return this.request<IDepartmentGetRet>({
+      url: '/department/get',
+      method: 'GET',
+      params: { id },
     });
   }
 }
+
+export type {
+  ICreateDepartment,
+  ICreateDepartmentRet,
+  IDepartment,
+  IDepartmentGetRet,
+  IDepartmentIdItem,
+  IDepartmentRet,
+  IDepartmentSimpleListRet,
+  IUpdateDepartment,
+} from './interface';

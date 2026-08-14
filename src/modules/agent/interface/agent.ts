@@ -1,5 +1,5 @@
-import { WecomConfig } from '../../../wecom';
-import { BaseRet } from '../../../common/interface';
+import type { WecomConfig } from '../../../wecom';
+import type { BaseRet } from '../../../common/interface';
 
 export interface IAgentWecom extends Partial<WecomConfig> {
   agentId: number;
@@ -35,7 +35,7 @@ export interface AgentRetUser {
 }
 export interface AgentRet extends BaseRet, IAgentBase {
   // 企业应用id
-  agentid: string;
+  agentid: number;
   // 企业应用方形头像
   square_logo_url: string;
   // 企业应用可见范围（人员），其中包括userid
@@ -48,8 +48,65 @@ export interface AgentRet extends BaseRet, IAgentBase {
   };
   // 企业应用可见范围（标签）
   allow_tags: {
-    tag: number[];
+    tagid: number[];
   };
-  // 企业应用是否被停用
+  // 企业应用是否被停用。0：未被停用；1：被停用
   close: 0 | 1;
+  // 代开发自建应用发布状态
+  customized_publish_status?: 0 | 1 | 2 | 3;
+}
+
+export interface AgentListItem {
+  agentid: number;
+  name: string;
+  square_logo_url: string;
+}
+
+export interface AgentListRet extends BaseRet {
+  agentlist: AgentListItem[];
+}
+
+export type WorkbenchType = 'normal' | 'keydata' | 'image' | 'list' | 'webview';
+
+export interface WorkbenchKeyDataItem {
+  key: string;
+  data: string;
+  jump_url?: string;
+  pagepath?: string;
+}
+
+export interface WorkbenchListItem {
+  title: string;
+  jump_url?: string;
+  pagepath?: string;
+}
+
+export interface WorkbenchTemplate {
+  type: WorkbenchType;
+  image?: {
+    url: string;
+    jump_url?: string;
+    pagepath?: string;
+  };
+  keydata?: {
+    items: WorkbenchKeyDataItem[];
+  };
+  list?: {
+    items: WorkbenchListItem[];
+  };
+  webview?: {
+    url: string;
+    jump_url?: string;
+    pagepath?: string;
+  };
+}
+
+export interface SetWorkbenchTemplateDto extends WorkbenchTemplate {
+  replace_user_data?: boolean;
+}
+
+export interface GetWorkbenchTemplateRet extends BaseRet, WorkbenchTemplate {}
+
+export interface SetWorkbenchDataDto extends WorkbenchTemplate {
+  userid: string;
 }

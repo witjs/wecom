@@ -1,182 +1,201 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
-import { BaseRet } from './common/interface';
-export interface WecomConfig {
-  // 企业微信企业ID
-  corpId: string;
-  // 企业微信corpsecret
-  corpSecret: string;
-  // 企业微信服务器地址
-  baseURL?: string;
-  // 认证失败的错误重试次数 其他错误信息不进行重试
-  retryTimes?: number;
+import type { BaseRet } from './common/interface';
+import {
+  getGlobalConfig,
+  resolveConfig,
+  setGlobalConfig,
+  type ResolvedWecomConfig,
+  type WecomConfig,
+} from './core/config';
+import {
+  WecomApiError,
+  WecomError,
+  WecomHttpError,
+  isTokenInvalidErrcode,
+} from './core/errors';
+import { getTokenManager, type TokenManager } from './core/token';
+import { FetchTransport } from './core/transport';
+import type { WecomRequestOptions } from './core/types';
+
+export type { WecomConfig, WecomRequestOptions, ResolvedWecomConfig };
+
+interface TokenResponse extends BaseRet {
+  access_token?: string;
+  expires_in?: number;
 }
 
-const globalConfig: WecomConfig = {
-  // 企业微信corpid
-  corpId: null,
-  // 企业微信corpsecret
-  corpSecret: null,
-  // 企业微信服务器地址
-  baseURL: 'https://qyapi.weixin.qq.com/cgi-bin/',
-  // 认证失败的错误重试次数 其他错误信息不进行重试
-  retryTimes: 3,
-};
-
-const retry = <T>(handler: () => Promise<T>, times = 3): Promise<T> => {
-  return new Promise((resolve, reject) => {
-    handler()
-      .then(resolve)
-      .catch((e) => {
-        times > 0 ? retry(handler, --times) : reject(e);
-      });
-  });
-};
-
 /**
- * @description 企业微信Node Api
- * @export
- * @class Wecom
+ * @description 企业微信 Node API
  */
 export class Wecom {
-  // 企业微信基本配置信息
-  public readonly config: WecomConfig;
-  // 发送请求的client
-  public readonly client: AxiosInstance;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public readonly api: Record<string, any> = {};
-  // 请求需要用到的token
-  private token: string;
+  public readonly config: ResolvedWecomConfig;
+  private readonly transport: FetchTransport;
+  private readonly tokenManager: TokenManager;
 
   /**
-   * @description 设置全局配置
-   * @static
-   * @param {Partial<WecomConfig>} config
-   * @memberof Wecom
+   * @deprecated Prefer passing config to each client constructor.
    */
   public static setGlobal(config: Partial<WecomConfig>): void {
-    Object.assign(globalConfig, config);
-  }
-  /**
-   * Creates an instance of Wecom.
-   * @param {Partial<WecomConfig>} config 企业微信基本配置信息
-   * @memberof Wecom
-   */
-  constructor(config: Partial<WecomConfig>) {
-    this.config = {
-      ...globalConfig,
-      ...config,
-    };
-    // 对参数做一些简单的校验 如果必要的参数不完整的话 直接抛出异常
-    for (const [key, value] of Object.entries(this.config)) {
-      if (!value) {
-        throw new Error(`${key} should not be ${value}`);
-      }
-    }
-    // 创建请求的客户端
-    this.client = axios.create({
-      baseURL: this.config.baseURL,
-      validateStatus: () => {
-        return true;
-      },
-      params: {},
-    });
-    // 拦截器添加access_token
-    this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
-      if (config.url !== '/gettoken') {
-        if (!this.token) {
-          await this.getToken();
-        }
-        config.params.access_token = this.token;
-      }
-      return config;
-    }, Promise.reject);
-    // 如果认证失败的话 尝试重新获取token然后重试
-    this.client.interceptors.response.use(
-      async (response) => {
-        if (
-          [40014, 42001].includes(response.data.errcode) // 认证失败
-        ) {
-          this.token = null;
-          throw new axios.Cancel('TOKENERROR');
-        } else {
-          return response;
-        }
-      },
-      async (error) => {
-        if (
-          error.response &&
-          // 认证失败
-          error.response.status === 401
-        ) {
-          this.token = null;
-          return this.client.request(error.config);
-        }
-        return Promise.reject(error);
-      }
-    );
+    setGlobalConfig(config);
   }
 
-  /**
-   * @description 获取接口请求所需的token
-   * @return {*}  {Promise<string>}
-   * @memberof Wecom
-   */
+  constructor(config: Partial<WecomConfig> = {}) {
+    this.config = resolveConfig(config);
+    this.transport = new FetchTransport({
+      baseURL: this.config.baseURL,
+      timeout: this.config.timeout,
+      headers: this.config.headers,
+      fetch: this.config.fetch,
+      logger: this.config.logger,
+      signal: this.config.signal,
+    });
+    this.tokenManager = getTokenManager({
+      corpId: this.config.corpId,
+      corpSecret: this.config.corpSecret,
+      baseURL: this.config.baseURL,
+      store: this.config.tokenStore,
+    });
+  }
+
   async getToken(): Promise<string> {
-    const { data } = await this.client.get('/gettoken', {
+    return this.tokenManager.getToken(() => this.fetchAccessToken());
+  }
+
+  async request<T = BaseRet>(options: WecomRequestOptions): Promise<T> {
+    return this.sendWithRetry<T>(options, this.config.retryTimes);
+  }
+
+  private async sendWithRetry<T>(
+    options: WecomRequestOptions,
+    retriesLeft: number
+  ): Promise<T> {
+    try {
+      return await this.sendOnce<T>(options);
+    } catch (error) {
+      if (
+        error instanceof WecomError &&
+        error.retryable &&
+        retriesLeft > 0 &&
+        !isUserAborted(options.signal, this.config.signal)
+      ) {
+        if (
+          error instanceof WecomApiError &&
+          isTokenInvalidErrcode(error.errcode)
+        ) {
+          await this.tokenManager.invalidate();
+        }
+        this.config.logger?.warn?.('wecom.retry', {
+          url: options.url,
+          retriesLeft,
+          message: error.message,
+        });
+        await delay(backoffMs(this.config.retryTimes - retriesLeft));
+        return this.sendWithRetry(options, retriesLeft - 1);
+      }
+      throw error;
+    }
+  }
+
+  private async sendOnce<T>(options: WecomRequestOptions): Promise<T> {
+    const params = { ...options.params };
+    if (!options.skipAuth) {
+      params.access_token = await this.getToken();
+    }
+
+    const response = await this.transport.request<T & Partial<BaseRet>>({
+      ...options,
+      params,
+    });
+    const requestId =
+      response.headers.get('x-request-id') ??
+      response.headers.get('request-id') ??
+      undefined;
+    const data = response.data;
+
+    if (isBaseRet(data) && data.errcode !== 0) {
+      throw new WecomApiError({
+        errcode: data.errcode,
+        errmsg: data.errmsg,
+        requestId,
+        response: data,
+      });
+    }
+
+    if (response.status === 401) {
+      await this.tokenManager.invalidate();
+      throw new WecomHttpError({
+        status: 401,
+        requestId,
+        retryable: true,
+        response: data,
+      });
+    }
+
+    if (!isHttpSuccess(response.status)) {
+      throw new WecomHttpError({
+        status: response.status,
+        requestId,
+        response: data,
+      });
+    }
+
+    return data as T;
+  }
+
+  private async fetchAccessToken(): Promise<{
+    accessToken: string;
+    expiresIn: number;
+  }> {
+    const data = await this.request<TokenResponse>({
+      url: '/gettoken',
+      method: 'GET',
       params: {
         corpid: this.config.corpId,
         corpsecret: this.config.corpSecret,
       },
+      skipAuth: true,
     });
     if (!data.access_token) {
-      throw new Error(data.errmsg);
+      throw new WecomApiError({
+        errcode: data.errcode ?? -1,
+        errmsg: data.errmsg || 'Failed to get access_token',
+        response: data,
+      });
     }
-    return (this.token = data.access_token);
-  }
-
-  /**
-   * @description 发送企业微信请求
-   * @template T
-   * @template R
-   * @param {AxiosRequestConfig} config 配置参数和axios的参数保持一致
-   * @return {*}  {Promise<R>}
-   * @memberof Wecom
-   */
-  async request<T = BaseRet, R = AxiosResponse<T>>(
-    config: AxiosRequestConfig
-  ): Promise<R> {
-    const doRequest = (): Promise<R> => {
-      return this.client.request<T, R>(config);
+    return {
+      accessToken: data.access_token,
+      expiresIn: data.expires_in ?? 7200,
     };
-    return retry(doRequest, this.config.retryTimes);
   }
+}
 
-  /**
-   * @description 添加API
-   * @template T
-   * @param {string} path
-   * @param {() => T} fn
-   * @return {*}  {Wecom}
-   * @memberof Wecom
-   */
-  createApi<T = unknown>(path: string, fn: () => T): Wecom {
-    let currentPath = this.api;
-    const pathArr = path.split('.');
-    while (pathArr.length) {
-      const key = pathArr.shift();
-      // 如果已经到了最后一位
-      if (pathArr.length === 0) {
-        // 查询是否已经在当前的命名空间下有内容
-        if (currentPath[key]) {
-          throw new Error('Path Conflic');
-        }
-        currentPath[key] = fn.bind(this);
-      } else {
-        // 添加命名空间
-        currentPath[key] = currentPath[key] || {};
-        currentPath = currentPath[key];
-      }
-    }
-    return this;
-  }
+export { getGlobalConfig };
+
+function isBaseRet(value: unknown): value is BaseRet {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'errcode' in value &&
+    typeof (value as BaseRet).errcode === 'number'
+  );
+}
+
+function isHttpSuccess(status: number): boolean {
+  return (status >= 200 && status < 300) || status === 206;
+}
+
+function isUserAborted(
+  requestSignal?: AbortSignal,
+  configSignal?: AbortSignal
+): boolean {
+  return Boolean(requestSignal?.aborted || configSignal?.aborted);
+}
+
+function backoffMs(attempt: number): number {
+  return Math.min(200 * 2 ** attempt, 2000);
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }

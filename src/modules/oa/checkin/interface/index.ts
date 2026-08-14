@@ -1,4 +1,4 @@
-import { BaseRet } from '../../../../common/interface';
+import type { BaseRet } from '../../../../common/interface';
 
 export interface QueryCheckinData {
   opencheckindatatype: 1 | 2 | 3;
@@ -41,6 +41,14 @@ export interface ICheckinData {
   lng?: number;
   // 打卡设备id
   deviceid?: string;
+  // 标准打卡时间
+  sch_checkin_time?: number;
+  // 规则 id
+  groupid?: number;
+  // 班次 id
+  schedule_id?: number;
+  // 时段 id
+  timeline_id?: number;
 }
 /**
  * @description 获取打卡信息的返回值

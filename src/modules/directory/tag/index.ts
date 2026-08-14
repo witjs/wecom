@@ -1,49 +1,40 @@
-import { AxiosResponse } from 'axios';
-import { BaseRet } from '../../../common/interface';
-import { Wecom, WecomConfig } from '../../../wecom';
-import {
-  TagUserRet,
+import type { BaseRet } from '../../../common/interface';
+import type { WecomConfig } from '../../../wecom';
+import { Wecom } from '../../../wecom';
+import type {
   ITag,
   ITagCreateDto,
   ITagUserDto,
   TagCreateRet,
   TagListRet,
   TagUserListRet,
+  TagUserRet,
 } from './interface';
 
 export class Tag extends Wecom {
-  constructor(config: Partial<WecomConfig>) {
+  constructor(config: Partial<WecomConfig> = {}) {
     super(config);
   }
 
   /**
    * @description 创建标签
-   * @param {(ITagCreateDto | string)} tag
-   * @return {*}  {Promise<AxiosResponse<TagCreateRet>>}
-   * @memberof Tag
    */
-  create(tag: ITagCreateDto | string): Promise<AxiosResponse<TagCreateRet>> {
-    if (typeof tag === 'string') {
-      tag = {
-        tagname: tag,
-      };
-    }
+  create(tag: ITagCreateDto | string): Promise<TagCreateRet> {
+    const data: ITagCreateDto =
+      typeof tag === 'string' ? { tagname: tag } : tag;
     return this.request<TagCreateRet>({
-      url: 'tag/create',
+      url: '/tag/create',
       method: 'POST',
-      data: tag,
+      data,
     });
   }
 
   /**
    * @description 更新标签名字
-   * @param {ITag} tag
-   * @return {*}  {Promise<AxiosResponse<BaseRet>>}
-   * @memberof Tag
    */
-  update(tag: ITag): Promise<AxiosResponse<BaseRet>> {
+  update(tag: ITag): Promise<BaseRet> {
     return this.request<BaseRet>({
-      url: 'tag/update',
+      url: '/tag/update',
       method: 'POST',
       data: tag,
     });
@@ -51,29 +42,21 @@ export class Tag extends Wecom {
 
   /**
    * @description 删除标签
-   * @param {number} tagid
-   * @return {*}  {Promise<AxiosResponse<BaseRet>>}
-   * @memberof Tag
    */
-  delete(tagid: number): Promise<AxiosResponse<BaseRet>> {
+  delete(tagid: number): Promise<BaseRet> {
     return this.request<BaseRet>({
-      url: 'tag/delete',
+      url: '/tag/delete',
       method: 'GET',
-      params: {
-        tagid,
-      },
+      params: { tagid },
     });
   }
 
   /**
    * @description 获取标签成员
-   * @param {number} tagid
-   * @return {*}  {Promise<AxiosResponse<TagUserListRet>>}
-   * @memberof Tag
    */
-  get(tagid: number): Promise<AxiosResponse<TagUserListRet>> {
+  get(tagid: number): Promise<TagUserListRet> {
     return this.request<TagUserListRet>({
-      url: 'tag/get',
+      url: '/tag/get',
       method: 'GET',
       params: { tagid },
     });
@@ -81,13 +64,10 @@ export class Tag extends Wecom {
 
   /**
    * @description 增加标签成员
-   * @param {ITagUserDto} data
-   * @return {*}  {Promise<AxiosResponse<TagUserRet>>}
-   * @memberof Tag
    */
-  addTagUser(data: ITagUserDto): Promise<AxiosResponse<TagUserRet>> {
+  addTagUser(data: ITagUserDto): Promise<TagUserRet> {
     return this.request<TagUserRet>({
-      url: 'tag/addtagusers',
+      url: '/tag/addtagusers',
       method: 'POST',
       data,
     });
@@ -95,13 +75,10 @@ export class Tag extends Wecom {
 
   /**
    * @description 删除标签成员
-   * @param {ITagUserDto} data
-   * @return {*}  {Promise<AxiosResponse<TagUserRet>>}
-   * @memberof Tag
    */
-  delTagUser(data: ITagUserDto): Promise<AxiosResponse<TagUserRet>> {
+  delTagUser(data: ITagUserDto): Promise<TagUserRet> {
     return this.request<TagUserRet>({
-      url: 'tag/deltagusers',
+      url: '/tag/deltagusers',
       method: 'POST',
       data,
     });
@@ -109,13 +86,22 @@ export class Tag extends Wecom {
 
   /**
    * @description 获取标签列表
-   * @return {*}  {Promise<AxiosResponse<TagListRet>>}
-   * @memberof Tag
    */
-  list(): Promise<AxiosResponse<TagListRet>> {
+  list(): Promise<TagListRet> {
     return this.request<TagListRet>({
-      url: 'tag/list',
+      url: '/tag/list',
       method: 'GET',
     });
   }
 }
+
+export type {
+  ITag,
+  ITagCreateDto,
+  ITagUserDto,
+  TagCreateRet,
+  TagListRet,
+  TagUserItem,
+  TagUserListRet,
+  TagUserRet,
+} from './interface';

@@ -19,6 +19,7 @@ const agent = new Agent({
 });
 // 获取应用详情
 const ret = await agent.get();
+console.log(ret.agentid);
 ```
 
 ## 实例方法
@@ -41,7 +42,7 @@ agent.get();
 
 ```javascript
 agent.set({
-  name: "新应用名称",
+  name: '新应用名称',
 });
 ```
 

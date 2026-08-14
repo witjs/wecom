@@ -31,8 +31,8 @@ const ret = await agent.get();
 
 ```javascript
 agent.create({
-  url: "menu/create",
-  method: "POST",
+  url: 'menu/create',
+  method: 'POST',
   params: { agentid: this.agentId },
   data,
 });

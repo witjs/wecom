@@ -1,48 +1,78 @@
-import { Wecom, WecomConfig } from '../../wecom';
-import { IMediaRet, IMediaType } from './interface';
-import FormData from 'form-data';
-import { AxiosResponse } from 'axios';
-import { ReadStream } from 'fs';
+import type { WecomConfig } from '../../wecom';
+import { Wecom } from '../../wecom';
+import type {
+  IMediaFile,
+  IMediaRet,
+  IMediaType,
+  IMediaUploadImgRet,
+} from './interface';
+import { toFormData, type MediaUploadSource } from './upload';
 
-interface Boundary {
-  _boundary?: string;
-}
-
-/**
- * @description 企业微信素材管理
- * @export
- * @class Media
- * @extends {Wecom}
- */
 export class Media extends Wecom {
-  constructor(config: Partial<WecomConfig>) {
+  constructor(config: Partial<WecomConfig> = {}) {
     super(config);
   }
+
   /**
-   * @description 上传文件到企业微信
-   * @template T
-   * @template R
-   * @param {(Buffer | ReadStream)} file
-   * @param {IMediaType} [type="file"]
-   * @return {*}  {Promise<R>}
-   * @memberof Media
+   * @description 上传临时素材
    */
-  upload(
-    file: Buffer | ReadStream,
-    type: IMediaType = 'file'
-  ): Promise<AxiosResponse<IMediaRet>> {
-    const form: FormData & Boundary = new FormData();
-    form.append('media', file);
+  async upload(
+    file: MediaUploadSource,
+    type: IMediaType = 'file',
+    filename?: string
+  ): Promise<IMediaRet> {
     return this.request<IMediaRet>({
-      url: 'media/upload',
+      url: '/media/upload',
       method: 'POST',
-      params: {
-        type,
-      },
-      headers: {
-        'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-      },
-      data: form,
+      params: { type },
+      data: await toFormData(file, filename),
+    });
+  }
+
+  /**
+   * @description 上传图片，返回永久 URL
+   */
+  async uploadImg(
+    file: MediaUploadSource,
+    filename?: string
+  ): Promise<IMediaUploadImgRet> {
+    return this.request<IMediaUploadImgRet>({
+      url: '/media/uploadimg',
+      method: 'POST',
+      data: await toFormData(file, filename),
+    });
+  }
+
+  /**
+   * @description 获取临时素材
+   */
+  get(mediaId: string, range?: string): Promise<IMediaFile> {
+    return this.request<IMediaFile>({
+      url: '/media/get',
+      method: 'GET',
+      params: { media_id: mediaId },
+      headers: range ? { Range: range } : undefined,
+      responseType: 'arrayBuffer',
+    });
+  }
+
+  /**
+   * @description 获取高清语音素材
+   */
+  getHdVoice(mediaId: string): Promise<IMediaFile> {
+    return this.request<IMediaFile>({
+      url: '/media/get/jssdk',
+      method: 'GET',
+      params: { media_id: mediaId },
+      responseType: 'arrayBuffer',
     });
   }
 }
+
+export type { MediaUploadSource } from './upload';
+export type {
+  IMediaFile,
+  IMediaRet,
+  IMediaType,
+  IMediaUploadImgRet,
+} from './interface';
