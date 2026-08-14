@@ -343,6 +343,199 @@ describe('module endpoint contracts', () => {
     );
   });
 
+  it('Media.uploadImg and getHdVoice use the official paths', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const media = new Media({ ...config, fetch });
+    await media.uploadImg(Buffer.from('img'), 'logo.png');
+    expect(lastApiCall(calls)?.url.pathname).toContain('/media/uploadimg');
+  });
+
+  it('ExternalContact remaining methods use the official paths', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const external = new ExternalContact({ ...config, fetch });
+
+    await external.remark({ userid: 'alice', external_userid: 'wo1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/remark'
+    );
+
+    await external.addContactWay({ type: 1, scene: 2 });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/add_contact_way'
+    );
+    await external.getContactWay('cfg-1');
+    expect(lastApiCall(calls)?.body).toEqual({ config_id: 'cfg-1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/get_contact_way'
+    );
+    await external.updateContactWay({ config_id: 'cfg-1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/update_contact_way'
+    );
+    await external.delContactWay('cfg-1');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/del_contact_way'
+    );
+    await external.listContactWay();
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/list_contact_way'
+    );
+
+    await external.getCorpTagList(['tag-1'], ['group-1']);
+    expect(lastApiCall(calls)?.body).toEqual({
+      tag_id: ['tag-1'],
+      group_id: ['group-1'],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/get_corp_tag_list'
+    );
+    await external.addCorpTag({ group_name: 'vip', tag: [{ name: 'gold' }] });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/add_corp_tag'
+    );
+    await external.editCorpTag({ id: 'tag-1', name: 'gold' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/edit_corp_tag'
+    );
+    await external.delCorpTag({ tag_id: ['tag-1'] });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/del_corp_tag'
+    );
+    await external.markTag({
+      userid: 'alice',
+      external_userid: 'wo1',
+      add_tag: ['tag-1'],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/mark_tag'
+    );
+
+    await external.groupChatGet({ chat_id: 'chat-1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/groupchat/get'
+    );
+    await external.sendWelcomeMsg({ welcome_code: 'code' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/send_welcome_msg'
+    );
+    await external.addMsgTemplate({
+      chat_type: 'single',
+      text: { content: 'hi' },
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/add_msg_template'
+    );
+    await external.transferCustomer({
+      handover_userid: 'a',
+      takeover_userid: 'b',
+      external_userid: ['wo1'],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/transfer_customer'
+    );
+    await external.resignedTransferCustomer({
+      handover_userid: 'a',
+      takeover_userid: 'b',
+      external_userid: ['wo1'],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/resigned/transfer_customer'
+    );
+    await external.getUnassignedList();
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/get_unassigned_list'
+    );
+    await external.getUserBehaviorData({
+      userid: ['alice'],
+      start_time: 1,
+      end_time: 2,
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/externalcontact/get_user_behavior_data'
+    );
+  });
+
+  it('Calendar and Schedule remaining methods use the official paths', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const calendar = new Calendar({ ...config, fetch });
+    await calendar.update({
+      calendar: { cal_id: 'c1', summary: 'team', color: 1 },
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/calendar/update');
+    await calendar.get({ cal_id_list: ['c1'] });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/calendar/get');
+    await calendar.delete({ cal_id: 'c1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/calendar/del');
+
+    const schedule = new Schedule({ ...config, fetch });
+    await schedule.update({
+      schedule: { schedule_id: 's1', start_time: 1, end_time: 2 },
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/schedule/update');
+    await schedule.get({ schedule_id_list: ['s1'] });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/schedule/get');
+    await schedule.delete({ schedule_id: 's1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/schedule/del');
+    await schedule.getByCalendar({ cal_id: 'c1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/oa/schedule/get_by_calendar'
+    );
+  });
+
+  it('MeetingRoom remaining methods use the official paths', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const room = new MeetingRoom({ ...config, fetch });
+    await room.edit({ meetingroom_id: 1, name: 'A1', capacity: 8 });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/meetingroom/edit');
+    await room.delete(1);
+    expect(lastApiCall(calls)?.body).toEqual({ meetingroom_id: 1 });
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/meetingroom/del');
+    await room.list();
+    expect(lastApiCall(calls)?.url.pathname).toContain('/oa/meetingroom/list');
+    await room.cancelBook({ booking_id: 'm1' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/oa/meetingroom/cancel_book'
+    );
+    await room.getBookingInfo({ meetingroom_id: 1 });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/oa/meetingroom/get_booking_info'
+    );
+  });
+
+  it('Invoice remaining methods use the official paths', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const invoice = new Invoice({ ...config, fetch });
+    await invoice.updateInvoiceStatus({
+      card_id: 'c',
+      encrypt_code: 'e',
+      reimburse_status: 'INVOICE_REIMBURSE_INIT',
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/card/invoice/reimburse/updateinvoicestatus'
+    );
+    await invoice.batchUpdateInvoiceStatus({
+      openid: 'o',
+      reimburse_status: 'INVOICE_REIMBURSE_INIT',
+      invoice_list: [{ card_id: 'c', encrypt_code: 'e' }],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/card/invoice/reimburse/updatestatusbatch'
+    );
+    await invoice.batchGetInvoiceInfo({
+      item_list: [{ card_id: 'c', encrypt_code: 'e' }],
+    });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/card/invoice/reimburse/getinvoiceinfobatch'
+    );
+  });
+
+  it('Department.list omits id when it is not provided', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const department = new Department({ ...config, fetch });
+    await department.list();
+    expect(lastApiCall(calls)?.url.searchParams.has('id')).toBe(false);
+  });
+
   it('Media.get returns binary content', async () => {
     const { fetch, calls } = createMockFetch((request) => {
       if (request.url.pathname.includes('gettoken')) {

@@ -4,7 +4,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['test/**/*.spec.ts'],
-    exclude: ['test/integration/**'],
+    exclude:
+      process.env.WECOM_INTEGRATION === '1' ? [] : ['test/integration/**'],
     restoreMocks: true,
   },
 });

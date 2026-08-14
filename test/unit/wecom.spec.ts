@@ -1,11 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
+  MemoryTokenStore,
   Wecom,
   WecomApiError,
   WecomConfigError,
   WecomHttpError,
+  WecomNetworkError,
   WecomTimeoutError,
 } from '../../src';
+import { getGlobalConfig } from '../../src/core/config';
 import {
   createMockFetch,
   createWecomFetch,
@@ -27,11 +30,23 @@ describe('Wecom config', () => {
     expect(() => new Wecom({ corpSecret: 'secret' })).toThrow(WecomConfigError);
   });
 
+  it('throws when corpSecret is missing', () => {
+    expect(() => new Wecom({ corpId: 'ww-corp' })).toThrow(WecomConfigError);
+  });
+
   it('allows retryTimes 0', () => {
     const { fetch } = createWecomFetch();
     expect(
       () => new Wecom({ ...baseConfig, retryTimes: 0, fetch })
     ).not.toThrow();
+  });
+
+  it('uses official defaults', () => {
+    const { fetch } = createWecomFetch();
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    expect(wecom.config.baseURL).toBe('https://qyapi.weixin.qq.com/cgi-bin/');
+    expect(wecom.config.retryTimes).toBe(3);
+    expect(wecom.config.timeout).toBe(30_000);
   });
 
   it('merges setGlobal into instance config', () => {
@@ -40,6 +55,7 @@ describe('Wecom config', () => {
     const wecom = new Wecom({ fetch });
     expect(wecom.config.corpId).toBe('global-corp');
     expect(wecom.config.corpSecret).toBe('global-secret');
+    expect(getGlobalConfig().corpId).toBe('global-corp');
   });
 });
 
@@ -63,6 +79,54 @@ describe('Wecom request', () => {
     await wecom.getToken();
     expect(calls).toHaveLength(1);
     expect(calls[0].url.searchParams.has('access_token')).toBe(false);
+  });
+
+  it('skips auth when skipAuth is set', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    await wecom.request({ url: '/debug/echo', skipAuth: true });
+    expect(calls).toHaveLength(1);
+    expect(calls[0].url.pathname).toContain('/debug/echo');
+    expect(calls[0].url.searchParams.has('access_token')).toBe(false);
+  });
+
+  it('does not mutate caller params when injecting the token', async () => {
+    const { fetch } = createWecomFetch({
+      get: () => ({ errcode: 0, errmsg: 'ok' }),
+    });
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    const params = { userid: 'alice' };
+    await wecom.request({ url: '/user/get', params });
+    expect(params).toEqual({ userid: 'alice' });
+  });
+
+  it('attaches requestId from response headers to API errors', async () => {
+    const { fetch } = createWecomFetch({
+      get: () =>
+        jsonResponse(
+          { errcode: 60003, errmsg: 'invalid user' },
+          { headers: { 'x-request-id': 'req-42' } }
+        ),
+    });
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    await expect(
+      wecom.request({ url: '/user/get', params: { userid: 'missing' } })
+    ).rejects.toMatchObject({
+      name: 'WecomApiError',
+      requestId: 'req-42',
+    });
+  });
+
+  it('throws when gettoken succeeds without an access_token', async () => {
+    const { fetch } = createMockFetch(() => ({
+      errcode: 0,
+      errmsg: '',
+    }));
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    await expect(wecom.getToken()).rejects.toMatchObject({
+      name: 'WecomApiError',
+      errmsg: 'Failed to get access_token',
+    });
   });
 
   it('returns unwrapped business data', async () => {
@@ -89,6 +153,33 @@ describe('Wecom request', () => {
     expect(
       calls.filter((call) => call.url.pathname.includes('user/get'))
     ).toHaveLength(1);
+  });
+
+  it('refreshes token and retries on errcode 42001', async () => {
+    let tokenCalls = 0;
+    let userCalls = 0;
+    const { fetch } = createMockFetch((request) => {
+      if (request.url.pathname.includes('gettoken')) {
+        tokenCalls += 1;
+        return {
+          errcode: 0,
+          errmsg: 'ok',
+          access_token: `token-${tokenCalls}`,
+          expires_in: 7200,
+        };
+      }
+      userCalls += 1;
+      if (userCalls === 1) {
+        return { errcode: 42001, errmsg: 'access_token expired' };
+      }
+      return { errcode: 0, errmsg: 'ok', userid: 'alice' };
+    });
+    const wecom = new Wecom({ ...baseConfig, fetch });
+    await expect(
+      wecom.request({ url: '/user/get', params: { userid: 'alice' } })
+    ).resolves.toMatchObject({ userid: 'alice' });
+    expect(tokenCalls).toBe(2);
+    expect(userCalls).toBe(2);
   });
 
   it('refreshes token and retries on errcode 40014', async () => {
@@ -142,6 +233,67 @@ describe('Wecom request', () => {
       wecom.request({ url: '/user/get', params: { userid: 'alice' } })
     ).resolves.toMatchObject({ userid: 'alice' });
     expect(tokenCalls).toBe(2);
+  });
+
+  it('retries retryable HTTP 429 then succeeds', async () => {
+    let userCalls = 0;
+    const { fetch } = createMockFetch((request) => {
+      if (request.url.pathname.includes('gettoken')) {
+        return {
+          errcode: 0,
+          errmsg: 'ok',
+          access_token: 'token-1',
+          expires_in: 7200,
+        };
+      }
+      userCalls += 1;
+      if (userCalls === 1) {
+        return jsonResponse({ message: 'slow down' }, { status: 429 });
+      }
+      return { errcode: 0, errmsg: 'ok', userid: 'alice' };
+    });
+    const wecom = new Wecom({ ...baseConfig, retryTimes: 1, fetch });
+    await expect(
+      wecom.request({ url: '/user/get', params: { userid: 'alice' } })
+    ).resolves.toMatchObject({ userid: 'alice' });
+    expect(userCalls).toBe(2);
+  });
+
+  it('retries a network error then succeeds', async () => {
+    let userCalls = 0;
+    const { fetch } = createMockFetch((request) => {
+      if (request.url.pathname.includes('gettoken')) {
+        return {
+          errcode: 0,
+          errmsg: 'ok',
+          access_token: 'token-1',
+          expires_in: 7200,
+        };
+      }
+      userCalls += 1;
+      if (userCalls === 1) {
+        throw new Error('ECONNRESET');
+      }
+      return { errcode: 0, errmsg: 'ok', userid: 'alice' };
+    });
+    const wecom = new Wecom({ ...baseConfig, retryTimes: 1, fetch });
+    await expect(
+      wecom.request({ url: '/user/get', params: { userid: 'alice' } })
+    ).resolves.toMatchObject({ userid: 'alice' });
+    expect(userCalls).toBe(2);
+  });
+
+  it('does not retry a non-retryable API error', async () => {
+    const { fetch, calls } = createWecomFetch({
+      get: () => ({ errcode: 60003, errmsg: 'invalid user' }),
+    });
+    const wecom = new Wecom({ ...baseConfig, retryTimes: 2, fetch });
+    await expect(
+      wecom.request({ url: '/user/get', params: { userid: 'missing' } })
+    ).rejects.toBeInstanceOf(WecomApiError);
+    expect(
+      calls.filter((call) => call.url.pathname.includes('user/get'))
+    ).toHaveLength(1);
   });
 
   it('stops retrying after retryTimes', async () => {
@@ -204,6 +356,24 @@ describe('Wecom request', () => {
     );
   });
 
+  it('throws WecomNetworkError when fetch fails and retries are exhausted', async () => {
+    const { fetch } = createMockFetch((request) => {
+      if (request.url.pathname.includes('gettoken')) {
+        return {
+          errcode: 0,
+          errmsg: 'ok',
+          access_token: 'token-1',
+          expires_in: 7200,
+        };
+      }
+      throw new Error('dns failed');
+    });
+    const wecom = new Wecom({ ...baseConfig, fetch, retryTimes: 0 });
+    await expect(wecom.request({ url: '/user/get' })).rejects.toBeInstanceOf(
+      WecomNetworkError
+    );
+  });
+
   it('does not retry after user abort', async () => {
     const controller = new AbortController();
     const { fetch } = createMockFetch((request) => {
@@ -226,6 +396,64 @@ describe('Wecom request', () => {
 });
 
 describe('Wecom token cache', () => {
+  it('does not share tokens across different credentials', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const first = new Wecom({ ...baseConfig, fetch });
+    const second = new Wecom({
+      corpId: 'other-corp',
+      corpSecret: 'secret',
+      fetch,
+    });
+    await first.getToken();
+    await second.getToken();
+    expect(
+      calls.filter((call) => call.url.pathname.includes('gettoken'))
+    ).toHaveLength(2);
+  });
+
+  it('shares tokens when only the baseURL trailing slash differs', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const first = new Wecom({
+      ...baseConfig,
+      baseURL: 'https://qyapi.weixin.qq.com/cgi-bin',
+      fetch,
+    });
+    const second = new Wecom({
+      ...baseConfig,
+      baseURL: 'https://qyapi.weixin.qq.com/cgi-bin/',
+      fetch,
+    });
+    await first.getToken();
+    await second.getToken();
+    expect(
+      calls.filter((call) => call.url.pathname.includes('gettoken'))
+    ).toHaveLength(1);
+  });
+
+  it('isolates tokens when a custom store is provided', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const store = new MemoryTokenStore();
+    const custom = new Wecom({ ...baseConfig, fetch, tokenStore: store });
+    const shared = new Wecom({ ...baseConfig, fetch });
+    await custom.getToken();
+    await shared.getToken();
+    expect(
+      calls.filter((call) => call.url.pathname.includes('gettoken'))
+    ).toHaveLength(2);
+  });
+
+  it('reuses a custom store across instances', async () => {
+    const { fetch, calls } = createWecomFetch();
+    const store = new MemoryTokenStore();
+    const first = new Wecom({ ...baseConfig, fetch, tokenStore: store });
+    const second = new Wecom({ ...baseConfig, fetch, tokenStore: store });
+    await first.getToken();
+    await second.getToken();
+    expect(
+      calls.filter((call) => call.url.pathname.includes('gettoken'))
+    ).toHaveLength(1);
+  });
+
   it('shares tokens across instances with the same credentials', async () => {
     const { fetch, calls } = createWecomFetch();
     const first = new Wecom({ ...baseConfig, fetch });
@@ -271,5 +499,34 @@ describe('Wecom logger', () => {
     const wecom = new Wecom({ ...baseConfig, fetch, logger });
     await wecom.getToken();
     expect(logger.debug).toHaveBeenCalled();
+  });
+
+  it('warns when retrying a recoverable error', async () => {
+    const logger = {
+      debug: vi.fn(),
+      warn: vi.fn(),
+    };
+    let userCalls = 0;
+    const { fetch } = createMockFetch((request) => {
+      if (request.url.pathname.includes('gettoken')) {
+        return {
+          errcode: 0,
+          errmsg: 'ok',
+          access_token: 'token-1',
+          expires_in: 7200,
+        };
+      }
+      userCalls += 1;
+      if (userCalls === 1) {
+        return { errcode: 45009, errmsg: 'api freq out of limit' };
+      }
+      return { errcode: 0, errmsg: 'ok' };
+    });
+    const wecom = new Wecom({ ...baseConfig, fetch, logger, retryTimes: 1 });
+    await wecom.request({ url: '/user/get' });
+    expect(logger.warn).toHaveBeenCalledWith(
+      'wecom.retry',
+      expect.objectContaining({ url: '/user/get', retriesLeft: 1 })
+    );
   });
 });
