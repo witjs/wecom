@@ -1,6 +1,6 @@
-import { Department } from "wecom";
-import dotenv from "dotenv";
-describe("Department Manager", () => {
+import { Department } from 'wecom';
+import dotenv from 'dotenv';
+describe('Department Manager', () => {
   let department: Department;
   const TestDepartmentId = 1999999;
   beforeEach(() => {
@@ -11,9 +11,9 @@ describe("Department Manager", () => {
     }));
   });
 
-  it("Create Department", async () => {
+  it('Create Department', async () => {
     const ret = await department.create({
-      name: "测试部门",
+      name: '测试部门',
       parentid: 1,
       id: TestDepartmentId,
     });
@@ -21,15 +21,15 @@ describe("Department Manager", () => {
     expect([0, 60008]).toEqual(expect.arrayContaining([ret.data.errcode]));
   });
 
-  it("Update Department", async () => {
+  it('Update Department', async () => {
     const ret = await department.update({
       id: 2,
-      name: "总办",
+      name: '总办',
     });
     expect(ret.data.errcode).toEqual(0);
   });
 
-  it("Get Department Info", async () => {
+  it('Get Department Info', async () => {
     const ret = await department.list(TestDepartmentId);
     expect(ret.data.department).toBeDefined();
     expect(ret.data.department[0]).toMatchObject({
@@ -37,7 +37,7 @@ describe("Department Manager", () => {
     });
   });
 
-  it("Delete Department", async () => {
+  it('Delete Department', async () => {
     const ret = await department.delete(TestDepartmentId);
     // 删除成功或者是 部门不存在 都算成功
     expect([0, 60123]).toEqual(expect.arrayContaining([ret.data.errcode]));

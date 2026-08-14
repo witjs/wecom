@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
-import { BaseRet } from "./common/interface";
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import { BaseRet } from './common/interface';
 export interface WecomConfig {
   // 企业微信企业ID
   corpId: string;
@@ -17,7 +17,7 @@ const globalConfig: WecomConfig = {
   // 企业微信corpsecret
   corpSecret: null,
   // 企业微信服务器地址
-  baseURL: "https://qyapi.weixin.qq.com/cgi-bin/",
+  baseURL: 'https://qyapi.weixin.qq.com/cgi-bin/',
   // 认证失败的错误重试次数 其他错误信息不进行重试
   retryTimes: 3,
 };
@@ -45,7 +45,7 @@ export class Wecom {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public readonly api: Record<string, any> = {};
   // 请求需要用到的token
-  private _token: string;
+  private token: string;
 
   /**
    * @description 设置全局配置
@@ -82,11 +82,11 @@ export class Wecom {
     });
     // 拦截器添加access_token
     this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
-      if (config.url !== "/gettoken") {
-        if (!this._token) {
+      if (config.url !== '/gettoken') {
+        if (!this.token) {
           await this.getToken();
         }
-        config.params["access_token"] = this._token;
+        config.params.access_token = this.token;
       }
       return config;
     }, Promise.reject);
@@ -96,8 +96,8 @@ export class Wecom {
         if (
           [40014, 42001].includes(response.data.errcode) // 认证失败
         ) {
-          this._token = null;
-          throw new axios.Cancel("TOKENERROR");
+          this.token = null;
+          throw new axios.Cancel('TOKENERROR');
         } else {
           return response;
         }
@@ -108,7 +108,7 @@ export class Wecom {
           // 认证失败
           error.response.status === 401
         ) {
-          this._token = null;
+          this.token = null;
           return this.client.request(error.config);
         }
         return Promise.reject(error);
@@ -122,7 +122,7 @@ export class Wecom {
    * @memberof Wecom
    */
   async getToken(): Promise<string> {
-    const { data } = await this.client.get("/gettoken", {
+    const { data } = await this.client.get('/gettoken', {
       params: {
         corpid: this.config.corpId,
         corpsecret: this.config.corpSecret,
@@ -131,7 +131,7 @@ export class Wecom {
     if (!data.access_token) {
       throw new Error(data.errmsg);
     }
-    return (this._token = data.access_token);
+    return (this.token = data.access_token);
   }
 
   /**
@@ -146,9 +146,7 @@ export class Wecom {
     config: AxiosRequestConfig
   ): Promise<R> {
     const doRequest = (): Promise<R> => {
-      return new Promise(async (resolve, reject) => {
-        this.client.request<T, R>(config).then(resolve).catch(reject);
-      });
+      return this.client.request<T, R>(config);
     };
     return retry(doRequest, this.config.retryTimes);
   }
@@ -163,14 +161,14 @@ export class Wecom {
    */
   createApi<T = unknown>(path: string, fn: () => T): Wecom {
     let currentPath = this.api;
-    const pathArr = path.split(".");
+    const pathArr = path.split('.');
     while (pathArr.length) {
       const key = pathArr.shift();
       // 如果已经到了最后一位
       if (pathArr.length === 0) {
         // 查询是否已经在当前的命名空间下有内容
         if (currentPath[key]) {
-          throw new Error("Path Conflic");
+          throw new Error('Path Conflic');
         }
         currentPath[key] = fn.bind(this);
       } else {

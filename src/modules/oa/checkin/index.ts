@@ -1,11 +1,11 @@
-import { AxiosResponse } from "axios";
-import { Wecom, WecomConfig } from "../../../wecom";
+import { AxiosResponse } from 'axios';
+import { Wecom, WecomConfig } from '../../../wecom';
 import {
   ICheckinDataRet,
   ICheckinOptionRet,
   QueryCheckinData,
   QueryCheckinOption,
-} from "./interface";
+} from './interface';
 
 export class Checkin extends Wecom {
   constructor(config: Partial<WecomConfig>) {
@@ -22,8 +22,8 @@ export class Checkin extends Wecom {
     data: QueryCheckinData
   ): Promise<AxiosResponse<ICheckinDataRet>> {
     return this.request<ICheckinDataRet>({
-      url: "checkin/getcheckindata",
-      method: "POST",
+      url: 'checkin/getcheckindata',
+      method: 'POST',
       data,
     });
   }
@@ -38,8 +38,8 @@ export class Checkin extends Wecom {
     data: QueryCheckinOption
   ): Promise<AxiosResponse<ICheckinOptionRet>> {
     return this.request<ICheckinOptionRet>({
-      url: "checkin/getcheckinoption",
-      method: "POST",
+      url: 'checkin/getcheckinoption',
+      method: 'POST',
       data,
     });
   }

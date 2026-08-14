@@ -14,5 +14,7 @@ module.exports = {
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   rules: {
     "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/quotes": ["error", "single", { avoidEscape: true }],
+    "@typescript-eslint/dot-notation": "error",
   },
 };

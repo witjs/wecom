@@ -1,4 +1,4 @@
-import { BaseRet } from "../../../../common/interface";
+import { BaseRet } from '../../../../common/interface';
 
 // export interface ICreateDepartment {
 //   // 部门名称。同一个层级的部门名称不能重复。长度限制为1~32个字符，字符不能包括\:?”<>｜
@@ -26,7 +26,7 @@ export interface IDepartment {
   order: number;
 }
 
-export interface ICreateDepartment extends Partial<Exclude<IDepartment, "id">> {
+export interface ICreateDepartment extends Partial<Exclude<IDepartment, 'id'>> {
   // 部门名称。长度限制为1~32个字符，字符不能包括\:?”<>｜
   name: string;
   // 父部门id，32位整型

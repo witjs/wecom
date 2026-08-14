@@ -1,7 +1,7 @@
-import { Message } from "wecom";
-import dotenv from "dotenv";
+import { Message } from 'wecom';
+import dotenv from 'dotenv';
 
-describe("Message Module", () => {
+describe('Message Module', () => {
   let message: Message;
   beforeEach(() => {
     dotenv.config();
@@ -11,26 +11,26 @@ describe("Message Module", () => {
     }));
   });
 
-  it("Send Text Message", async () => {
+  it('Send Text Message', async () => {
     const { data } = await message.send(
       {
-        touser: "XiongPing",
-        msgtype: "text",
+        touser: 'XiongPing',
+        msgtype: 'text',
         text: {
-          content: "test",
+          content: 'test',
         },
       },
       Number(process.env.TEST_AGENT_ID)
     );
     expect(data.errcode).toEqual(0);
   });
-  it("Send Text Message", async () => {
+  it('Send Text Message', async () => {
     const { data } = await message.send(
       {
-        touser: "XiongPing",
-        msgtype: "text",
+        touser: 'XiongPing',
+        msgtype: 'text',
         text: {
-          content: "test",
+          content: 'test',
         },
       },
       Number(process.env.TEST_AGENT_ID)
