@@ -1,0 +1,94 @@
+# 模块总览
+
+每个模块都是独立客户端，从 `wecom` 包根导入。构造时传入 [配置](/guide/config)，方法直接返回业务数据。
+
+<div class="module-grid">
+  <a class="module-card" href="./wecom">
+    <span class="tag">核心</span>
+    <h3>Wecom</h3>
+    <p>Token、request 逃生口、重试与共享配置。</p>
+  </a>
+  <a class="module-card" href="./user">
+    <span class="tag">通讯录</span>
+    <h3>User</h3>
+    <p>成员增删改查、邀请、手机号/邮箱换 userid。</p>
+  </a>
+  <a class="module-card" href="./department">
+    <span class="tag">通讯录</span>
+    <h3>Department</h3>
+    <p>部门树、子部门 ID 和单个部门详情。</p>
+  </a>
+  <a class="module-card" href="./tag">
+    <span class="tag">通讯录</span>
+    <h3>Tag</h3>
+    <p>标签及标签成员管理。</p>
+  </a>
+  <a class="module-card" href="./batch">
+    <span class="tag">通讯录</span>
+    <h3>Batch</h3>
+    <p>异步增量/全量覆盖成员与部门。</p>
+  </a>
+  <a class="module-card" href="./agent">
+    <span class="tag">应用</span>
+    <h3>Agent / AgentMenu</h3>
+    <p>应用详情、工作台模版和自定义菜单。</p>
+  </a>
+  <a class="module-card" href="./media">
+    <span class="tag">素材</span>
+    <h3>Media</h3>
+    <p>临时素材、永久图片和高清语音下载。</p>
+  </a>
+  <a class="module-card" href="./message">
+    <span class="tag">消息</span>
+    <h3>Message</h3>
+    <p>应用消息、撤回、模版卡片和发送统计。</p>
+  </a>
+  <a class="module-card" href="./appchat">
+    <span class="tag">消息</span>
+    <h3>AppChat</h3>
+    <p>群聊会话创建、修改和推送。</p>
+  </a>
+  <a class="module-card" href="./checkin">
+    <span class="tag">OA</span>
+    <h3>Checkin</h3>
+    <p>打卡数据与打卡规则。</p>
+  </a>
+  <a class="module-card" href="./approval">
+    <span class="tag">OA</span>
+    <h3>Approval</h3>
+    <p>审批模板、提交申请和单据详情。</p>
+  </a>
+  <a class="module-card" href="./dial">
+    <span class="tag">OA</span>
+    <h3>Dial</h3>
+    <p>公费电话拨打记录。</p>
+  </a>
+  <a class="module-card" href="./calendar">
+    <span class="tag">OA</span>
+    <h3>Calendar / Schedule</h3>
+    <p>日历与日程的增删改查。</p>
+  </a>
+  <a class="module-card" href="./meeting-room">
+    <span class="tag">OA</span>
+    <h3>MeetingRoom</h3>
+    <p>会议室管理、预订和取消。</p>
+  </a>
+  <a class="module-card" href="./invoice">
+    <span class="tag">办公</span>
+    <h3>Invoice</h3>
+    <p>电子发票查询与报销状态更新。</p>
+  </a>
+  <a class="module-card" href="./external-contact">
+    <span class="tag">客户</span>
+    <h3>ExternalContact</h3>
+    <p>客户、联系我、企业标签、群聊和分配。</p>
+  </a>
+</div>
+
+字段定义以官方文档为准，类型均可从包根导入：
+
+```ts
+import type { IUserCreateDto, SendableMessage, WecomConfig } from 'wecom';
+```
+
+官方入口：[企业微信开发文档](https://developer.work.weixin.qq.com/document/path/90664)

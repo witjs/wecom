@@ -5,3 +5,5 @@ dist
 coverage
 *.tsbuildinfo
 .husky/_
+docs/.vitepress/cache
+docs/.vitepress/dist

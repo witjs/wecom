@@ -16,6 +16,7 @@
 * 使用 Vitest 契约测试替代依赖真实凭据的默认测试
 * 构建升级到 tsdown 0.22，集成测试改用 `process.loadEnvFile`
 * lint / format 切换到 oxlint + oxfmt
+* 使用 VitePress 生成模块文档站点
 
 ## [0.8.3](https://github.com/witjs/wecom/compare/0.8.2...0.8.3) (2022-04-28)
 

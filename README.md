@@ -137,6 +137,18 @@ SDK 会在企业微信 `errcode !== 0`、HTTP 失败、超时和配置错误时�
 
 可恢复错误（Token 失效、限流、网络抖动、5xx）会按 `retryTimes` 重试。
 
+## 文档
+
+在线文档：<https://witjs.github.io/wecom/>
+
+本地预览（路径带 `/wecom/`，和 GitHub Pages 一致）：
+
+```bash
+pnpm docs:dev
+```
+
+推到 `master` / `main` 后，GitHub Actions 会构建并发布到 Pages。仓库 Settings → Pages → Source 选 **GitHub Actions**。
+
 ## 开发
 
 ```bash

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- 蓝气泡：左边齐平，尾巴从左下角长出 -->
+  <path
+    fill="#1A73E8"
+    d="M14 5h24a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8H16L6 43V13a8 8 0 0 1 8-8Z"
+  />
+  <path
+    d="M21.5 14.6 15.8 18.8 21.5 23"
+    stroke="#fff"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M34.5 14.6 40.2 18.8 34.5 23"
+    stroke="#fff"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M30.6 13.4 25.6 24.2"
+    stroke="#fff"
+    stroke-width="2.8"
+    stroke-linecap="round"
+  />
+
+  <!-- 绿气泡：尾巴贴在底边中右，和本体同一路径 -->
+  <path
+    fill="#07C160"
+    d="M38 33h14a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6H50l2 7-12-7H38a6 6 0 0 1-6-6v-6a6 6 0 0 1 6-6Z"
+  />
+  <path
+    d="M38 39.4h14M38 43.8h10"
+    stroke="#fff"
+    stroke-width="2.4"
+    stroke-linecap="round"
+  />
+</svg>

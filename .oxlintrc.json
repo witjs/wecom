@@ -8,7 +8,13 @@
     "builtin": true,
     "node": true
   },
-  "ignorePatterns": ["dist", "coverage", "pnpm-lock.yaml"],
+  "ignorePatterns": [
+    "dist",
+    "coverage",
+    "pnpm-lock.yaml",
+    "docs/.vitepress/cache",
+    "docs/.vitepress/dist"
+  ],
   "rules": {
     "typescript/no-namespace": "off",
     "no-unused-vars": [

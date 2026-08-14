@@ -10,6 +10,8 @@
     "coverage",
     "pnpm-lock.yaml",
     "CHANGELOG.md",
-    "yarn.lock"
+    "yarn.lock",
+    "docs/.vitepress/cache",
+    "docs/.vitepress/dist"
   ]
 }
