@@ -152,7 +152,7 @@ SDK 会在企业微信 `errcode !== 0`、HTTP 失败、超时和配置错误时�
 pnpm docs:dev
 ```
 
-推到 `master` / `main` 后，GitHub Actions 会构建并发布到 Pages。仓库 Settings → Pages → Source 选 **GitHub Actions**。
+推到 `next` / `master` / `main` 后，GitHub Actions 会构建并发布到 Pages。仓库 Settings → Pages → Source 选 **GitHub Actions**。
 
 从 0.8 升级请看 [MIGRATION.md](MIGRATION.md)。
 
