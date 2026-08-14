@@ -1,4 +1,4 @@
-import { BaseRet } from "../../../../common/interface";
+import { BaseRet } from '../../../../common/interface';
 
 export interface IAttrBase {
   // 属性类型: 0-文本 1-网页 2-小程序
@@ -55,7 +55,7 @@ export interface IUserBase {
   // 手机号码，第三方仅通讯录应用可获取 手机号码。企业内必须唯一，mobile/email二者不能同时为空
   mobile?: string;
   // 性别。0表示未定义，1表示男性，2表示女性
-  gender?: "0" | "1" | "2";
+  gender?: '0' | '1' | '2';
   // 邮箱，第三方仅通讯录应用可获取
   email?: string;
   // 表示在所在的部门内是否为上级。；第三方仅通讯录应用可获取

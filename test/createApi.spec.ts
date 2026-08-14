@@ -1,7 +1,7 @@
-import { Wecom } from "wecom";
-import dotenv from "dotenv";
+import { Wecom } from 'wecom';
+import dotenv from 'dotenv';
 
-describe("createApi", () => {
+describe('createApi', () => {
   let wecom: Wecom;
   beforeEach(() => {
     dotenv.config();
@@ -10,9 +10,9 @@ describe("createApi", () => {
       corpSecret: process.env.TEST_SECRET,
     }));
   });
-  it("Create Api", async () => {
-    wecom.createApi<void>("message.send", () => {
-      console.log("adcd");
+  it('Create Api', async () => {
+    wecom.createApi<void>('message.send', () => {
+      console.log('adcd');
     });
     expect(wecom.api.message.send).toBeDefined();
   });

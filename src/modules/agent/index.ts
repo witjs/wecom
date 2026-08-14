@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import { Wecom } from "../../wecom";
-import { AgentRet, IAgentWecom, ISetAgent } from "./interface/agent";
+import { AxiosResponse } from 'axios';
+import { Wecom } from '../../wecom';
+import { AgentRet, IAgentWecom, ISetAgent } from './interface/agent';
 
 /**
  * @description 应用管理相关接口
@@ -16,7 +16,7 @@ export class Agent extends Wecom {
 
     // 如果没有传入agentId 直接抛出异常
     if (!this.agentId) {
-      throw new Error("agentId must be specified");
+      throw new Error('agentId must be specified');
     }
   }
 
@@ -30,7 +30,7 @@ export class Agent extends Wecom {
    */
   get<T = AgentRet>(): Promise<AxiosResponse<T>> {
     return this.request<T>({
-      url: "/agent/get",
+      url: '/agent/get',
       params: {
         agentid: this.agentId,
       },
@@ -47,11 +47,11 @@ export class Agent extends Wecom {
    */
   set(data: ISetAgent): Promise<AxiosResponse<AgentRet>> {
     return this.request<AgentRet>({
-      url: "/agent/set",
-      method: "POST",
+      url: '/agent/set',
+      method: 'POST',
       data: Object.assign(data, { agentid: this.agentId }),
     });
   }
 }
 
-export * from "./menu";
+export * from './menu';
