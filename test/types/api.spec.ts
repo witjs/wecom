@@ -1,12 +1,15 @@
 import { describe, expectTypeOf, it } from 'vitest';
 import type {
   AgentRet,
+  AppChatMessage,
+  ICreateAgentMenu,
   IMessage,
   IUserCreateDto,
   SendableMessage,
+  AddScheduleDto,
   WecomRequestOptions,
 } from '../../src';
-import { Message, User, Wecom } from '../../src';
+import { AgentMenu, AppChat, Message, Schedule, User, Wecom } from '../../src';
 
 describe('public types', () => {
   it('exports stable constructor and request types', () => {
@@ -39,5 +42,24 @@ describe('public types', () => {
     expectTypeOf<
       Parameters<User['create']>[0]
     >().toMatchTypeOf<IUserCreateDto>();
+  });
+
+  it('exports split client constructors and types from the package root', () => {
+    expectTypeOf(AgentMenu).toBeConstructibleWith({
+      corpId: 'id',
+      corpSecret: 'secret',
+      agentId: 1000002,
+    });
+    expectTypeOf(AppChat).toBeConstructibleWith({
+      corpId: 'id',
+      corpSecret: 'secret',
+    });
+    expectTypeOf(Schedule).toBeConstructibleWith({
+      corpId: 'id',
+      corpSecret: 'secret',
+    });
+    expectTypeOf<ICreateAgentMenu>().toHaveProperty('button');
+    expectTypeOf<AppChatMessage>().toHaveProperty('chatid');
+    expectTypeOf<AddScheduleDto>().toHaveProperty('schedule');
   });
 });

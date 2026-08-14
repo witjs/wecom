@@ -91,28 +91,27 @@ const ret = await wecom.request({
 
 每个模块都是独立客户端，从包根导入，构造时传入同一套配置。
 
-| 模块                                                                                                                  | 说明                                 |
-| :-------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
-| [Wecom](docs/api/wecom.md)                                                                                            | Token、`request()` 逃生口、重试      |
-| [User](docs/api/user.md) / [Department](docs/api/department.md) / [Tag](docs/api/tag.md) / [Batch](docs/api/batch.md) | 通讯录：成员、部门、标签、异步导入   |
-| [Agent](docs/api/agent.md)                                                                                            | 应用详情、自定义菜单、工作台         |
-| [Media](docs/api/media.md)                                                                                            | 临时素材、永久图片、高清语音         |
-| [Message](docs/api/message.md) / [AppChat](docs/api/appchat.md)                                                       | 应用消息、撤回、统计、群聊会话       |
-| [Checkin](docs/api/checkin.md) / [Approval](docs/api/approval.md) / [Dial](docs/api/dial.md)                          | 打卡、审批、公费电话                 |
-| [ExternalContact](docs/api/external-contact.md)                                                                       | 客户、联系我、企业标签、客户群、分配 |
-| [Calendar](docs/api/calendar.md)                                                                                      | 日历与日程                           |
-| [MeetingRoom](docs/api/meeting-room.md)                                                                               | 会议室与预订                         |
-| [Invoice](docs/api/invoice.md)                                                                                        | 电子发票查询和报销状态               |
+| 分组       | 模块                                                                                                                                                            | 说明                       |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------- |
+| 核心       | [Wecom](docs/api/wecom.md)                                                                                                                                      | Token、`request()`、重试   |
+| 通讯录     | [User](docs/api/user.md) / [Department](docs/api/department.md) / [Tag](docs/api/tag.md) / [Batch](docs/api/batch.md)                                           | 成员、部门、标签、异步导入 |
+| 应用与消息 | [Agent](docs/api/agent.md) / [AgentMenu](docs/api/agent-menu.md) / [Media](docs/api/media.md) / [Message](docs/api/message.md) / [AppChat](docs/api/appchat.md) | 应用、菜单、素材、消息     |
+| 客户联系   | [ExternalContact](docs/api/external-contact.md)                                                                                                                 | 客户、联系我、群聊、分配   |
+| 协作工具   | [Calendar](docs/api/calendar.md) / [Schedule](docs/api/schedule.md) / [MeetingRoom](docs/api/meeting-room.md)                                                   | 日历、日程、会议室         |
+| OA         | [Checkin](docs/api/checkin.md) / [Approval](docs/api/approval.md) / [Dial](docs/api/dial.md)                                                                    | 打卡、审批、公费电话       |
+| 财务       | [Invoice](docs/api/invoice.md)                                                                                                                                  | 电子发票查询和报销状态     |
 
 ```ts
 import {
   Agent,
+  AgentMenu,
   Approval,
   Calendar,
   ExternalContact,
   Media,
   MeetingRoom,
   Message,
+  Schedule,
   User,
 } from 'wecom';
 ```

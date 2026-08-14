@@ -19,6 +19,14 @@ new Wecom(config?: Partial<WecomConfig>)
 
 配置见 [配置](/guide/config)。缺少 `corpId` 或 `corpSecret` 会抛 `WecomConfigError`。
 
+## 使用说明
+
+| 项     | 说明                                                                          |
+| ------ | ----------------------------------------------------------------------------- |
+| Secret | 与目标接口匹配的应用 Secret、通讯录同步 Secret 或功能应用 Secret              |
+| 权限   | 取决于具体接口；`request()` 不会补齐业务权限                                  |
+| 官方   | [获取 access_token](https://developer.work.weixin.qq.com/document/path/91039) |
+
 ## 方法
 
 | 方法                  | 说明                                    |

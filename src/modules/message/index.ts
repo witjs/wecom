@@ -85,19 +85,12 @@ export class Message extends Wecom {
   }
 }
 
-export { AppChat } from './appchat';
 export type {
-  AppChatInfo,
-  AppChatMessage,
-  CreateAppChatDto,
-  CreateAppChatRet,
-  GetAppChatRet,
   GetMessageStatisticsDto,
   GetMessageStatisticsRet,
   IMessage,
   IMessageRet,
   MessageStatisticsItem,
   RecallMessageDto,
-  UpdateAppChatDto,
   UpdateTemplateCardDto,
 } from './interface';

@@ -1,15 +1,25 @@
-# Calendar / Schedule
+# Calendar
 
-日历与日程。两个类独立构造，凭证可以相同。
+日历的增删改查。日程见 [Schedule](./schedule)。
 
 ```ts
-import { Calendar, Schedule } from 'wecom';
+import { Calendar } from 'wecom';
 
-const calendar = new Calendar({ corpId, corpSecret });
-const schedule = new Schedule({ corpId, corpSecret });
+const calendar = new Calendar({
+  corpId: process.env.CORPID!,
+  corpSecret: process.env.TEST_SECRET!,
+});
 ```
 
-## Calendar
+## 使用说明
+
+| 项     | 说明                                                                 |
+| ------ | -------------------------------------------------------------------- |
+| Secret | 有日程权限的应用 Secret                                              |
+| 权限   | 应用需具备「日程」使用权限                                           |
+| 官方   | [管理日历](https://developer.work.weixin.qq.com/document/path/93647) |
+
+## 方法
 
 | 方法           | 说明         |
 | -------------- | ------------ |
@@ -18,16 +28,6 @@ const schedule = new Schedule({ corpId, corpSecret });
 | `get(data)`    | 批量查询日历 |
 | `delete(data)` | 删除日历     |
 
-## Schedule
-
-| 方法                  | 说明           |
-| --------------------- | -------------- |
-| `add(data)`           | 创建日程       |
-| `update(data)`        | 更新日程       |
-| `get(data)`           | 批量查询日程   |
-| `delete(data)`        | 删除日程       |
-| `getByCalendar(data)` | 按日历拉取日程 |
-
 ```ts
 const { cal_id } = await calendar.add({
   calendar: {
@@ -35,16 +35,6 @@ const { cal_id } = await calendar.add({
     summary: '产品排期',
     color: '#0000FF',
     shares: [{ userid: 'lisi' }],
-  },
-});
-
-const { schedule_id } = await schedule.add({
-  schedule: {
-    organizer: 'zhangsan',
-    start_time: 1717200000,
-    end_time: 1717203600,
-    summary: '周会',
-    cal_id,
   },
 });
 ```

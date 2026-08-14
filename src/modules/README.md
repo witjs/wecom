@@ -1,16 +1,33 @@
-# 目录说明
+# 模块说明
 
-子目录分别对应官方服务端 API 模块。
+每个子目录是一个可独立构造的客户端。包根统一扁平导出，使用者始终从 `wecom` 导入类名，不必关心源码路径。
 
 ```
-📦src/modules
- ┣ 📂agent               --- 应用管理 / 工作台 / 自定义菜单
- ┣ 📂directory           --- 通讯录：成员 / 部门 / 标签 / 异步导入
- ┣ 📂media               --- 素材管理
- ┣ 📂message             --- 应用消息 / 群聊会话
- ┣ 📂oa                  --- 打卡 / 审批 / 公费电话
- ┣ 📂external-contact    --- 客户联系
- ┣ 📂calendar            --- 日历与日程
- ┣ 📂meeting-room        --- 会议室
- ┗ 📂invoice             --- 电子发票
+src/modules
+├── user               User 成员
+├── department         Department 部门
+├── tag                Tag 标签
+├── batch              Batch 异步导入
+├── agent              Agent 应用
+├── agent-menu         AgentMenu 自定义菜单
+├── media              Media 素材
+├── message            Message 应用消息
+├── app-chat           AppChat 群聊会话
+├── external-contact   ExternalContact 客户联系
+├── calendar           Calendar 日历
+├── schedule           Schedule 日程
+├── meeting-room       MeetingRoom 会议室
+├── checkin            Checkin 打卡
+├── approval           Approval 审批
+├── dial               Dial 公费电话
+└── invoice            Invoice 电子发票
 ```
+
+文档按业务场景分组，不按官方侧栏或源码目录：
+
+- 通讯录：`User`、`Department`、`Tag`、`Batch`
+- 应用与消息：`Agent`、`AgentMenu`、`Media`、`Message`、`AppChat`
+- 客户联系：`ExternalContact`
+- 协作工具：`Calendar`、`Schedule`、`MeetingRoom`
+- OA：`Checkin`、`Approval`、`Dial`
+- 财务：`Invoice`

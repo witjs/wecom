@@ -4,18 +4,10 @@ import { Wecom } from '../../wecom';
 import type {
   AddCalendarDto,
   AddCalendarRet,
-  AddScheduleDto,
-  AddScheduleRet,
   DelCalendarDto,
-  DelScheduleDto,
   GetCalendarDto,
   GetCalendarRet,
-  GetScheduleByCalendarDto,
-  GetScheduleByCalendarRet,
-  GetScheduleDto,
-  GetScheduleRet,
   UpdateCalendarDto,
-  UpdateScheduleDto,
 } from './interface';
 
 export class Calendar extends Wecom {
@@ -56,52 +48,13 @@ export class Calendar extends Wecom {
   }
 }
 
-export class Schedule extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
-  }
-
-  add(data: AddScheduleDto): Promise<AddScheduleRet> {
-    return this.request<AddScheduleRet>({
-      url: '/oa/schedule/add',
-      method: 'POST',
-      data,
-    });
-  }
-
-  update(data: UpdateScheduleDto): Promise<BaseRet> {
-    return this.request<BaseRet>({
-      url: '/oa/schedule/update',
-      method: 'POST',
-      data,
-    });
-  }
-
-  get(data: GetScheduleDto): Promise<GetScheduleRet> {
-    return this.request<GetScheduleRet>({
-      url: '/oa/schedule/get',
-      method: 'POST',
-      data,
-    });
-  }
-
-  delete(data: DelScheduleDto): Promise<BaseRet> {
-    return this.request<BaseRet>({
-      url: '/oa/schedule/del',
-      method: 'POST',
-      data,
-    });
-  }
-
-  getByCalendar(
-    data: GetScheduleByCalendarDto
-  ): Promise<GetScheduleByCalendarRet> {
-    return this.request<GetScheduleByCalendarRet>({
-      url: '/oa/schedule/get_by_calendar',
-      method: 'POST',
-      data,
-    });
-  }
-}
-
-export type * from './interface';
+export type {
+  AddCalendarDto,
+  AddCalendarRet,
+  CalendarInfo,
+  CalendarSharer,
+  DelCalendarDto,
+  GetCalendarDto,
+  GetCalendarRet,
+  UpdateCalendarDto,
+} from './interface';

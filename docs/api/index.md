@@ -29,24 +29,49 @@
     <p>异步增量/全量覆盖成员与部门。</p>
   </a>
   <a class="module-card" href="./agent">
-    <span class="tag">应用</span>
-    <h3>Agent / AgentMenu</h3>
-    <p>应用详情、工作台模版和自定义菜单。</p>
+    <span class="tag">应用与消息</span>
+    <h3>Agent</h3>
+    <p>应用详情和工作台模版。</p>
+  </a>
+  <a class="module-card" href="./agent-menu">
+    <span class="tag">应用与消息</span>
+    <h3>AgentMenu</h3>
+    <p>自定义菜单创建、查询和删除。</p>
   </a>
   <a class="module-card" href="./media">
-    <span class="tag">素材</span>
+    <span class="tag">应用与消息</span>
     <h3>Media</h3>
     <p>临时素材、永久图片和高清语音下载。</p>
   </a>
   <a class="module-card" href="./message">
-    <span class="tag">消息</span>
+    <span class="tag">应用与消息</span>
     <h3>Message</h3>
     <p>应用消息、撤回、模版卡片和发送统计。</p>
   </a>
   <a class="module-card" href="./appchat">
-    <span class="tag">消息</span>
+    <span class="tag">应用与消息</span>
     <h3>AppChat</h3>
     <p>群聊会话创建、修改和推送。</p>
+  </a>
+  <a class="module-card" href="./external-contact">
+    <span class="tag">客户联系</span>
+    <h3>ExternalContact</h3>
+    <p>客户、联系我、企业标签、群聊和分配。</p>
+  </a>
+  <a class="module-card" href="./calendar">
+    <span class="tag">协作工具</span>
+    <h3>Calendar</h3>
+    <p>日历的增删改查。</p>
+  </a>
+  <a class="module-card" href="./schedule">
+    <span class="tag">协作工具</span>
+    <h3>Schedule</h3>
+    <p>日程的增删改查，以及按日历拉取。</p>
+  </a>
+  <a class="module-card" href="./meeting-room">
+    <span class="tag">协作工具</span>
+    <h3>MeetingRoom</h3>
+    <p>会议室管理、预订和取消。</p>
   </a>
   <a class="module-card" href="./checkin">
     <span class="tag">OA</span>
@@ -63,25 +88,10 @@
     <h3>Dial</h3>
     <p>公费电话拨打记录。</p>
   </a>
-  <a class="module-card" href="./calendar">
-    <span class="tag">OA</span>
-    <h3>Calendar / Schedule</h3>
-    <p>日历与日程的增删改查。</p>
-  </a>
-  <a class="module-card" href="./meeting-room">
-    <span class="tag">OA</span>
-    <h3>MeetingRoom</h3>
-    <p>会议室管理、预订和取消。</p>
-  </a>
   <a class="module-card" href="./invoice">
-    <span class="tag">办公</span>
+    <span class="tag">财务</span>
     <h3>Invoice</h3>
     <p>电子发票查询与报销状态更新。</p>
-  </a>
-  <a class="module-card" href="./external-contact">
-    <span class="tag">客户</span>
-    <h3>ExternalContact</h3>
-    <p>客户、联系我、企业标签、群聊和分配。</p>
   </a>
 </div>
 

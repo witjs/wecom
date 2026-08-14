@@ -1,6 +1,6 @@
 # ExternalContact
 
-客户联系：客户、联系我、企业标签、客户群、欢迎语和在职/离职分配。需要客户联系权限的 Secret。
+客户联系：客户、联系我、企业标签、客户群、欢迎语和在职/离职分配。
 
 ```ts
 import { ExternalContact } from 'wecom';
@@ -10,6 +10,14 @@ const contact = new ExternalContact({
   corpSecret: process.env.TEST_SECRET!,
 });
 ```
+
+## 使用说明
+
+| 项     | 说明                                                                 |
+| ------ | -------------------------------------------------------------------- |
+| Secret | 具备客户联系权限的应用 Secret                                        |
+| 权限   | 应用需开启「客户联系」；可见范围外的客户和群不可访问                 |
+| 官方   | [客户联系](https://developer.work.weixin.qq.com/document/path/92109) |
 
 ## 客户
 

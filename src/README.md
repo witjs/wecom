@@ -1,12 +1,12 @@
-# 目录说明
-
-> 子目录分别对应了 官方的各个模块
+# 源码说明
 
 ```
-📦src
- ┣ 📂agent             --- 应用管理模块
- ┣ 📂directory         --- 通讯录管理（成员/部门/标签等相关子模块)
- ┣ 📂media             --- 素材管理
- ┣ 📂message           --- 消息推送
- ┣ 📂oa                --- oa数据接口
+src
+├── index.ts           包根导出
+├── wecom.ts           基类：Token、request、重试
+├── common/            公共类型
+├── core/              错误、传输、Token 存储
+└── modules/           业务客户端，一客户端一目录
 ```
+
+每个业务模块都是独立客户端，从包根导入。目录约定见 [modules/README.md](./modules/README.md)。

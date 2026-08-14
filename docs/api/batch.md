@@ -9,6 +9,14 @@ const media = new Media({ corpId, corpSecret });
 const batch = new Batch({ corpId, corpSecret });
 ```
 
+## 使用说明
+
+| 项     | 说明                                                                     |
+| ------ | ------------------------------------------------------------------------ |
+| Secret | 通讯录同步 Secret                                                        |
+| 权限   | 需要通讯录编辑权限；素材上传与异步任务使用同一套凭证                     |
+| 官方   | [异步导入接口](https://developer.work.weixin.qq.com/document/path/90980) |
+
 ## 方法
 
 | 方法                 | 说明         |

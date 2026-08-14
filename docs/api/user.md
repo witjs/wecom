@@ -1,6 +1,6 @@
 # User
 
-通讯录成员。不同 Secret 的可见范围不同，请使用通讯录同步或有成员权限的应用凭证。
+通讯录成员。
 
 ```ts
 import { User } from 'wecom';
@@ -10,6 +10,14 @@ const user = new User({
   corpSecret: process.env.DIRECTORY_SECRET!,
 });
 ```
+
+## 使用说明
+
+| 项     | 说明                                                                      |
+| ------ | ------------------------------------------------------------------------- |
+| Secret | 通讯录同步 Secret，或具备成员权限的应用 Secret                            |
+| 权限   | 自建应用、代开发、第三方仅能读取可见范围内的成员；写入需通讯录同步 Secret |
+| 官方   | [成员管理](https://developer.work.weixin.qq.com/document/path/90193)      |
 
 ## 方法
 

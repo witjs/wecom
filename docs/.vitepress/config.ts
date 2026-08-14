@@ -57,32 +57,43 @@ export default defineConfig({
           ],
         },
         {
-          text: '应用与内容',
+          text: '应用与消息',
           collapsed: false,
           items: [
             { text: 'Agent 应用', link: '/api/agent' },
+            { text: 'AgentMenu 菜单', link: '/api/agent-menu' },
             { text: 'Media 素材', link: '/api/media' },
             { text: 'Message 消息', link: '/api/message' },
             { text: 'AppChat 群聊', link: '/api/appchat' },
           ],
         },
         {
-          text: '办公',
+          text: '客户联系',
+          items: [
+            { text: 'ExternalContact 客户联系', link: '/api/external-contact' },
+          ],
+        },
+        {
+          text: '协作工具',
+          collapsed: false,
+          items: [
+            { text: 'Calendar 日历', link: '/api/calendar' },
+            { text: 'Schedule 日程', link: '/api/schedule' },
+            { text: 'MeetingRoom 会议室', link: '/api/meeting-room' },
+          ],
+        },
+        {
+          text: 'OA',
           collapsed: false,
           items: [
             { text: 'Checkin 打卡', link: '/api/checkin' },
             { text: 'Approval 审批', link: '/api/approval' },
             { text: 'Dial 公费电话', link: '/api/dial' },
-            { text: 'Calendar 日历', link: '/api/calendar' },
-            { text: 'MeetingRoom 会议室', link: '/api/meeting-room' },
-            { text: 'Invoice 发票', link: '/api/invoice' },
           ],
         },
         {
-          text: '客户',
-          items: [
-            { text: 'ExternalContact 客户联系', link: '/api/external-contact' },
-          ],
+          text: '财务',
+          items: [{ text: 'Invoice 发票', link: '/api/invoice' }],
         },
       ],
     },
