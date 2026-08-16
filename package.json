@@ -52,6 +52,9 @@
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "release": "changeset publish --tag next",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -59,6 +62,7 @@
     "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.0",
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
     "@types/node": "^22.18.0",
