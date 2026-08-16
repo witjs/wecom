@@ -50,6 +50,18 @@ describe('AgentMenu', () => {
 });
 
 describe('Message', () => {
+  it('throws when agentid is missing', () => {
+    const { fetch } = createWecomFetch();
+    const message = new Message({ ...config, fetch });
+    expect(() =>
+      message.send({
+        touser: 'alice',
+        msgtype: 'text',
+        text: { content: 'hi' },
+      })
+    ).toThrow(WecomConfigError);
+  });
+
   it('prefers agentid already present on the payload', async () => {
     const { fetch, calls } = createWecomFetch();
     const message = new Message({ ...config, fetch });

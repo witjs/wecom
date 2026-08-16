@@ -1,4 +1,6 @@
 import {
+  WecomAbortError,
+  WecomConfigError,
   WecomError,
   WecomHttpError,
   WecomNetworkError,
@@ -92,10 +94,36 @@ export function buildURL(
       if (value === undefined || value === null) {
         continue;
       }
-      url.searchParams.set(key, String(value));
+      appendSearchParam(url, key, value);
     }
   }
   return url.toString();
+}
+
+function appendSearchParam(url: URL, key: string, value: unknown): void {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      if (item !== undefined && item !== null) {
+        url.searchParams.append(key, stringifyQueryValue(key, item));
+      }
+    }
+    return;
+  }
+  url.searchParams.set(key, stringifyQueryValue(key, value));
+}
+
+function stringifyQueryValue(key: string, value: unknown): string {
+  switch (typeof value) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+    case 'bigint':
+      return String(value);
+    default:
+      throw new WecomConfigError(
+        `Unsupported query parameter "${key}"; expected a primitive value or an array of primitive values`
+      );
+  }
 }
 
 function encodeBody(data: unknown): {
@@ -185,7 +213,7 @@ function normalizeFetchError(error: unknown, signal: AbortSignal): Error {
     if (isTimeoutError(error) || isTimeoutError(signal.reason)) {
       return new WecomTimeoutError('Request timed out', error);
     }
-    return new WecomTimeoutError('Request aborted', error);
+    return new WecomAbortError('Request aborted', error);
   }
   return new WecomNetworkError(
     error instanceof Error ? error.message : 'Network request failed',

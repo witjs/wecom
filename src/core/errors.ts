@@ -83,6 +83,12 @@ export class WecomTimeoutError extends WecomError {
   }
 }
 
+export class WecomAbortError extends WecomError {
+  constructor(message = 'Request aborted', cause?: unknown) {
+    super({ message, retryable: false, cause });
+  }
+}
+
 export class WecomNetworkError extends WecomError {
   constructor(message = 'Network request failed', cause?: unknown) {
     super({ message, retryable: true, cause });

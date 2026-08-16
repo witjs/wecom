@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
+  WecomAbortError,
+  WecomConfigError,
   WecomHttpError,
   WecomNetworkError,
-  WecomTimeoutError,
 } from '../../src';
 import {
   buildURL,
@@ -47,6 +48,23 @@ describe('buildURL', () => {
     expect(url).toBe(
       'https://qyapi.weixin.qq.com/cgi-bin/department/list?keep=yes'
     );
+  });
+
+  it('repeats array params and rejects object params', () => {
+    expect(
+      buildURL('https://qyapi.weixin.qq.com/cgi-bin/', '/batch/get', {
+        userid: ['alice', 'bob'],
+        active: true,
+      })
+    ).toBe(
+      'https://qyapi.weixin.qq.com/cgi-bin/batch/get?userid=alice&userid=bob&active=true'
+    );
+
+    expect(() =>
+      buildURL('https://qyapi.weixin.qq.com/cgi-bin/', '/bad', {
+        filter: { userid: 'alice' },
+      })
+    ).toThrow(WecomConfigError);
   });
 });
 
@@ -217,7 +235,7 @@ describe('FetchTransport', () => {
     expect(new WecomNetworkError()).toBeInstanceOf(WecomNetworkError);
   });
 
-  it('wraps abort as WecomTimeoutError', async () => {
+  it('wraps user abort as WecomAbortError', async () => {
     const controller = new AbortController();
     const { fetch } = createMockFetch(() => {
       controller.abort();
@@ -226,7 +244,7 @@ describe('FetchTransport', () => {
     const transport = createTransport(fetch);
     await expect(
       transport.request({ url: '/user/get', signal: controller.signal })
-    ).rejects.toBeInstanceOf(WecomTimeoutError);
+    ).rejects.toBeInstanceOf(WecomAbortError);
   });
 
   it('invokes debug logger hooks', async () => {

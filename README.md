@@ -1,6 +1,6 @@
 # 企业微信 Node SDK
 
-面向 Node.js 22.18+ 的企业微信 TypeScript SDK。v1 使用原生 `fetch`、共享 Token、结构化错误，方法直接返回业务数据。零运行时依赖，同时提供 ESM 和 CommonJS。
+面向 Node.js 22.18+ 的企业微信 TypeScript SDK。v1 使用原生 `fetch`、共享 Token、结构化错误，方法直接返回业务数据。零运行时依赖，仅发布 ESM。
 
 已封装通讯录、应用、素材、消息、客户联系、OA、日程、会议室和发票等常用服务端模块。
 
@@ -13,7 +13,7 @@
 
 ## 安装
 
-当前 v1 是 `1.0.0-rc.1`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
+当前 v1 是 `1.0.0-rc.2`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
 
 ```bash
 pnpm add wecom@next

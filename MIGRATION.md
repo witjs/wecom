@@ -5,7 +5,7 @@ v1 尽量保留了 `User`、`Message`、`Agent` 等类名和方法名，但按�
 ## 环境
 
 - 最低 Node.js 版本从隐式 14 提升到 **22.18**
-- 包同时提供 ESM 和 CommonJS
+- 包仅发布 ESM，不再提供 CommonJS 构建产物
 - 运行时不再依赖 `axios` 和 `form-data`
 
 ## 返回值
@@ -94,7 +94,7 @@ import type { IUserCreateDto, IMessage, SendableMessage } from 'wecom';
 ## 建议的升级步骤
 
 1. 升级到 Node.js 22.18+
-2. 安装 `wecom@next`（当前是 `1.0.0-rc.1`；`wecom@1` 要等正式版）
+2. 安装 `wecom@next`（当前是 `1.0.0-rc.2`；`wecom@1` 要等正式版）
 3. 去掉所有 `const { data } = await ...`，改为直接使用返回值
 4. 用 `try/catch` + `WecomApiError` 替换 `errcode` 判断
 5. 把 axios 配置迁移到 `fetch` / `headers` / `timeout` / `signal`

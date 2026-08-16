@@ -1,3 +1,21 @@
+## [1.0.0-rc.2](https://github.com/witjs/wecom/compare/1.0.0-rc.1...1.0.0-rc.2) (2026-08-16)
+
+### ⚠ BREAKING CHANGES
+
+* 仅发布 ESM，移除 CommonJS 构建产物
+
+### Bug Fixes
+
+* 区分用户主动取消和请求超时错误
+* 避免 token 失效后旧刷新结果写回缓存
+* 校验 query 参数和消息 agentid，避免静默发送错误请求
+* gettoken 响应缺少 access_token 时不再误判为可重试错误
+
+### Performance
+
+* 文件路径媒体上传使用文件 Blob，减少预读内存
+* Readable 上传增加缓冲上限，避免超大流导致内存失控
+
 ## [1.0.0-rc.1](https://github.com/witjs/wecom/compare/0.8.3...1.0.0-rc.1) (2026-08-16)
 
 ### ⚠ BREAKING CHANGES

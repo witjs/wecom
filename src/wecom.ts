@@ -156,8 +156,9 @@ export class Wecom {
     });
     if (!data.access_token) {
       throw new WecomApiError({
-        errcode: data.errcode ?? -1,
+        errcode: data.errcode ?? 0,
         errmsg: data.errmsg || 'Failed to get access_token',
+        retryable: false,
         response: data,
       });
     }

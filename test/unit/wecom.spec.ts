@@ -117,16 +117,17 @@ describe('Wecom request', () => {
     });
   });
 
-  it('throws when gettoken succeeds without an access_token', async () => {
-    const { fetch } = createMockFetch(() => ({
-      errcode: 0,
+  it('throws without retry when gettoken response omits access_token', async () => {
+    const { fetch, calls } = createMockFetch(() => ({
       errmsg: '',
     }));
     const wecom = new Wecom({ ...baseConfig, fetch });
     await expect(wecom.getToken()).rejects.toMatchObject({
       name: 'WecomApiError',
       errmsg: 'Failed to get access_token',
+      retryable: false,
     });
+    expect(calls).toHaveLength(1);
   });
 
   it('returns unwrapped business data', async () => {
@@ -391,7 +392,7 @@ describe('Wecom request', () => {
     const wecom = new Wecom({ ...baseConfig, fetch, retryTimes: 2 });
     await expect(
       wecom.request({ url: '/user/get', signal: controller.signal })
-    ).rejects.toBeInstanceOf(WecomTimeoutError);
+    ).rejects.toMatchObject({ name: 'WecomAbortError', retryable: false });
   });
 });
 

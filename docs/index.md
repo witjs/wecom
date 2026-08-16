@@ -25,7 +25,7 @@ features:
   - title: 结构化错误
     details: errcode、HTTP、超时和配置错误分别抛出 WecomApiError / Http / Timeout / Config。
   - title: TypeScript 优先
-    details: 全部 DTO 与响应类型从包根导出，ESM / CJS 双格式，声明文件按格式拆分。
+    details: 全部 DTO 与响应类型从包根导出，面向 Node.js 22.18+ 发布 ESM 构建。
   - title: 官方模块覆盖
     details: 通讯录、应用、素材、消息、客户联系、OA、日程、会议室和发票。
   - title: 可测试

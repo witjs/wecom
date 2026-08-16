@@ -1,4 +1,5 @@
 import type { BaseRet } from '../../common/interface';
+import { WecomConfigError } from '../../core/errors';
 import type { WecomConfig } from '../../wecom';
 import { Wecom } from '../../wecom';
 import type {
@@ -39,12 +40,16 @@ export class Message extends Wecom {
    * @description 发送应用消息
    */
   send(message: SendableMessage, agentId?: number): Promise<IMessageRet> {
+    const resolvedAgentId = message.agentid ?? agentId;
+    if (!resolvedAgentId) {
+      throw new WecomConfigError('agentid should not be empty');
+    }
     return this.request<IMessageRet>({
       url: '/message/send',
       method: 'POST',
       data: {
         ...message,
-        agentid: message.agentid ?? agentId,
+        agentid: resolvedAgentId,
       },
     });
   }

@@ -1,8 +1,11 @@
-import { readFile } from 'node:fs/promises';
+import { openAsBlob } from 'node:fs';
 import { basename } from 'node:path';
 import type { Readable } from 'node:stream';
+import { WecomConfigError } from '../../core/errors';
 
 export type MediaUploadSource = Buffer | Blob | Readable | string;
+
+const MAX_BUFFERED_STREAM_BYTES = 20 * 1024 * 1024;
 
 export async function toFormData(
   file: MediaUploadSource,
@@ -20,9 +23,8 @@ export async function toUploadPart(
   filename?: string
 ): Promise<{ blob: Blob; name: string }> {
   if (typeof file === 'string') {
-    const buffer = await readFile(file);
     return {
-      blob: new Blob([buffer]),
+      blob: await openAsBlob(file),
       name: filename ?? basename(file),
     };
   }
@@ -39,8 +41,16 @@ export async function toUploadPart(
     };
   }
   const chunks: Buffer[] = [];
+  let size = 0;
   for await (const chunk of file) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    size += buffer.byteLength;
+    if (size > MAX_BUFFERED_STREAM_BYTES) {
+      throw new WecomConfigError(
+        `Readable upload source exceeds ${MAX_BUFFERED_STREAM_BYTES} bytes; pass a file path or Blob for large uploads`
+      );
+    }
+    chunks.push(buffer);
   }
   return {
     blob: new Blob([Buffer.concat(chunks)]),

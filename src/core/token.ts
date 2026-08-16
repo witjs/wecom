@@ -28,6 +28,7 @@ const managers = new Map<string, TokenManager>();
 
 export class TokenManager {
   private inflight: Promise<string> | null = null;
+  private generation = 0;
 
   constructor(
     private readonly key: string,
@@ -44,26 +45,42 @@ export class TokenManager {
     if (this.inflight) {
       return this.inflight;
     }
-    this.inflight = this.refresh(fetcher).finally(() => {
-      this.inflight = null;
-    });
-    return this.inflight;
+    const generation = this.generation;
+    const refresh = this.refresh(fetcher, generation);
+    this.inflight = refresh;
+    refresh.then(
+      () => {
+        if (this.inflight === refresh) {
+          this.inflight = null;
+        }
+      },
+      () => {
+        if (this.inflight === refresh) {
+          this.inflight = null;
+        }
+      }
+    );
+    return refresh;
   }
 
   async invalidate(): Promise<void> {
+    this.generation += 1;
     this.inflight = null;
     await this.store.delete(this.key);
   }
 
   private async refresh(
-    fetcher: () => Promise<{ accessToken: string; expiresIn: number }>
+    fetcher: () => Promise<{ accessToken: string; expiresIn: number }>,
+    generation: number
   ): Promise<string> {
     const token = await fetcher();
     const record: TokenRecord = {
       accessToken: token.accessToken,
       expiresAt: Date.now() + token.expiresIn * 1000,
     };
-    await this.store.set(this.key, record);
+    if (generation === this.generation) {
+      await this.store.set(this.key, record);
+    }
     return record.accessToken;
   }
 }

@@ -5,6 +5,7 @@ export type {
   WecomRequestOptions,
 } from './wecom';
 export {
+  WecomAbortError,
   WecomApiError,
   WecomConfigError,
   WecomError,

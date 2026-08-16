@@ -119,6 +119,38 @@ describe('TokenManager', () => {
     expect(token).toBe('new');
   });
 
+  it('does not cache an inflight refresh after invalidate', async () => {
+    const store = new MemoryTokenStore();
+    const manager = getTokenManager({ ...credentials, store });
+    const key = tokenCacheKey(
+      credentials.corpId,
+      credentials.corpSecret,
+      credentials.baseURL
+    );
+    let resolveRefresh!: (token: {
+      accessToken: string;
+      expiresIn: number;
+    }) => void;
+    let markStarted!: () => void;
+    const started = new Promise<void>((resolve) => {
+      markStarted = resolve;
+    });
+
+    const first = manager.getToken(
+      () =>
+        new Promise((resolve) => {
+          markStarted();
+          resolveRefresh = resolve;
+        })
+    );
+    await started;
+    await manager.invalidate();
+    resolveRefresh({ accessToken: 'stale', expiresIn: 7200 });
+
+    await expect(first).resolves.toBe('stale');
+    expect(store.get(key)).toBeUndefined();
+  });
+
   it('reuses managers for the same credentials and store', () => {
     const store = new MemoryTokenStore();
     const first = getTokenManager({ ...credentials, store });

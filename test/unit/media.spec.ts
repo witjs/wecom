@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { afterEach, describe, expect, it } from 'vitest';
-import { Media, WecomApiError } from '../../src';
+import { Media, WecomApiError, WecomConfigError } from '../../src';
 import { toFormData, toUploadPart } from '../../src/modules/media/upload';
 import {
   createMockFetch,
@@ -60,6 +60,13 @@ describe('toUploadPart', () => {
     const part = await toUploadPart(stream, 'stream.bin');
     expect(part.name).toBe('stream.bin');
     expect(await part.blob.text()).toBe('hello');
+  });
+
+  it('rejects oversized readable streams before buffering too much data', async () => {
+    const stream = Readable.from([Buffer.alloc(20 * 1024 * 1024 + 1)]);
+    await expect(toUploadPart(stream, 'large.bin')).rejects.toBeInstanceOf(
+      WecomConfigError
+    );
   });
 
   it('builds multipart form data', async () => {
