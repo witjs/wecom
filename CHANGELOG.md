@@ -1,4 +1,4 @@
-## [1.0.0](https://github.com/witjs/wecom/compare/0.8.3...1.0.0) (2026-08-14)
+## [1.0.0-rc.1](https://github.com/witjs/wecom/compare/0.8.3...1.0.0-rc.1) (2026-08-16)
 
 ### ⚠ BREAKING CHANGES
 

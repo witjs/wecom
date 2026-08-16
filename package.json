@@ -1,6 +1,6 @@
 {
   "name": "wecom",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "description": "WeCom / WeChat Work Node.js SDK",
   "type": "module",
   "main": "./dist/index.cjs",

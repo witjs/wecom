@@ -6,7 +6,7 @@ description: wecom 版本更新记录
 
 下文摘自仓库 [CHANGELOG.md](https://github.com/witjs/wecom/blob/feat/v1-modern-sdk/CHANGELOG.md)。
 
-## 1.0.0
+## 1.0.0-rc.1
 
 ### Breaking Changes
 

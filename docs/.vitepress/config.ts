@@ -19,7 +19,7 @@ export default defineConfig({
       { text: '指南', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: '模块', link: '/api/', activeMatch: '/api/' },
       {
-        text: '1.0.0',
+        text: '1.0.0-rc.1',
         items: [{ text: '更新日志', link: '/guide/changelog' }],
       },
     ],
