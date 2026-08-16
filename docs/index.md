@@ -3,7 +3,7 @@ layout: home
 hero:
   name: wecom
   text: 企业微信 Node SDK
-  tagline: 面向 Node.js 22.18+。原生 fetch、共享 Token、结构化错误，方法直接返回业务数据。
+  tagline: 面向 Node.js 22.18+。原生 fetch、共享 Token、结构化错误，方法直接返回业务数据。当前请安装 wecom@next。
   image:
     src: /logo.svg
     alt: wecom

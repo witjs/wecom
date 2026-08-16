@@ -9,11 +9,13 @@
 
 ## 安装
 
+当前 v1 是 `1.0.0-rc.1`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
+
 ```bash
-pnpm add wecom
+pnpm add wecom@next
 ```
 
-也支持 npm / yarn。
+也支持 `npm i wecom@next` / `yarn add wecom@next`。
 
 ## 发送一条文本消息
 

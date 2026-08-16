@@ -72,7 +72,7 @@ import type { IUserCreateDto, IMessage, SendableMessage } from 'wecom';
 ## 建议步骤
 
 1. 升级到 Node.js 22.18+
-2. 安装 `wecom@1`
+2. 安装 `wecom@next`（当前是 `1.0.0-rc.1`；`wecom@1` 要等正式版）
 3. 去掉所有 `const { data } = await ...`
 4. 用 `try/catch` + `WecomApiError` 替换 `errcode` 判断
 5. 把 axios 配置迁移到 `fetch` / `headers` / `timeout` / `signal`
