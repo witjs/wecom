@@ -1,0 +1,48 @@
+name: Create v1.0.0-rc.2 GitHub Release
+
+on:
+  push:
+    branches:
+      - chore/create-release-v1.0.0-rc.2
+
+permissions:
+  contents: write
+
+concurrency:
+  group: create-release-v1.0.0-rc.2
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-rc.2
+          name: v1.0.0-rc.2
+          target_commitish: e09bc5f0feae97af9c891353bb8f98f8a098d307
+          prerelease: true
+          make_latest: false
+          body: |
+            ## 1.0.0-rc.2 (2026-08-16)
+
+            ### ⚠ BREAKING CHANGES
+
+            * 仅发布 ESM，移除 CommonJS 构建产物
+
+            ### Bug Fixes
+
+            * 区分用户主动取消和请求超时错误
+            * 避免 token 失效后旧刷新结果写回缓存
+            * 校验 query 参数和消息 agentid，避免静默发送错误请求
+            * gettoken 响应缺少 access_token 时不再误判为可重试错误
+
+            ### Performance
+
+            * 文件路径媒体上传使用文件 Blob，减少预读内存
+            * Readable 上传增加缓冲上限，避免超大流导致内存失控
