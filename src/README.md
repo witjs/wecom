@@ -9,4 +9,4 @@ src
 └── modules/           业务客户端，一客户端一目录
 ```
 
-每个业务模块都是独立客户端，从包根导入。目录约定见 [modules/README.md](./modules/README.md)。
+每个业务模块都是独立客户端，从包根导入。身份客户端（Suite / Provider / Webhook / AiBot / Hardware）也按同一约定放在 `modules/`。目录约定见 [modules/README.md](./modules/README.md)。

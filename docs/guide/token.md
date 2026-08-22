@@ -2,7 +2,9 @@
 
 ## 共享缓存
 
-SDK 按 `corpId + corpSecret + baseURL` 共享一份 Token。多个 `User` / `Message` 实例只要凭证相同，就不会各自打 `gettoken`。
+自建应用按 `corp:{corpId}:{corpSecret}:{baseURL}` 共享一份 Token。多个 `User` / `Message` 实例只要凭证相同，就不会各自打 `gettoken`。
+
+第三方、服务商、硬件用各自前缀：`suite:`、`suite-corp:`、`provider:`、`model:`、`device:`。传入 `tokenProvider` 时，缓存键由 provider 自己提供。
 
 默认使用进程内 `MemoryTokenStore`。过期前 60 秒会提前刷新；并发刷新会合并成一次请求。
 

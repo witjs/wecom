@@ -5,11 +5,11 @@
 ## 环境
 
 - Node.js 22.18 及以上
-- 企业微信自建应用的 `corpId` 与 `corpSecret`
+- 企业微信自建应用的 `corpId` 与 `corpSecret`（第三方 / 机器人 / 硬件见 [选择接入方式](./identities)）
 
 ## 安装
 
-当前 v1 是 `1.0.0-rc.2`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
+当前 v1 是 `1.0.0-rc.3`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
 
 ```bash
 pnpm add wecom@next
@@ -85,6 +85,7 @@ import {
 
 ## 下一步
 
+- [选择接入方式](./identities)
 - [配置项与默认值](./config)
 - [Token 缓存与重试](./token)
 - [错误类型](./errors)

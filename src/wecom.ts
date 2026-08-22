@@ -49,9 +49,7 @@ export class Wecom {
       signal: this.config.signal,
     });
     this.tokenManager = getTokenManager({
-      corpId: this.config.corpId,
-      corpSecret: this.config.corpSecret,
-      baseURL: this.config.baseURL,
+      cacheKey: this.config.tokenCacheKey,
       store: this.config.tokenStore,
     });
   }
@@ -98,7 +96,7 @@ export class Wecom {
   private async sendOnce<T>(options: WecomRequestOptions): Promise<T> {
     const params = { ...options.params };
     if (!options.skipAuth) {
-      params.access_token = await this.getToken();
+      params[this.config.tokenParam] = await this.getToken();
     }
 
     const response = await this.transport.request<T & Partial<BaseRet>>({
@@ -141,10 +139,13 @@ export class Wecom {
     return data as T;
   }
 
-  private async fetchAccessToken(): Promise<{
+  protected async fetchAccessToken(): Promise<{
     accessToken: string;
     expiresIn: number;
   }> {
+    if (this.config.tokenProvider) {
+      return this.config.tokenProvider.fetch();
+    }
     const data = await this.request<TokenResponse>({
       url: '/gettoken',
       method: 'GET',

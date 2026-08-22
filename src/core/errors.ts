@@ -32,6 +32,12 @@ export class WecomConfigError extends WecomError {
   }
 }
 
+export class WecomCallbackError extends WecomError {
+  constructor(message: string, cause?: unknown) {
+    super({ message, retryable: false, cause });
+  }
+}
+
 export class WecomApiError extends WecomError {
   readonly errcode: number;
   readonly errmsg: string;

@@ -19,7 +19,7 @@ export default defineConfig({
       { text: '指南', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: '模块', link: '/api/', activeMatch: '/api/' },
       {
-        text: '1.0.0-rc.2',
+        text: '1.0.0-rc.3',
         items: [{ text: '更新日志', link: '/guide/changelog' }],
       },
     ],
@@ -29,6 +29,7 @@ export default defineConfig({
           text: '开始使用',
           items: [
             { text: '快速开始', link: '/guide/getting-started' },
+            { text: '选择接入方式', link: '/guide/identities' },
             { text: '配置', link: '/guide/config' },
             { text: 'Token 与重试', link: '/guide/token' },
             { text: '错误处理', link: '/guide/errors' },
@@ -43,8 +44,17 @@ export default defineConfig({
           items: [{ text: '总览', link: '/api/' }],
         },
         {
-          text: '核心',
-          items: [{ text: 'Wecom', link: '/api/wecom' }],
+          text: '身份',
+          collapsed: false,
+          items: [
+            { text: 'Wecom 自建应用', link: '/api/wecom' },
+            { text: 'Callback 回调', link: '/api/callback' },
+            { text: 'Suite 第三方/代开发', link: '/api/suite' },
+            { text: 'Provider 服务商', link: '/api/provider' },
+            { text: 'Webhook 群机器人', link: '/api/webhook' },
+            { text: 'AiBot 智能机器人', link: '/api/aibot' },
+            { text: 'Hardware 硬件云对云', link: '/api/hardware' },
+          ],
         },
         {
           text: '通讯录',

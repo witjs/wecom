@@ -2,7 +2,7 @@
 
 面向 Node.js 22.18+ 的企业微信 TypeScript SDK。v1 使用原生 `fetch`、共享 Token、结构化错误，方法直接返回业务数据。零运行时依赖，仅发布 ESM。
 
-已封装通讯录、应用、素材、消息、客户联系、OA、日程、会议室和发票等常用服务端模块。
+已封装通讯录、应用、素材、消息、客户联系、OA、日程、会议室和发票等常用服务端模块。自建应用之外，还按身份提供第三方 / 代开发（`Suite`）、服务商（`Provider`）、回调加解密（`Callback`）、群机器人（`Webhook`）、智能机器人（`AiBot`）和硬件云对云（`Hardware`）。
 
 企业微信文档：[工作台开发文档](https://developer.work.weixin.qq.com/document/path/90664)
 
@@ -13,7 +13,7 @@
 
 ## 安装
 
-当前 v1 是 `1.0.0-rc.2`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
+当前 v1 是 `1.0.0-rc.3`，发布在 `next` 标签。直接 `pnpm add wecom` 仍会装到稳定版 `0.8.3`。
 
 ```bash
 pnpm add wecom@next
@@ -74,8 +74,9 @@ const ret = await wecom.request({
 
 | 参数       | 类型         | 必填 | 说明                                         |
 | :--------- | :----------- | :--: | :------------------------------------------- |
-| corpId     | string       |  是  | 企业 ID                                      |
-| corpSecret | string       |  是  | 应用 Secret                                  |
+| corpId        | string        | 自建时是 | 企业 ID                                      |
+| corpSecret    | string        | 自建时是 | 应用 Secret                                  |
+| tokenProvider | TokenProvider |  否  | 外部换票，供 Suite.corp() 等身份复用             |
 | baseURL    | string       |  否  | 默认 `https://qyapi.weixin.qq.com/cgi-bin/`  |
 | retryTimes | number       |  否  | 可恢复错误的额外重试次数，默认 `3`，允许 `0` |
 | timeout    | number       |  否  | 请求超时，默认 `30000`                       |
@@ -85,7 +86,7 @@ const ret = await wecom.request({
 | logger     | WecomLogger  |  否  | 调试日志钩子                                 |
 | signal     | AbortSignal  |  否  | 全局取消信号                                 |
 
-相同 `corpId + corpSecret + baseURL` 的实例会共享 Token，并合并并发刷新。
+相同凭证会共享 Token，并合并并发刷新。自建应用的缓存键是 `corp:{corpId}:{corpSecret}:{baseURL}`。
 
 `Wecom.setGlobal()` 仍然可用，但已标记为 deprecated，推荐显式传入配置。
 
@@ -96,6 +97,7 @@ const ret = await wecom.request({
 | 分组       | 模块                                                                                                                                                            | 说明                       |
 | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------- |
 | 核心       | [Wecom](docs/api/wecom.md)                                                                                                                                      | Token、`request()`、重试   |
+| 身份       | [Callback](docs/api/callback.md) / [Suite](docs/api/suite.md) / [Provider](docs/api/provider.md) / [Webhook](docs/api/webhook.md) / [AiBot](docs/api/aibot.md) / [Hardware](docs/api/hardware.md) | 回调、第三方、服务商、机器人、硬件 |
 | 通讯录     | [User](docs/api/user.md) / [Department](docs/api/department.md) / [Tag](docs/api/tag.md) / [Batch](docs/api/batch.md)                                           | 成员、部门、标签、异步导入 |
 | 应用与消息 | [Agent](docs/api/agent.md) / [AgentMenu](docs/api/agent-menu.md) / [Media](docs/api/media.md) / [Message](docs/api/message.md) / [AppChat](docs/api/appchat.md) | 应用、菜单、素材、消息     |
 | 客户联系   | [ExternalContact](docs/api/external-contact.md)                                                                                                                 | 客户、联系我、群聊、分配   |

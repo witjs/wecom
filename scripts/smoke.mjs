@@ -30,8 +30,16 @@ for (const name of [
   'Schedule',
   'MeetingRoom',
   'Invoice',
+  'Callback',
+  'Suite',
+  'Provider',
+  'Webhook',
+  'AiBot',
+  'Hardware',
   'WecomError',
   'WecomApiError',
+  'WecomCallbackError',
+  'MemoryTicketStore',
 ]) {
   if (typeof esm[name] !== 'function') {
     throw new Error(`Missing export ${name}`);

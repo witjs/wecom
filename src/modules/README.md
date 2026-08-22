@@ -20,11 +20,18 @@ src/modules
 ├── checkin            Checkin 打卡
 ├── approval           Approval 审批
 ├── dial               Dial 公费电话
-└── invoice            Invoice 电子发票
+├── invoice            Invoice 电子发票
+├── callback           Callback 回调加解密
+├── suite              Suite 第三方 / 代开发
+├── provider           Provider 服务商
+├── webhook            Webhook 群机器人
+├── aibot              AiBot 智能机器人
+└── hardware           Hardware 硬件云对云
 ```
 
-文档按业务场景分组，不按官方侧栏或源码目录：
+文档按身份和业务分组，不按官方侧栏或源码目录：
 
+- 身份：`Wecom`、`Callback`、`Suite`、`Provider`、`Webhook`、`AiBot`、`Hardware`
 - 通讯录：`User`、`Department`、`Tag`、`Batch`
 - 应用与消息：`Agent`、`AgentMenu`、`Media`、`Message`、`AppChat`
 - 客户联系：`ExternalContact`

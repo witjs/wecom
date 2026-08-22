@@ -1,13 +1,15 @@
 import { WecomConfigError } from './errors';
-import type { TokenStore, WecomLogger } from './types';
+import type { TokenParam, TokenProvider, TokenStore, WecomLogger } from './types';
 
 export const DEFAULT_BASE_URL = 'https://qyapi.weixin.qq.com/cgi-bin/';
 export const DEFAULT_RETRY_TIMES = 3;
 export const DEFAULT_TIMEOUT = 30_000;
 
 export interface WecomConfig {
-  corpId: string;
-  corpSecret: string;
+  corpId?: string;
+  corpSecret?: string;
+  tokenProvider?: TokenProvider;
+  tokenParam?: TokenParam;
   baseURL?: string;
   retryTimes?: number;
   timeout?: number;
@@ -21,6 +23,9 @@ export interface WecomConfig {
 export interface ResolvedWecomConfig {
   corpId: string;
   corpSecret: string;
+  tokenProvider?: TokenProvider;
+  tokenParam: TokenParam;
+  tokenCacheKey: string;
   baseURL: string;
   retryTimes: number;
   timeout: number;
@@ -65,11 +70,13 @@ export function resolveConfig(
     ...config.headers,
   };
 
-  if (!merged.corpId) {
-    throw new WecomConfigError('corpId should not be empty');
-  }
-  if (!merged.corpSecret) {
-    throw new WecomConfigError('corpSecret should not be empty');
+  if (!merged.tokenProvider) {
+    if (!merged.corpId) {
+      throw new WecomConfigError('corpId should not be empty');
+    }
+    if (!merged.corpSecret) {
+      throw new WecomConfigError('corpSecret should not be empty');
+    }
   }
   if (!merged.baseURL) {
     throw new WecomConfigError('baseURL should not be empty');
@@ -89,10 +96,20 @@ export function resolveConfig(
     throw new WecomConfigError('timeout must be a positive number');
   }
 
+  const baseURL = normalizeBaseURL(merged.baseURL);
+  const tokenParam =
+    merged.tokenParam ?? merged.tokenProvider?.tokenParam ?? 'access_token';
+  const tokenCacheKey =
+    merged.tokenProvider?.cacheKey ??
+    corpTokenCacheKey(merged.corpId ?? '', merged.corpSecret ?? '', baseURL);
+
   return {
-    corpId: merged.corpId,
-    corpSecret: merged.corpSecret,
-    baseURL: normalizeBaseURL(merged.baseURL),
+    corpId: merged.corpId ?? '',
+    corpSecret: merged.corpSecret ?? '',
+    tokenProvider: merged.tokenProvider,
+    tokenParam,
+    tokenCacheKey,
+    baseURL,
     retryTimes: merged.retryTimes,
     timeout: merged.timeout,
     headers: merged.headers ?? {},
@@ -103,14 +120,38 @@ export function resolveConfig(
   };
 }
 
+export function pickHttpConfig(
+  config: Partial<WecomConfig> = {}
+): Partial<WecomConfig> {
+  const picked: Partial<WecomConfig> = {};
+  if (config.baseURL !== undefined) picked.baseURL = config.baseURL;
+  if (config.retryTimes !== undefined) picked.retryTimes = config.retryTimes;
+  if (config.timeout !== undefined) picked.timeout = config.timeout;
+  if (config.headers !== undefined) picked.headers = config.headers;
+  if (config.fetch !== undefined) picked.fetch = config.fetch;
+  if (config.tokenStore !== undefined) picked.tokenStore = config.tokenStore;
+  if (config.logger !== undefined) picked.logger = config.logger;
+  if (config.signal !== undefined) picked.signal = config.signal;
+  return picked;
+}
+
 export function normalizeBaseURL(baseURL: string): string {
   return baseURL.endsWith('/') ? baseURL : `${baseURL}/`;
 }
 
 export function tokenCacheKey(
+  kind: string,
+  id: string,
+  secret: string,
+  baseURL: string
+): string {
+  return `${kind}:${id}:${secret}:${normalizeBaseURL(baseURL)}`;
+}
+
+export function corpTokenCacheKey(
   corpId: string,
   corpSecret: string,
   baseURL: string
 ): string {
-  return `${corpId}:${corpSecret}:${normalizeBaseURL(baseURL)}`;
+  return tokenCacheKey('corp', corpId, corpSecret, baseURL);
 }

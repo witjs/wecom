@@ -6,6 +6,12 @@ description: wecom 版本更新记录
 
 下文摘自仓库 [CHANGELOG.md](https://github.com/witjs/wecom/blob/feat/v1-modern-sdk/CHANGELOG.md)。
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 按身份补齐 Callback、Suite、Provider、Webhook、AiBot 和 Hardware，自建应用用法保持不变。
+
 ## 1.0.0-rc.2
 
 ### Breaking Changes

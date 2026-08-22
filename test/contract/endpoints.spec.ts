@@ -10,11 +10,14 @@ import {
   Department,
   Dial,
   ExternalContact,
+  Hardware,
   Invoice,
   Media,
   MeetingRoom,
   Message,
+  Provider,
   Schedule,
+  Suite,
   Tag,
   User,
 } from '../../src';
@@ -560,5 +563,103 @@ describe('module endpoint contracts', () => {
     expect(file.filename).toBe('logo.jpg');
     expect(file.data.toString()).toBe('image-bytes');
     expect(lastApiCall(calls)?.url.pathname).toContain('/media/get');
+  });
+
+  it('Suite methods use the official service paths', async () => {
+    const { fetch, calls } = createMockFetch((request) => {
+      if (request.url.pathname.includes('get_suite_token')) {
+        return {
+          suite_access_token: 'suite-token',
+          expires_in: 7200,
+        };
+      }
+      return {
+        errcode: 0,
+        errmsg: 'ok',
+        pre_auth_code: 'pre',
+        expires_in: 600,
+        permanent_code: 'perm',
+      };
+    });
+    const suite = new Suite({
+      suiteId: 'ww-suite',
+      suiteSecret: 'suite-secret',
+      suiteTicket: 'ticket-1',
+      fetch,
+    });
+    await suite.getPreAuthCode();
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/get_pre_auth_code'
+    );
+    await suite.setSessionInfo({ pre_auth_code: 'pre' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/set_session_info'
+    );
+    await suite.getPermanentCode('auth-code');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/v2/get_permanent_code'
+    );
+    await suite.getAuthInfo({ authCorpId: 'ww-auth', permanentCode: 'perm' });
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/v2/get_auth_info'
+    );
+    await suite.getAdminList('ww-auth', 1000002);
+    expect(lastApiCall(calls)?.url.pathname).toContain('/service/get_admin_list');
+    await suite.getUserInfo3rd('code');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/getuserinfo3rd'
+    );
+    await suite.getUserDetail3rd('ticket');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/getuserdetail3rd'
+    );
+  });
+
+  it('Provider methods use the official service paths', async () => {
+    const { fetch, calls } = createMockFetch((request) => {
+      if (request.url.pathname.includes('get_provider_token')) {
+        return {
+          provider_access_token: 'provider-token',
+          expires_in: 7200,
+        };
+      }
+      return { errcode: 0, errmsg: 'ok' };
+    });
+    const provider = new Provider({
+      corpId: 'ww-provider',
+      providerSecret: 'provider-secret',
+      fetch,
+    });
+    await provider.getLoginInfo('auth-code');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/get_login_info'
+    );
+  });
+
+  it('Hardware methods use the official openhw paths', async () => {
+    const { fetch, calls } = createMockFetch((request) => {
+      if (request.url.pathname.includes('get_model_token')) {
+        return { model_access_token: 'model-token', expires_in: 7200 };
+      }
+      return { errcode: 0, errmsg: 'ok' };
+    });
+    const hardware = new Hardware({
+      modelId: 'model-1',
+      modelSecret: 'model-secret',
+      modelTicket: 'model-ticket',
+      fetch,
+    });
+    await hardware.getDeviceSecret('auth-code');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/openhw/get_device_secret'
+    );
+    await hardware.addDevice('SN1');
+    expect(lastApiCall(calls)?.url.pathname).toContain('/openhw/add_device');
+    await hardware.deleteDevice('SN1');
+    expect(lastApiCall(calls)?.url.pathname).toContain('/openhw/del_device');
+    await hardware.getDevice('SN1');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/openhw/get_device_detail'
+    );
   });
 });

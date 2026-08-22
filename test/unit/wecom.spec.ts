@@ -81,6 +81,33 @@ describe('Wecom request', () => {
     expect(calls[0].url.searchParams.has('access_token')).toBe(false);
   });
 
+  it('uses tokenProvider and custom token query name', async () => {
+    const { fetch, calls } = createMockFetch((request) => {
+      if (request.url.pathname.includes('/user/get')) {
+        return { errcode: 0, errmsg: 'ok', userid: 'alice' };
+      }
+      return { errcode: 0, errmsg: 'ok' };
+    });
+    let fetches = 0;
+    const wecom = new Wecom({
+      fetch,
+      tokenProvider: {
+        cacheKey: 'suite:ww:secret:https://qyapi.weixin.qq.com/cgi-bin/',
+        tokenParam: 'suite_access_token',
+        fetch: async () => {
+          fetches += 1;
+          return { accessToken: 'suite-token', expiresIn: 7200 };
+        },
+      },
+    });
+    await wecom.request({ url: '/user/get', params: { userid: 'alice' } });
+    expect(fetches).toBe(1);
+    expect(calls[0].url.searchParams.get('suite_access_token')).toBe(
+      'suite-token'
+    );
+    expect(calls[0].url.searchParams.has('access_token')).toBe(false);
+  });
+
   it('skips auth when skipAuth is set', async () => {
     const { fetch, calls } = createWecomFetch();
     const wecom = new Wecom({ ...baseConfig, fetch });

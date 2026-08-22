@@ -2,11 +2,43 @@
 
 每个模块都是独立客户端，从 `wecom` 包根导入。构造时传入 [配置](/guide/config)，方法直接返回业务数据。
 
+先看 [选择接入方式](/guide/identities)，对上凭证再选客户端。
+
 <div class="module-grid">
   <a class="module-card" href="./wecom">
-    <span class="tag">核心</span>
+    <span class="tag">身份</span>
     <h3>Wecom</h3>
-    <p>Token、request 逃生口、重试与共享配置。</p>
+    <p>自建应用 Token、request 逃生口、重试与共享配置。</p>
+  </a>
+  <a class="module-card" href="./callback">
+    <span class="tag">身份</span>
+    <h3>Callback</h3>
+    <p>回调 URL 验证、签名和 AES 加解密。</p>
+  </a>
+  <a class="module-card" href="./suite">
+    <span class="tag">身份</span>
+    <h3>Suite</h3>
+    <p>第三方应用和代开发模板，corp() 复用业务模块。</p>
+  </a>
+  <a class="module-card" href="./provider">
+    <span class="tag">身份</span>
+    <h3>Provider</h3>
+    <p>服务商后台凭证和登录身份。</p>
+  </a>
+  <a class="module-card" href="./webhook">
+    <span class="tag">身份</span>
+    <h3>Webhook</h3>
+    <p>群机器人消息推送，不走 access_token。</p>
+  </a>
+  <a class="module-card" href="./aibot">
+    <span class="tag">身份</span>
+    <h3>AiBot</h3>
+    <p>智能机器人 WebSocket 长连接和流式回复。</p>
+  </a>
+  <a class="module-card" href="./hardware">
+    <span class="tag">身份</span>
+    <h3>Hardware</h3>
+    <p>硬件云对云型号凭证和设备 token。</p>
   </a>
   <a class="module-card" href="./user">
     <span class="tag">通讯录</span>

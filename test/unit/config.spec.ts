@@ -8,7 +8,8 @@ import {
   resetGlobalConfig,
   resolveConfig,
   setGlobalConfig,
-  tokenCacheKey,
+  corpTokenCacheKey,
+  pickHttpConfig,
 } from '../../src/core/config';
 import { WecomConfigError } from '../../src';
 
@@ -41,6 +42,29 @@ describe('resolveConfig', () => {
     expect(() => resolveConfig({ corpId: 'ww-corp' })).toThrow(
       WecomConfigError
     );
+  });
+
+  it('allows tokenProvider without corp credentials', () => {
+    const config = resolveConfig({
+      tokenProvider: {
+        cacheKey: 'suite:ww:secret:https://qyapi.weixin.qq.com/cgi-bin/',
+        tokenParam: 'suite_access_token',
+        fetch: async () => ({ accessToken: 'suite', expiresIn: 7200 }),
+      },
+    });
+    expect(config.corpId).toBe('');
+    expect(config.tokenParam).toBe('suite_access_token');
+    expect(config.tokenCacheKey).toBe(
+      'suite:ww:secret:https://qyapi.weixin.qq.com/cgi-bin/'
+    );
+  });
+
+  it('prefixes corp token cache keys', () => {
+    const config = resolveConfig(credentials);
+    expect(config.tokenCacheKey).toBe(
+      corpTokenCacheKey('ww-corp', 'secret', DEFAULT_BASE_URL)
+    );
+    expect(config.tokenParam).toBe('access_token');
   });
 
   it('throws when baseURL is empty', () => {
@@ -116,6 +140,23 @@ describe('global config helpers', () => {
   });
 });
 
+describe('pickHttpConfig', () => {
+  it('omits undefined fields so defaults survive', () => {
+    expect(pickHttpConfig({ fetch: globalThis.fetch })).toEqual({
+      fetch: globalThis.fetch,
+    });
+    expect(
+      resolveConfig({
+        tokenProvider: {
+          cacheKey: 'suite:id:secret:https://qyapi.weixin.qq.com/cgi-bin/',
+          fetch: async () => ({ accessToken: 't', expiresIn: 1 }),
+        },
+        ...pickHttpConfig({ fetch: globalThis.fetch }),
+      }).baseURL
+    ).toBe(DEFAULT_BASE_URL);
+  });
+});
+
 describe('url helpers', () => {
   it('keeps an already-normalized baseURL', () => {
     expect(normalizeBaseURL('https://qyapi.weixin.qq.com/cgi-bin/')).toBe(
@@ -125,9 +166,12 @@ describe('url helpers', () => {
 
   it('uses the normalized baseURL in the token cache key', () => {
     expect(
-      tokenCacheKey('id', 'secret', 'https://qyapi.weixin.qq.com/cgi-bin')
+      corpTokenCacheKey('id', 'secret', 'https://qyapi.weixin.qq.com/cgi-bin')
     ).toBe(
-      tokenCacheKey('id', 'secret', 'https://qyapi.weixin.qq.com/cgi-bin/')
+      corpTokenCacheKey('id', 'secret', 'https://qyapi.weixin.qq.com/cgi-bin/')
     );
+    expect(
+      corpTokenCacheKey('id', 'secret', 'https://qyapi.weixin.qq.com/cgi-bin/')
+    ).toBe('corp:id:secret:https://qyapi.weixin.qq.com/cgi-bin/');
   });
 });

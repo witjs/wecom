@@ -17,7 +17,7 @@ const wecom = new Wecom({
 new Wecom(config?: Partial<WecomConfig>)
 ```
 
-配置见 [配置](/guide/config)。缺少 `corpId` 或 `corpSecret` 会抛 `WecomConfigError`。
+配置见 [配置](/guide/config)。自建应用缺少 `corpId` 或 `corpSecret` 会抛 `WecomConfigError`。传入 `tokenProvider` 时用外部换票，不再要求 `corpSecret`。
 
 ## 使用说明
 
@@ -51,7 +51,7 @@ interface WecomRequestOptions {
 }
 ```
 
-`url` 相对 `baseURL`。默认自动附加 `access_token`。`data` 为对象时发 JSON；`FormData` 会按 multipart 发送。
+`url` 相对 `baseURL`。默认自动附加 `access_token`（Suite / Provider / Hardware 会改成对应的 query 名）。`data` 为对象时发 JSON；`FormData` 会按 multipart 发送。
 
 ```ts
 const ret = await wecom.request({
@@ -71,11 +71,13 @@ const ret = await wecom.request({
 ```ts
 import type {
   ResolvedWecomConfig,
+  TicketStore,
+  TokenProvider,
   TokenRecord,
   TokenStore,
   WecomConfig,
   WecomLogger,
   WecomRequestOptions,
 } from 'wecom';
-import { MemoryTokenStore } from 'wecom';
+import { MemoryTicketStore, MemoryTokenStore } from 'wecom';
 ```

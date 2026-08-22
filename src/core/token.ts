@@ -1,5 +1,5 @@
-import { tokenCacheKey } from './config';
-import type { TokenRecord, TokenStore } from './types';
+import { corpTokenCacheKey } from './config';
+import type { TicketStore, TokenRecord, TokenStore } from './types';
 
 const DEFAULT_EXPIRE_BUFFER_MS = 60_000;
 
@@ -85,18 +85,41 @@ export class TokenManager {
   }
 }
 
+export class MemoryTicketStore implements TicketStore {
+  private readonly tickets = new Map<string, string>();
+
+  get(key: string): string | undefined {
+    return this.tickets.get(key);
+  }
+
+  set(key: string, ticket: string): void {
+    this.tickets.set(key, ticket);
+  }
+
+  delete(key: string): void {
+    this.tickets.delete(key);
+  }
+
+  clear(): void {
+    this.tickets.clear();
+  }
+}
+
 export function getTokenManager(options: {
-  corpId: string;
-  corpSecret: string;
-  baseURL: string;
+  cacheKey?: string;
+  corpId?: string;
+  corpSecret?: string;
+  baseURL?: string;
   store?: TokenStore;
 }): TokenManager {
   const store = options.store ?? defaultStore;
-  const key = tokenCacheKey(
-    options.corpId,
-    options.corpSecret,
-    options.baseURL
-  );
+  const key =
+    options.cacheKey ??
+    corpTokenCacheKey(
+      options.corpId ?? '',
+      options.corpSecret ?? '',
+      options.baseURL ?? ''
+    );
   const cacheKey = `${key}:${store === defaultStore ? 'default' : objectId(store)}`;
   const existing = managers.get(cacheKey);
   if (existing) {

@@ -9,7 +9,20 @@ import type {
   AddScheduleDto,
   WecomRequestOptions,
 } from '../../src';
-import { AgentMenu, AppChat, Message, Schedule, User, Wecom } from '../../src';
+import {
+  AgentMenu,
+  AiBot,
+  AppChat,
+  Callback,
+  Hardware,
+  Message,
+  Provider,
+  Schedule,
+  Suite,
+  User,
+  Wecom,
+  Webhook,
+} from '../../src';
 
 describe('public types', () => {
   it('exports stable constructor and request types', () => {
@@ -61,5 +74,38 @@ describe('public types', () => {
     expectTypeOf<ICreateAgentMenu>().toHaveProperty('button');
     expectTypeOf<AppChatMessage>().toHaveProperty('chatid');
     expectTypeOf<AddScheduleDto>().toHaveProperty('schedule');
+  });
+
+  it('exports identity clients from the package root', () => {
+    expectTypeOf(Callback).toBeConstructibleWith({
+      token: 'token',
+      encodingAESKey: 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C',
+      receiveId: 'ww-corp',
+    });
+    expectTypeOf(Suite).toBeConstructibleWith({
+      suiteId: 'ww-suite',
+      suiteSecret: 'secret',
+    });
+    expectTypeOf(Provider).toBeConstructibleWith({
+      corpId: 'ww-provider',
+      providerSecret: 'secret',
+    });
+    expectTypeOf(Webhook).toBeConstructibleWith({
+      url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=abc',
+    });
+    expectTypeOf(AiBot).toBeConstructibleWith({
+      botId: 'bot',
+      secret: 'secret',
+    });
+    expectTypeOf(Hardware).toBeConstructibleWith({
+      modelId: 'model',
+      modelSecret: 'secret',
+    });
+    expectTypeOf(Wecom).toBeConstructibleWith({
+      tokenProvider: {
+        cacheKey: 'suite-corp:ww:auth:perm:https://qyapi.weixin.qq.com/cgi-bin/',
+        fetch: async () => ({ accessToken: 't', expiresIn: 7200 }),
+      },
+    });
   });
 });

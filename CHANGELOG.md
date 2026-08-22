@@ -1,3 +1,9 @@
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 按身份补齐 Callback、Suite、Provider、Webhook、AiBot 和 Hardware，自建应用用法保持不变。
+
 ## [1.0.0-rc.2](https://github.com/witjs/wecom/compare/1.0.0-rc.1...1.0.0-rc.2) (2026-08-16)
 
 ### ⚠ BREAKING CHANGES

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { MemoryTokenStore } from '../../src';
-import { tokenCacheKey } from '../../src/core/config';
+import { corpTokenCacheKey } from '../../src/core/config';
 import { getTokenManager, resetTokenManagers } from '../../src/core/token';
 
 const credentials = {
@@ -33,7 +33,7 @@ describe('TokenManager', () => {
   it('returns a cached token that is still fresh', async () => {
     const store = new MemoryTokenStore();
     const manager = getTokenManager({ ...credentials, store });
-    const key = tokenCacheKey(
+    const key = corpTokenCacheKey(
       credentials.corpId,
       credentials.corpSecret,
       credentials.baseURL
@@ -55,7 +55,7 @@ describe('TokenManager', () => {
   it('refreshes when the token is inside the expire buffer', async () => {
     const store = new MemoryTokenStore();
     const manager = getTokenManager({ ...credentials, store });
-    const key = tokenCacheKey(
+    const key = corpTokenCacheKey(
       credentials.corpId,
       credentials.corpSecret,
       credentials.baseURL
@@ -104,7 +104,7 @@ describe('TokenManager', () => {
     await manager.invalidate();
     expect(
       store.get(
-        tokenCacheKey(
+        corpTokenCacheKey(
           credentials.corpId,
           credentials.corpSecret,
           credentials.baseURL
@@ -122,7 +122,7 @@ describe('TokenManager', () => {
   it('does not cache an inflight refresh after invalidate', async () => {
     const store = new MemoryTokenStore();
     const manager = getTokenManager({ ...credentials, store });
-    const key = tokenCacheKey(
+    const key = corpTokenCacheKey(
       credentials.corpId,
       credentials.corpSecret,
       credentials.baseURL

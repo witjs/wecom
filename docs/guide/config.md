@@ -17,8 +17,10 @@ const user = new User({
 
 | 参数         | 类型                     | 必填 | 默认值                                 | 说明                                |
 | ------------ | ------------------------ | ---- | -------------------------------------- | ----------------------------------- |
-| `corpId`     | `string`                 | 是   | —                                      | 企业 ID                             |
-| `corpSecret` | `string`                 | 是   | —                                      | 应用 Secret                         |
+| `corpId`        | `string`        | 自建时是 | —                                      | 企业 ID                               |
+| `corpSecret`    | `string`        | 自建时是 | —                                      | 应用 Secret                           |
+| `tokenProvider` | `TokenProvider` | 否       | —                                      | 外部换票；传入后不再要求 `corpSecret` |
+| `tokenParam`    | `TokenParam`    | 否       | `access_token`                         | 自动附加的 query 名                   |
 | `baseURL`    | `string`                 | 否   | `https://qyapi.weixin.qq.com/cgi-bin/` | 接口前缀，会自动补 `/`              |
 | `retryTimes` | `number`                 | 否   | `3`                                    | 可恢复错误的额外重试次数，允许 `0`  |
 | `timeout`    | `number`                 | 否   | `30000`                                | 单次请求超时，毫秒                  |
@@ -30,7 +32,7 @@ const user = new User({
 
 校验规则：
 
-- 只强制 `corpId` 和 `corpSecret`
+- 自建应用强制 `corpId` 和 `corpSecret`；传入 `tokenProvider` 时改为用外部换票
 - `retryTimes` 必须是大于等于 `0` 的有限数字
 - `timeout` 必须是大于 `0` 的有限数字
 
