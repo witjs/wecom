@@ -1,26 +1,26 @@
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
-import type { GetDialRecordDto, GetDialRecordRet } from './interface';
+import type { Wecom } from '../../wecom.js';
+import type { WecomConfig } from '../../core/config.js';
+import { WecomModule } from '../../wecom-module.js';
+import type { DialRecordList, DialRecordQuery } from './interface.js';
 
-export class Dial extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
+/**
+ * 公费电话拨打记录。
+ *
+ * @see https://developer.work.weixin.qq.com/document/path/90267
+ */
+export class Dial extends WecomModule {
+  constructor(config?: Partial<WecomConfig> | Wecom) {
     super(config);
   }
 
   /**
-   * @description 获取公费电话拨打记录
+   * 获取公费电话拨打记录。
+   *
+   * @see https://developer.work.weixin.qq.com/document/path/90267
    */
-  getDialRecord(data: GetDialRecordDto = {}): Promise<GetDialRecordRet> {
-    return this.request<GetDialRecordRet>({
-      url: '/dial/get_dial_record',
-      method: 'POST',
-      data,
-    });
+  getDialRecord(data: DialRecordQuery) {
+    return this.http.post<DialRecordList>('/dial/get_dial_record', data);
   }
 }
 
-export type {
-  DialRecord,
-  GetDialRecordDto,
-  GetDialRecordRet,
-} from './interface';
+export * from './interface.js';
