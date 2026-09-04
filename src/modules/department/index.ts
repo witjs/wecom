@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   ICreateDepartment,
   ICreateDepartmentRet,
@@ -10,9 +10,9 @@ import type {
   IUpdateDepartment,
 } from './interface';
 
-export class Department extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Department extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

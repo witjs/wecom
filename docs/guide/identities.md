@@ -4,18 +4,18 @@
 
 ## 对照
 
-| 你在做什么 | 手里的凭证 | 用哪个客户端 | 换到的 token |
-| --- | --- | --- | --- |
-| 企业自建应用 | `corpId` + `corpSecret` | `Wecom` / `Message` / `User` … | `access_token` |
-| 第三方应用 | `suiteId` + `suiteSecret` + `suite_ticket` | `Suite`，再用 `suite.corp()` | `suite_access_token` → 企业 `access_token` |
-| 服务商代开发（模板期） | `suiteId`（`dk` 开头）+ `suiteSecret` + `suite_ticket` | 同一个 `Suite` | 同上 |
-| 代开发发布后 | `corpId` + `permanent_code`（当作 secret） | 回到 `Message` / `User` | `access_token` |
-| 服务商后台（登录、注册定制化） | `corpId` + `providerSecret` | `Provider` | `provider_access_token` |
-| 群机器人消息推送 | webhook URL | `Webhook` | 无 |
-| 智能机器人 | `botId` + `secret` | `AiBot` | WebSocket 订阅 |
-| 硬件云对云 | `modelId` + `modelSecret` + `model_ticket` | `Hardware` | `model_access_token` / `device_access_token` |
+| 你在做什么                     | 手里的凭证                                             | 用哪个客户端                   | 换到的 token                                 |
+| ------------------------------ | ------------------------------------------------------ | ------------------------------ | -------------------------------------------- |
+| 企业自建应用                   | `corpId` + `corpSecret`                                | `Wecom` / `Message` / `User` … | `access_token`                               |
+| 第三方应用                     | `suiteId` + `suiteSecret` + `suite_ticket`             | `Suite`，再用 `suite.corp()`   | `suite_access_token` → 企业 `access_token`   |
+| 服务商代开发（模板期）         | `suiteId`（`dk` 开头）+ `suiteSecret` + `suite_ticket` | 同一个 `Suite`                 | 同上                                         |
+| 代开发发布后                   | `corpId` + `permanent_code`（当作 secret）             | 回到 `Message` / `User`        | `access_token`                               |
+| 服务商后台（登录、注册定制化） | `corpId` + `providerSecret`                            | `Provider`                     | `provider_access_token`                      |
+| 群机器人消息推送               | webhook URL                                            | `Webhook`                      | 无                                           |
+| 智能机器人                     | `botId` + `secret`                                     | `AiBot`                        | WebSocket 订阅                               |
+| 硬件云对云                     | `modelId` + `modelSecret` + `model_ticket`             | `Hardware`                     | `model_access_token` / `device_access_token` |
 
-不要为第三方再找一套 `SuiteUser`。`Suite.corp()` 返回的配置可以直接交给现有业务客户端。
+不要为第三方再找一套 `SuiteUser`。`Suite.corp()` 仍返回 `WecomConfig`；也可用 `suite.corpWecom()` / `suite.createCorpClient()` 得到共享客户端。
 
 ## 自建应用
 
@@ -104,10 +104,10 @@ await bot.connect();
 
 ## 硬件云对云
 
-设备直连 `wss://openhw.work.weixin.qq.com` 不在本 SDK 里。厂商云对接用 `Hardware`。
+设备直连 `wss://openhw.work.weixin.qq.com` 不在本 SDK 里。厂商云对接用 `Hardware`。`Hardware.device()` 返回 `WecomConfig`；也可用 `hardware.deviceWecom()` / `hardware.createDeviceClient()` 得到共享客户端。
 
 ```ts
-import { Hardware, Wecom } from 'wecom';
+import { Hardware } from 'wecom';
 
 const hardware = new Hardware({
   modelId: process.env.MODEL_ID!,
@@ -116,10 +116,8 @@ const hardware = new Hardware({
 });
 
 const secret = await hardware.getDeviceSecret(authCode);
-const device = new Wecom(
-  hardware.device({
-    deviceSn: 'SN1',
-    deviceSecret: secret.device_secret!,
-  })
-);
+const device = hardware.deviceWecom({
+  deviceSn: 'SN1',
+  deviceSecret: secret.device_secret!,
+});
 ```
