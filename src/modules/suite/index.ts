@@ -3,11 +3,13 @@ import {
   DEFAULT_BASE_URL,
   normalizeBaseURL,
   pickHttpConfig,
+  type ResolvedWecomConfig,
+  type WecomConfig,
 } from '../../core/config';
 import { WecomApiError, WecomConfigError } from '../../core/errors';
-import type { TicketStore } from '../../core/types';
+import type { TicketStore, WecomRequestOptions } from '../../core/types';
 import { MemoryTicketStore } from '../../core/token';
-import type { WecomConfig } from '../../wecom';
+import { createClient, type WecomClient } from '../../client';
 import { Wecom } from '../../wecom';
 import type {
   AdminListRet,
@@ -40,11 +42,12 @@ export type {
 /**
  * @description 第三方应用 / 代开发模板。用 suite_ticket 换 suite_access_token，再换授权企业 access_token。
  */
-export class Suite extends Wecom {
+export class Suite {
   readonly suiteId: string;
   private readonly suiteSecret: string;
   private readonly tickets: TicketStore;
   private readonly ticketKey: string;
+  private readonly client: Wecom;
 
   constructor(config: SuiteConfig) {
     const suiteId = config.suiteId?.trim() ?? '';
@@ -56,24 +59,35 @@ export class Suite extends Wecom {
       throw new WecomConfigError('suiteSecret should not be empty');
     }
 
-    const holder: { instance?: Suite } = {};
-    super({
-      ...pickHttpConfig(config),
-      tokenProvider: {
-        cacheKey: `suite:${suiteId}:${suiteSecret}:${normalizeBaseURL(config.baseURL ?? DEFAULT_BASE_URL)}`,
-        tokenParam: 'suite_access_token',
-        fetch: () => holder.instance!.fetchSuiteToken(),
-      },
-    });
-    holder.instance = this;
-
     this.suiteId = suiteId;
     this.suiteSecret = suiteSecret;
     this.tickets = config.ticketStore ?? new MemoryTicketStore();
     this.ticketKey = config.ticketKey ?? `suite-ticket:${suiteId}`;
+
+    this.client = new Wecom({
+      ...pickHttpConfig(config),
+      tokenProvider: {
+        cacheKey: `suite:${suiteId}:${suiteSecret}:${normalizeBaseURL(config.baseURL ?? DEFAULT_BASE_URL)}`,
+        tokenParam: 'suite_access_token',
+        fetch: () => this.fetchSuiteToken(),
+      },
+    });
+
     if (config.suiteTicket) {
       this.setTicket(config.suiteTicket);
     }
+  }
+
+  get config(): ResolvedWecomConfig {
+    return this.client.config;
+  }
+
+  getToken(): Promise<string> {
+    return this.client.getToken();
+  }
+
+  request<T = BaseRet>(options: WecomRequestOptions): Promise<T> {
+    return this.client.request<T>(options);
   }
 
   setTicket(ticket: string): void | Promise<void> {
@@ -154,6 +168,11 @@ export class Suite extends Wecom {
     });
   }
 
+  /**
+   * Return a WecomConfig for an authorized corp. Pass it to `new Message(config)`
+   * or prefer `createCorpClient` / `corpWecom` for typed helpers.
+   * There is no SuiteUser — reuse existing business modules.
+   */
   corp(options: SuiteCorpOptions): WecomConfig {
     if (!options.authCorpId) {
       throw new WecomConfigError('authCorpId should not be empty');
@@ -171,6 +190,19 @@ export class Suite extends Wecom {
         fetch: () => this.fetchCorpToken(options),
       },
     };
+  }
+
+  /** Shared Wecom for an authorized corp (token via suite). */
+  corpWecom(options: SuiteCorpOptions): Wecom {
+    return new Wecom(this.corp(options));
+  }
+
+  /** createClient() bound to an authorized corp — no SuiteUser classes. */
+  createCorpClient(
+    options: SuiteCorpOptions & { agentId?: number }
+  ): WecomClient {
+    const { agentId, ...corpOptions } = options;
+    return createClient({ ...this.corp(corpOptions), agentId });
   }
 
   private async fetchSuiteToken(): Promise<{
