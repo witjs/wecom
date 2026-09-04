@@ -1,5 +1,5 @@
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   BatchImportDto,
   BatchJobRet,
@@ -7,9 +7,9 @@ import type {
   BatchResultRet,
 } from './interface';
 
-export class Batch extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Batch extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

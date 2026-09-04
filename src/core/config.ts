@@ -1,5 +1,10 @@
 import { WecomConfigError } from './errors';
-import type { TokenParam, TokenProvider, TokenStore, WecomLogger } from './types';
+import type {
+  TokenParam,
+  TokenProvider,
+  TokenStore,
+  WecomLogger,
+} from './types';
 
 export const DEFAULT_BASE_URL = 'https://qyapi.weixin.qq.com/cgi-bin/';
 export const DEFAULT_RETRY_TIMES = 3;
