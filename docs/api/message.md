@@ -23,12 +23,12 @@ const message = new Message({
 
 ## 方法
 
-| 方法                       | 说明                                           |
-| -------------------------- | ---------------------------------------------- |
-| `send(message, agentId?)`  | 发送应用消息；`agentid` 可在消息体或第二参传入 |
-| `recall(data)`             | 撤回消息                                       |
-| `updateTemplateCard(data)` | 更新模版卡片                                   |
-| `getStatistics(data)`      | 发送统计                                       |
+| 方法                       | 说明                                                                 |
+| -------------------------- | -------------------------------------------------------------------- |
+| `send(message, agentId?)`  | 发送应用消息；`agentid` 优先级：消息体 > 第二参 > 构造默认 `agentId` |
+| `recall(data)`             | 撤回消息                                                             |
+| `updateTemplateCard(data)` | 更新模版卡片                                                         |
+| `getStatistics(data)`      | 发送统计                                                             |
 
 `send` 不会修改传入对象。
 
