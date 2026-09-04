@@ -72,38 +72,54 @@ const ret = await wecom.request({
 
 ## 配置
 
-| 参数       | 类型         | 必填 | 说明                                         |
-| :--------- | :----------- | :--: | :------------------------------------------- |
+| 参数          | 类型          |   必填   | 说明                                         |
+| :------------ | :------------ | :------: | :------------------------------------------- |
 | corpId        | string        | 自建时是 | 企业 ID                                      |
 | corpSecret    | string        | 自建时是 | 应用 Secret                                  |
-| tokenProvider | TokenProvider |  否  | 外部换票，供 Suite.corp() 等身份复用             |
-| baseURL    | string       |  否  | 默认 `https://qyapi.weixin.qq.com/cgi-bin/`  |
-| retryTimes | number       |  否  | 可恢复错误的额外重试次数，默认 `3`，允许 `0` |
-| timeout    | number       |  否  | 请求超时，默认 `30000`                       |
-| headers    | object       |  否  | 额外请求头                                   |
-| fetch      | typeof fetch |  否  | 自定义 fetch，便于测试或代理                 |
-| tokenStore | TokenStore   |  否  | 可替换的 Token 缓存                          |
-| logger     | WecomLogger  |  否  | 调试日志钩子                                 |
-| signal     | AbortSignal  |  否  | 全局取消信号                                 |
+| tokenProvider | TokenProvider |    否    | 外部换票，供 Suite.corp() 等身份复用         |
+| baseURL       | string        | 否       | 默认 `https://qyapi.weixin.qq.com/cgi-bin/`  |
+| retryTimes    | number        |    否    | 可恢复错误的额外重试次数，默认 `3`，允许 `0` |
+| timeout       | number        |    否    | 请求超时，默认 `30000`                       |
+| headers       | object        |    否    | 额外请求头                                   |
+| fetch         | typeof fetch  |    否    | 自定义 fetch，便于测试或代理                 |
+| tokenStore    | TokenStore    |    否    | 可替换的 Token 缓存                          |
+| logger        | WecomLogger   |    否    | 调试日志钩子                                 |
+| signal        | AbortSignal   |    否    | 全局取消信号                                 |
 
 相同凭证会共享 Token，并合并并发刷新。自建应用的缓存键是 `corp:{corpId}:{corpSecret}:{baseURL}`。
 
-`Wecom.setGlobal()` 仍然可用，但已标记为 deprecated，推荐显式传入配置。
+`Wecom.setGlobal()` 仍然可用但已 deprecated。推荐 `createClient(config)` / `createScope(defaults)` 显式共享配置；多租户请用独立 scope（和 `tokenStore`），不要依赖进程全局。
 
 ## 模块
 
-每个模块都是独立客户端，从包根导入，构造时传入同一套配置。
+每个模块都是独立客户端，从包根或子路径（如 `wecom/user`）导入。可用 `new User(config)` 兼容构造，或 `createClient(config)` 让多个模块共享同一个 `Wecom`（transport / logger / signal / token）。
 
-| 分组       | 模块                                                                                                                                                            | 说明                       |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------- |
-| 核心       | [Wecom](docs/api/wecom.md)                                                                                                                                      | Token、`request()`、重试   |
+```ts
+import { createClient } from 'wecom';
+// 或：import { User } from 'wecom/user';
+
+const client = createClient({
+  corpId: process.env.CORPID!,
+  corpSecret: process.env.TEST_SECRET!,
+  agentId: Number(process.env.TEST_AGENT_ID),
+});
+await client.message.send({
+  touser: 'userid',
+  msgtype: 'text',
+  text: { content: 'hello' },
+});
+```
+
+| 分组       | 模块                                                                                                                                                                                              | 说明                               |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------- |
+| 核心       | [Wecom](docs/api/wecom.md)                                                                                                                                                                        | Token、`request()`、重试           |
 | 身份       | [Callback](docs/api/callback.md) / [Suite](docs/api/suite.md) / [Provider](docs/api/provider.md) / [Webhook](docs/api/webhook.md) / [AiBot](docs/api/aibot.md) / [Hardware](docs/api/hardware.md) | 回调、第三方、服务商、机器人、硬件 |
-| 通讯录     | [User](docs/api/user.md) / [Department](docs/api/department.md) / [Tag](docs/api/tag.md) / [Batch](docs/api/batch.md)                                           | 成员、部门、标签、异步导入 |
-| 应用与消息 | [Agent](docs/api/agent.md) / [AgentMenu](docs/api/agent-menu.md) / [Media](docs/api/media.md) / [Message](docs/api/message.md) / [AppChat](docs/api/appchat.md) | 应用、菜单、素材、消息     |
-| 客户联系   | [ExternalContact](docs/api/external-contact.md)                                                                                                                 | 客户、联系我、群聊、分配   |
-| 协作工具   | [Calendar](docs/api/calendar.md) / [Schedule](docs/api/schedule.md) / [MeetingRoom](docs/api/meeting-room.md)                                                   | 日历、日程、会议室         |
-| OA         | [Checkin](docs/api/checkin.md) / [Approval](docs/api/approval.md) / [Dial](docs/api/dial.md)                                                                    | 打卡、审批、公费电话       |
-| 财务       | [Invoice](docs/api/invoice.md)                                                                                                                                  | 电子发票查询和报销状态     |
+| 通讯录     | [User](docs/api/user.md) / [Department](docs/api/department.md) / [Tag](docs/api/tag.md) / [Batch](docs/api/batch.md)                                                                             | 成员、部门、标签、异步导入         |
+| 应用与消息 | [Agent](docs/api/agent.md) / [AgentMenu](docs/api/agent-menu.md) / [Media](docs/api/media.md) / [Message](docs/api/message.md) / [AppChat](docs/api/appchat.md)                                   | 应用、菜单、素材、消息             |
+| 客户联系   | [ExternalContact](docs/api/external-contact.md)                                                                                                                                                   | 客户、联系我、群聊、分配           |
+| 协作工具   | [Calendar](docs/api/calendar.md) / [Schedule](docs/api/schedule.md) / [MeetingRoom](docs/api/meeting-room.md)                                                                                     | 日历、日程、会议室                 |
+| OA         | [Checkin](docs/api/checkin.md) / [Approval](docs/api/approval.md) / [Dial](docs/api/dial.md)                                                                                                      | 打卡、审批、公费电话               |
+| 财务       | [Invoice](docs/api/invoice.md)                                                                                                                                                                    | 电子发票查询和报销状态             |
 
 ```ts
 import {
