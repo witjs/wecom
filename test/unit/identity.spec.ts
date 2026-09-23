@@ -63,7 +63,12 @@ describe('Suite', () => {
           expires_in: 7200,
         };
       }
-      return { errcode: 0, errmsg: 'ok', pre_auth_code: 'pre', expires_in: 600 };
+      return {
+        errcode: 0,
+        errmsg: 'ok',
+        pre_auth_code: 'pre',
+        expires_in: 600,
+      };
     });
     const suite = new Suite({
       suiteId: 'ww-suite',
@@ -103,16 +108,20 @@ describe('Suite', () => {
       suiteTicket: 'ticket-1',
       fetch,
     });
-    const message = new Message(suite.corp({
-      authCorpId: 'ww-auth',
-      permanentCode: 'perm-1',
-    }));
+    const message = new Message(
+      suite.corp({
+        authCorpId: 'ww-auth',
+        permanentCode: 'perm-1',
+      })
+    );
     await message.send(
       { touser: 'alice', msgtype: 'text', text: { content: 'hi' } },
       1000002
     );
     expect(
-      calls.some((call) => call.url.pathname.includes('/service/get_corp_token'))
+      calls.some((call) =>
+        call.url.pathname.includes('/service/get_corp_token')
+      )
     ).toBe(true);
     const send = lastNonTokenCall(calls);
     expect(send?.url.pathname).toContain('/message/send');
@@ -264,8 +273,11 @@ describe('AiBot', () => {
       })
     );
     await Promise.resolve();
-    const reply = socket.instance!.sent
-      .map((item) => JSON.parse(item) as { cmd: string; body?: { msgtype?: string } })
+    const reply = socket
+      .instance!.sent.map(
+        (item) =>
+          JSON.parse(item) as { cmd: string; body?: { msgtype?: string } }
+      )
       .find((item) => item.cmd === 'aibot_respond_msg');
     expect(seen).toEqual(['hello']);
     expect(reply?.body?.msgtype).toBe('markdown');
@@ -286,7 +298,10 @@ function createFakeSocket() {
     static CLOSED = 3;
     readyState = 0;
     sent: string[] = [];
-    private readonly listeners = new Map<string, Set<(event: unknown) => void>>();
+    private readonly listeners = new Map<
+      string,
+      Set<(event: unknown) => void>
+    >();
 
     constructor(public url: string) {
       instance = this;
@@ -312,7 +327,10 @@ function createFakeSocket() {
       this.listeners.set(type, bucket);
     }
 
-    removeEventListener(type: string, listener: (event: unknown) => void): void {
+    removeEventListener(
+      type: string,
+      listener: (event: unknown) => void
+    ): void {
       this.listeners.get(type)?.delete(listener);
     }
 
