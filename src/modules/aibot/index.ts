@@ -64,7 +64,9 @@ export class AiBotReply {
     return this.bot.respondWelcome(this.reqId, body);
   }
 
-  updateTemplateCard(templateCard: Record<string, unknown>): Promise<AiBotFrame> {
+  updateTemplateCard(
+    templateCard: Record<string, unknown>
+  ): Promise<AiBotFrame> {
     return this.bot.updateTemplateCard(this.reqId, templateCard);
   }
 }
