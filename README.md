@@ -77,7 +77,7 @@ const ret = await wecom.request({
 | corpId        | string        | 自建时是 | 企业 ID                                      |
 | corpSecret    | string        | 自建时是 | 应用 Secret                                  |
 | tokenProvider | TokenProvider |    否    | 外部换票，供 Suite.corp() 等身份复用         |
-| baseURL       | string        | 否       | 默认 `https://qyapi.weixin.qq.com/cgi-bin/`  |
+| baseURL       | string        |    否    | 默认 `https://qyapi.weixin.qq.com/cgi-bin/`  |
 | retryTimes    | number        |    否    | 可恢复错误的额外重试次数，默认 `3`，允许 `0` |
 | timeout       | number        |    否    | 请求超时，默认 `30000`                       |
 | headers       | object        |    否    | 额外请求头                                   |
