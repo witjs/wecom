@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   AddScheduleDto,
   AddScheduleRet,
@@ -12,9 +12,9 @@ import type {
   UpdateScheduleDto,
 } from './interface';
 
-export class Schedule extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Schedule extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   add(data: AddScheduleDto): Promise<AddScheduleRet> {

@@ -2,11 +2,14 @@ import {
   DEFAULT_BASE_URL,
   normalizeBaseURL,
   pickHttpConfig,
+  type ResolvedWecomConfig,
+  type WecomConfig,
 } from '../../core/config';
 import { WecomApiError, WecomConfigError } from '../../core/errors';
 import { MemoryTicketStore } from '../../core/token';
-import type { TicketStore } from '../../core/types';
-import type { WecomConfig } from '../../wecom';
+import type { TicketStore, WecomRequestOptions } from '../../core/types';
+import type { BaseRet } from '../../common/interface';
+import { createClient, type WecomClient } from '../../client';
 import { Wecom } from '../../wecom';
 import type {
   DeviceSecretRet,
@@ -29,11 +32,12 @@ export type {
 /**
  * @description 智能硬件云对云。用 model_ticket 换 model_access_token，再换设备 token。
  */
-export class Hardware extends Wecom {
+export class Hardware {
   readonly modelId: string;
   private readonly modelSecret: string;
   private readonly tickets: TicketStore;
   private readonly ticketKey: string;
+  private readonly client: Wecom;
 
   constructor(config: HardwareConfig) {
     const modelId = config.modelId?.trim() ?? '';
@@ -45,23 +49,35 @@ export class Hardware extends Wecom {
       throw new WecomConfigError('modelSecret should not be empty');
     }
 
-    const holder: { instance?: Hardware } = {};
-    super({
-      ...pickHttpConfig(config),
-      tokenProvider: {
-        cacheKey: `model:${modelId}:${modelSecret}:${normalizeBaseURL(config.baseURL ?? DEFAULT_BASE_URL)}`,
-        tokenParam: 'model_access_token',
-        fetch: () => holder.instance!.fetchModelToken(),
-      },
-    });
-    holder.instance = this;
     this.modelId = modelId;
     this.modelSecret = modelSecret;
     this.tickets = config.ticketStore ?? new MemoryTicketStore();
     this.ticketKey = config.ticketKey ?? `model-ticket:${modelId}`;
+
+    this.client = new Wecom({
+      ...pickHttpConfig(config),
+      tokenProvider: {
+        cacheKey: `model:${modelId}:${modelSecret}:${normalizeBaseURL(config.baseURL ?? DEFAULT_BASE_URL)}`,
+        tokenParam: 'model_access_token',
+        fetch: () => this.fetchModelToken(),
+      },
+    });
+
     if (config.modelTicket) {
       this.setTicket(config.modelTicket);
     }
+  }
+
+  get config(): ResolvedWecomConfig {
+    return this.client.config;
+  }
+
+  getToken(): Promise<string> {
+    return this.client.getToken();
+  }
+
+  request<T = BaseRet>(options: WecomRequestOptions): Promise<T> {
+    return this.client.request<T>(options);
   }
 
   setTicket(ticket: string): void | Promise<void> {
@@ -130,6 +146,14 @@ export class Hardware extends Wecom {
         fetch: () => this.fetchDeviceToken(options),
       },
     };
+  }
+
+  deviceWecom(options: HardwareDeviceOptions): Wecom {
+    return new Wecom(this.device(options));
+  }
+
+  createDeviceClient(options: HardwareDeviceOptions): WecomClient {
+    return createClient(this.device(options));
   }
 
   private async fetchModelToken(): Promise<{

@@ -604,7 +604,9 @@ describe('module endpoint contracts', () => {
       '/service/v2/get_auth_info'
     );
     await suite.getAdminList('ww-auth', 1000002);
-    expect(lastApiCall(calls)?.url.pathname).toContain('/service/get_admin_list');
+    expect(lastApiCall(calls)?.url.pathname).toContain(
+      '/service/get_admin_list'
+    );
     await suite.getUserInfo3rd('code');
     expect(lastApiCall(calls)?.url.pathname).toContain(
       '/service/getuserinfo3rd'

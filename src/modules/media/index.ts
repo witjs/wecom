@@ -1,5 +1,5 @@
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   IMediaFile,
   IMediaRet,
@@ -8,9 +8,9 @@ import type {
 } from './interface';
 import { toFormData, type MediaUploadSource } from './upload';
 
-export class Media extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Media extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

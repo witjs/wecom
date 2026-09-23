@@ -78,10 +78,23 @@ import {
   MeetingRoom,
   Message,
   User,
+  createClient,
 } from 'wecom';
+// 子路径：import { User } from 'wecom/user'
 ```
 
-每个模块都是独立客户端，构造时传入同一套 [配置](./config)。相同凭证会自动共享 Token。
+兼容写法是每个模块独立 `new User(config)`。更推荐一次 `createClient(config)`，让 User / Message 等共享同一个请求内核与 Token：
+
+```ts
+const client = createClient({
+  corpId: process.env.CORPID!,
+  corpSecret: process.env.TEST_SECRET!,
+  agentId: Number(process.env.TEST_AGENT_ID),
+});
+await client.user.get('alice');
+```
+
+相同凭证仍会自动共享 Token；`createClient` 则进一步共享同一 `Wecom` 实例。
 
 ## 下一步
 

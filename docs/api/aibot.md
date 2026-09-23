@@ -28,13 +28,13 @@ await bot.connect();
 
 ## 方法
 
-| 方法 | 说明 |
-| --- | --- |
-| `connect()` / `disconnect()` | 建连、订阅、断开 |
-| `respond(reqId, body)` | 通用回复 |
-| `respondWelcome(reqId, body)` | 欢迎语，需在 5s 内 |
-| `updateTemplateCard(reqId, card)` | 更新模板卡片 |
-| `sendMessage({ chatid, msgtype, ... })` | 主动推送到会话 |
+| 方法                                    | 说明               |
+| --------------------------------------- | ------------------ |
+| `connect()` / `disconnect()`            | 建连、订阅、断开   |
+| `respond(reqId, body)`                  | 通用回复           |
+| `respondWelcome(reqId, body)`           | 欢迎语，需在 5s 内 |
+| `updateTemplateCard(reqId, card)`       | 更新模板卡片       |
+| `sendMessage({ chatid, msgtype, ... })` | 主动推送到会话     |
 
 `reply.stream` / `reply.markdown` / `reply.text` 会透传回调里的 `req_id`。短连接模式的验签解密用 [Callback](./callback)。
 

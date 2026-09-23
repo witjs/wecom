@@ -24,6 +24,20 @@ export type {
 } from './core/types';
 export { MemoryTicketStore, MemoryTokenStore } from './core/token';
 export type { BaseRet, QrCodeSizeType, ZeroOrOne } from './common/interface';
+export {
+  WecomModule,
+  asWecom,
+  isWecom,
+  type ClientSource,
+} from './wecom-module';
+export {
+  createClient,
+  createScope,
+  clientHttpConfig,
+  type CreateClientOptions,
+  type WecomClient,
+  type WecomScope,
+} from './client';
 export * from './modules/user';
 export * from './modules/department';
 export * from './modules/tag';

@@ -1,6 +1,6 @@
 # 模块总览
 
-每个模块都是独立客户端，从 `wecom` 包根导入。构造时传入 [配置](/guide/config)，方法直接返回业务数据。
+每个模块都是独立客户端，从 `wecom` 包根或 `wecom/<module>` 子路径导入。可用 `new User(config)` 或推荐的 `createClient(config)` 共享请求内核。方法直接返回业务数据。
 
 先看 [选择接入方式](/guide/identities)，对上凭证再选客户端。
 

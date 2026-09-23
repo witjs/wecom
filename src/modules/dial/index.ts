@@ -1,10 +1,10 @@
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type { GetDialRecordDto, GetDialRecordRet } from './interface';
 
-export class Dial extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Dial extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

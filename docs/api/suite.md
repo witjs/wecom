@@ -16,16 +16,18 @@ const suite = new Suite({
 
 ## 方法
 
-| 方法 | 说明 |
-| --- | --- |
-| `setTicket(ticket)` / `getTicket()` | 写入或读取最新 `suite_ticket` |
-| `getPreAuthCode()` | 预授权码 |
-| `setSessionInfo(data)` | 授权时的应用可见范围 |
-| `getPermanentCode(authCode)` | 永久授权码（v2） |
-| `getAuthInfo({ authCorpId, permanentCode })` | 企业授权信息（v2） |
-| `getAdminList(authCorpId, agentId)` | 应用管理员 |
-| `getUserInfo3rd(code)` / `getUserDetail3rd(userTicket)` | 第三方 OAuth |
-| `corp({ authCorpId, permanentCode })` | 返回可交给 `Message` / `User` 的配置 |
+| 方法                                                    | 说明                                               |
+| ------------------------------------------------------- | -------------------------------------------------- |
+| `setTicket(ticket)` / `getTicket()`                     | 写入或读取最新 `suite_ticket`                      |
+| `getPreAuthCode()`                                      | 预授权码                                           |
+| `setSessionInfo(data)`                                  | 授权时的应用可见范围                               |
+| `getPermanentCode(authCode)`                            | 永久授权码（v2）                                   |
+| `getAuthInfo({ authCorpId, permanentCode })`            | 企业授权信息（v2）                                 |
+| `getAdminList(authCorpId, agentId)`                     | 应用管理员                                         |
+| `getUserInfo3rd(code)` / `getUserDetail3rd(userTicket)` | 第三方 OAuth                                       |
+| `corp({ authCorpId, permanentCode })`                   | 返回可交给 `Message` / `User` 的 `WecomConfig`     |
+| `corpWecom(options)`                                    | 同上，直接得到共享 `Wecom`                         |
+| `createCorpClient(options)`                             | 同上，得到 `createClient` 模块集合（无 SuiteUser） |
 
 ```ts
 const corp = suite.corp({

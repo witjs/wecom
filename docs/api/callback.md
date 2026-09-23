@@ -15,19 +15,19 @@ const callback = new Callback({
 ## 构造
 
 ```ts
-new Callback({ token, encodingAESKey, receiveId })
+new Callback({ token, encodingAESKey, receiveId });
 ```
 
 `encodingAESKey` 必须是 43 位。缺少任一字段会抛 `WecomConfigError`。
 
 ## 方法
 
-| 方法 | 说明 |
-| --- | --- |
-| `verifyUrl(query)` | 校验 `echostr` 签名并解密，返回明文 |
-| `decrypt(body, query)` | 校验 POST 签名并解密，返回字段和原文 |
-| `encrypt(plaintext)` | 加密被动回复，同时给出 XML / JSON |
-| `sign(timestamp, nonce, encrypt)` | 计算 `msg_signature` |
+| 方法                              | 说明                                 |
+| --------------------------------- | ------------------------------------ |
+| `verifyUrl(query)`                | 校验 `echostr` 签名并解密，返回明文  |
+| `decrypt(body, query)`            | 校验 POST 签名并解密，返回字段和原文 |
+| `encrypt(plaintext)`              | 加密被动回复，同时给出 XML / JSON    |
+| `sign(timestamp, nonce, encrypt)` | 计算 `msg_signature`                 |
 
 `body` 可以是 XML 字符串、JSON 字符串，或 `{ encrypt }` 对象。
 

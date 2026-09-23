@@ -68,7 +68,9 @@ await wecom.request({
 - axios 实例和 axios 类型
 - 对调用方入参的原地修改（`Message.send`、`Agent.set`）
 
-`Wecom.setGlobal()` 仍可用，但已 deprecated。
+`Wecom.setGlobal()` 仍可用，但已 deprecated；请改用 `createClient` / `createScope`。
+
+业务模块不再继承 `Wecom`，改为组合共享客户端。`new User(config)` / `new Message(config)` 仍然可用（兼容适配），并额外支持传入已有 `Wecom` 实例。`Message` 支持配置默认 `agentId`，发送时参数与消息体仍可覆盖。
 
 ## 类型修正
 
@@ -99,3 +101,5 @@ import type { IUserCreateDto, IMessage, SendableMessage } from 'wecom';
 4. 用 `try/catch` + `WecomApiError` 替换 `errcode` 判断
 5. 把 axios 配置迁移到 `fetch` / `headers` / `timeout` / `signal`
 6. 按本文修正消息和 agent 类型
+7. （可选）把多处 `new User/Message(config)` 收拢为 `createClient(config)`，多租户改用 `createScope`
+8. （可选）使用子路径导入：`import { User } from 'wecom/user'`

@@ -4,6 +4,8 @@ import type { WecomLogger } from '../../core/types';
 export interface WebhookConfig {
   url: string;
   timeout?: number;
+  /** Extra retries for recoverable errors; default matches Wecom (3). */
+  retryTimes?: number;
   headers?: Record<string, string>;
   fetch?: typeof fetch;
   logger?: WecomLogger;

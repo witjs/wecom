@@ -1,6 +1,6 @@
 # Wecom
 
-底层客户端。各业务模块都继承它。未封装的接口用 `request()`。
+底层请求客户端（Token、重试、错误策略）。业务模块通过组合复用同一个实例；也可用 `createClient()` 工厂。未封装的接口用 `request()`。
 
 ```ts
 import { Wecom } from 'wecom';
@@ -29,11 +29,11 @@ new Wecom(config?: Partial<WecomConfig>)
 
 ## 方法
 
-| 方法                  | 说明                                    |
-| --------------------- | --------------------------------------- |
-| `getToken()`          | 返回当前可用 `access_token`，必要时刷新 |
-| `request<T>(options)` | 发送已鉴权请求，返回业务数据 `T`        |
-| `setGlobal(config)`   | 写入全局默认配置，已 deprecated         |
+| 方法                  | 说明                                                  |
+| --------------------- | ----------------------------------------------------- |
+| `getToken()`          | 返回当前可用 `access_token`，必要时刷新               |
+| `request<T>(options)` | 发送已鉴权请求，返回业务数据 `T`                      |
+| `setGlobal(config)`   | 写入全局默认配置，已 deprecated；请改用 `createScope` |
 
 ### request
 

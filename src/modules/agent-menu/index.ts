@@ -1,11 +1,18 @@
 import type { BaseRet } from '../../common/interface';
+import { Wecom } from '../../wecom';
 import { Agent } from '../agent';
 import type { IAgentWecom } from '../agent';
 import type { AgentMenuRet, ICreateAgentMenu } from './interface';
 
 export class AgentMenu extends Agent {
-  constructor(config: IAgentWecom) {
-    super(config);
+  constructor(config: IAgentWecom);
+  constructor(client: Wecom, agentId: number);
+  constructor(configOrClient: IAgentWecom | Wecom, agentId?: number) {
+    if (configOrClient instanceof Wecom) {
+      super(configOrClient, agentId as number);
+      return;
+    }
+    super(configOrClient);
   }
 
   /**
