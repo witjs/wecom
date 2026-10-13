@@ -1,4 +1,6 @@
-import { WecomApiError, WecomConfigError } from '../../core/errors';
+import { DEFAULT_RETRY_TIMES, DEFAULT_TIMEOUT } from '../../core/config';
+import { WecomConfigError } from '../../core/errors';
+import { RequestKernel } from '../../core/kernel';
 import { FetchTransport } from '../../core/transport';
 import type { WebhookConfig, WebhookMessage, WebhookRet } from './interface';
 
@@ -16,11 +18,11 @@ export type {
 } from './interface';
 
 /**
- * @description 群机器人消息推送（webhook）。不走 access_token。
+ * @description 群机器人消息推送（webhook）。不走 access_token，但复用核心请求/错误/重试策略。
  */
 export class Webhook {
   readonly url: string;
-  private readonly transport: FetchTransport;
+  private readonly kernel: RequestKernel;
 
   constructor(config: WebhookConfig) {
     if (!config.url) {
@@ -28,30 +30,29 @@ export class Webhook {
     }
     this.url = config.url;
     const parsed = new URL(config.url);
-    this.transport = new FetchTransport({
+    const transport = new FetchTransport({
       baseURL: parsed.href,
-      timeout: config.timeout ?? 30_000,
+      timeout: config.timeout ?? DEFAULT_TIMEOUT,
       headers: config.headers ?? {},
       fetch: config.fetch ?? globalThis.fetch.bind(globalThis),
       logger: config.logger,
       signal: config.signal,
     });
+    this.kernel = new RequestKernel({
+      transport,
+      retryTimes: config.retryTimes ?? DEFAULT_RETRY_TIMES,
+      logger: config.logger,
+      signal: config.signal,
+      // no auth — webhook keys live in the URL
+    });
   }
 
   async send(message: WebhookMessage): Promise<WebhookRet> {
-    const response = await this.transport.request<WebhookRet>({
+    return this.kernel.request<WebhookRet>({
       url: '',
       method: 'POST',
       data: message,
+      skipAuth: true,
     });
-    const data = response.data;
-    if (typeof data.errcode === 'number' && data.errcode !== 0) {
-      throw new WecomApiError({
-        errcode: data.errcode,
-        errmsg: data.errmsg,
-        response: data,
-      });
-    }
-    return data;
   }
 }

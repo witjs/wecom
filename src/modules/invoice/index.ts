@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   BatchGetInvoiceInfoDto,
   BatchGetInvoiceInfoRet,
@@ -10,9 +10,9 @@ import type {
   UpdateInvoiceStatusDto,
 } from './interface';
 
-export class Invoice extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Invoice extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   getInvoiceInfo(data: InvoiceItem): Promise<GetInvoiceInfoRet> {

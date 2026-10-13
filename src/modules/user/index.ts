@@ -3,8 +3,8 @@ import type {
   QrCodeSizeType,
   ZeroOrOne,
 } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   ConvertToOpenIdRet,
   GetActiveStatRet,
@@ -24,9 +24,9 @@ import type {
   UserSampleListRet,
 } from './interface';
 
-export class User extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class User extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

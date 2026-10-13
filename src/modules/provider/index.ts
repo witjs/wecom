@@ -2,8 +2,11 @@ import {
   DEFAULT_BASE_URL,
   normalizeBaseURL,
   pickHttpConfig,
+  type ResolvedWecomConfig,
 } from '../../core/config';
 import { WecomApiError, WecomConfigError } from '../../core/errors';
+import type { WecomRequestOptions } from '../../core/types';
+import type { BaseRet } from '../../common/interface';
 import { Wecom } from '../../wecom';
 import type {
   ProviderConfig,
@@ -20,9 +23,10 @@ export type {
 /**
  * @description 服务商后台身份。用 provider_secret 换 provider_access_token。
  */
-export class Provider extends Wecom {
+export class Provider {
   readonly corpId: string;
   private readonly providerSecret: string;
+  private readonly client: Wecom;
 
   constructor(config: ProviderConfig) {
     const corpId = config.corpId?.trim() ?? '';
@@ -34,18 +38,28 @@ export class Provider extends Wecom {
       throw new WecomConfigError('providerSecret should not be empty');
     }
 
-    const holder: { instance?: Provider } = {};
-    super({
+    this.corpId = corpId;
+    this.providerSecret = providerSecret;
+    this.client = new Wecom({
       ...pickHttpConfig(config),
       tokenProvider: {
         cacheKey: `provider:${corpId}:${providerSecret}:${normalizeBaseURL(config.baseURL ?? DEFAULT_BASE_URL)}`,
         tokenParam: 'provider_access_token',
-        fetch: () => holder.instance!.fetchProviderToken(),
+        fetch: () => this.fetchProviderToken(),
       },
     });
-    holder.instance = this;
-    this.corpId = corpId;
-    this.providerSecret = providerSecret;
+  }
+
+  get config(): ResolvedWecomConfig {
+    return this.client.config;
+  }
+
+  getToken(): Promise<string> {
+    return this.client.getToken();
+  }
+
+  request<T = BaseRet>(options: WecomRequestOptions): Promise<T> {
+    return this.client.request<T>(options);
   }
 
   getLoginInfo(authCode: string): Promise<ProviderLoginInfoRet> {

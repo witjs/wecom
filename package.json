@@ -12,7 +12,127 @@
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./user": {
+      "types": "./dist/modules/user/index.d.mts",
+      "import": "./dist/modules/user/index.mjs",
+      "default": "./dist/modules/user/index.mjs"
+    },
+    "./department": {
+      "types": "./dist/modules/department/index.d.mts",
+      "import": "./dist/modules/department/index.mjs",
+      "default": "./dist/modules/department/index.mjs"
+    },
+    "./tag": {
+      "types": "./dist/modules/tag/index.d.mts",
+      "import": "./dist/modules/tag/index.mjs",
+      "default": "./dist/modules/tag/index.mjs"
+    },
+    "./batch": {
+      "types": "./dist/modules/batch/index.d.mts",
+      "import": "./dist/modules/batch/index.mjs",
+      "default": "./dist/modules/batch/index.mjs"
+    },
+    "./agent": {
+      "types": "./dist/modules/agent/index.d.mts",
+      "import": "./dist/modules/agent/index.mjs",
+      "default": "./dist/modules/agent/index.mjs"
+    },
+    "./agent-menu": {
+      "types": "./dist/modules/agent-menu/index.d.mts",
+      "import": "./dist/modules/agent-menu/index.mjs",
+      "default": "./dist/modules/agent-menu/index.mjs"
+    },
+    "./media": {
+      "types": "./dist/modules/media/index.d.mts",
+      "import": "./dist/modules/media/index.mjs",
+      "default": "./dist/modules/media/index.mjs"
+    },
+    "./message": {
+      "types": "./dist/modules/message/index.d.mts",
+      "import": "./dist/modules/message/index.mjs",
+      "default": "./dist/modules/message/index.mjs"
+    },
+    "./app-chat": {
+      "types": "./dist/modules/app-chat/index.d.mts",
+      "import": "./dist/modules/app-chat/index.mjs",
+      "default": "./dist/modules/app-chat/index.mjs"
+    },
+    "./external-contact": {
+      "types": "./dist/modules/external-contact/index.d.mts",
+      "import": "./dist/modules/external-contact/index.mjs",
+      "default": "./dist/modules/external-contact/index.mjs"
+    },
+    "./calendar": {
+      "types": "./dist/modules/calendar/index.d.mts",
+      "import": "./dist/modules/calendar/index.mjs",
+      "default": "./dist/modules/calendar/index.mjs"
+    },
+    "./schedule": {
+      "types": "./dist/modules/schedule/index.d.mts",
+      "import": "./dist/modules/schedule/index.mjs",
+      "default": "./dist/modules/schedule/index.mjs"
+    },
+    "./meeting-room": {
+      "types": "./dist/modules/meeting-room/index.d.mts",
+      "import": "./dist/modules/meeting-room/index.mjs",
+      "default": "./dist/modules/meeting-room/index.mjs"
+    },
+    "./checkin": {
+      "types": "./dist/modules/checkin/index.d.mts",
+      "import": "./dist/modules/checkin/index.mjs",
+      "default": "./dist/modules/checkin/index.mjs"
+    },
+    "./approval": {
+      "types": "./dist/modules/approval/index.d.mts",
+      "import": "./dist/modules/approval/index.mjs",
+      "default": "./dist/modules/approval/index.mjs"
+    },
+    "./dial": {
+      "types": "./dist/modules/dial/index.d.mts",
+      "import": "./dist/modules/dial/index.mjs",
+      "default": "./dist/modules/dial/index.mjs"
+    },
+    "./invoice": {
+      "types": "./dist/modules/invoice/index.d.mts",
+      "import": "./dist/modules/invoice/index.mjs",
+      "default": "./dist/modules/invoice/index.mjs"
+    },
+    "./callback": {
+      "types": "./dist/modules/callback/index.d.mts",
+      "import": "./dist/modules/callback/index.mjs",
+      "default": "./dist/modules/callback/index.mjs"
+    },
+    "./suite": {
+      "types": "./dist/modules/suite/index.d.mts",
+      "import": "./dist/modules/suite/index.mjs",
+      "default": "./dist/modules/suite/index.mjs"
+    },
+    "./provider": {
+      "types": "./dist/modules/provider/index.d.mts",
+      "import": "./dist/modules/provider/index.mjs",
+      "default": "./dist/modules/provider/index.mjs"
+    },
+    "./webhook": {
+      "types": "./dist/modules/webhook/index.d.mts",
+      "import": "./dist/modules/webhook/index.mjs",
+      "default": "./dist/modules/webhook/index.mjs"
+    },
+    "./aibot": {
+      "types": "./dist/modules/aibot/index.d.mts",
+      "import": "./dist/modules/aibot/index.mjs",
+      "default": "./dist/modules/aibot/index.mjs"
+    },
+    "./hardware": {
+      "types": "./dist/modules/hardware/index.d.mts",
+      "import": "./dist/modules/hardware/index.mjs",
+      "default": "./dist/modules/hardware/index.mjs"
+    },
+    "./client": {
+      "types": "./dist/client.d.mts",
+      "import": "./dist/client.mjs",
+      "default": "./dist/client.mjs"
+    }
   },
   "files": [
     "dist",

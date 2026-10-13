@@ -103,7 +103,8 @@ describe('public types', () => {
     });
     expectTypeOf(Wecom).toBeConstructibleWith({
       tokenProvider: {
-        cacheKey: 'suite-corp:ww:auth:perm:https://qyapi.weixin.qq.com/cgi-bin/',
+        cacheKey:
+          'suite-corp:ww:auth:perm:https://qyapi.weixin.qq.com/cgi-bin/',
         fetch: async () => ({ accessToken: 't', expiresIn: 7200 }),
       },
     });

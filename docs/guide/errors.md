@@ -21,14 +21,14 @@ try {
 
 ## 错误类型
 
-| 类                  | 场景                                           | 默认可重试           |
-| ------------------- | ---------------------------------------------- | -------------------- |
+| 类                   | 场景                                           | 默认可重试           |
+| -------------------- | ---------------------------------------------- | -------------------- |
 | `WecomConfigError`   | `corpId` / `corpSecret` / `timeout` 等配置非法 | 否                   |
 | `WecomCallbackError` | 回调签名错误、解密失败、ReceiveId 不匹配       | 否                   |
-| `WecomApiError`     | 企业微信返回 `errcode !== 0`                   | Token 失效和限流为是 |
-| `WecomHttpError`    | 非 2xx（`206` 除外）                           | `429` / `5xx` 为是   |
-| `WecomTimeoutError` | 超过 `timeout`                                 | 是                   |
-| `WecomNetworkError` | DNS / 连接 / fetch 失败                        | 是                   |
+| `WecomApiError`      | 企业微信返回 `errcode !== 0`                   | Token 失效和限流为是 |
+| `WecomHttpError`     | 非 2xx（`206` 除外）                           | `429` / `5xx` 为是   |
+| `WecomTimeoutError`  | 超过 `timeout`                                 | 是                   |
+| `WecomNetworkError`  | DNS / 连接 / fetch 失败                        | 是                   |
 
 `WecomApiError` 额外带 `errcode`、`errmsg`。`WecomHttpError` 带 `status`。基类还有：
 

@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   AddCalendarDto,
   AddCalendarRet,
@@ -10,9 +10,9 @@ import type {
   UpdateCalendarDto,
 } from './interface';
 
-export class Calendar extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Calendar extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   add(data: AddCalendarDto): Promise<AddCalendarRet> {

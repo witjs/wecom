@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type { IMessageRet } from '../message/interface';
 import type {
   AppChatMessage,
@@ -10,9 +10,9 @@ import type {
   UpdateAppChatDto,
 } from './interface';
 
-export class AppChat extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class AppChat extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**

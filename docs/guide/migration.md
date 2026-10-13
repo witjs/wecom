@@ -53,7 +53,7 @@ try {
 - axios 实例和 axios 类型
 - 对调用方入参的原地修改（`Message.send`、`Agent.set`）
 
-`Wecom.setGlobal()` 仍可用，但已 deprecated。
+`Wecom.setGlobal()` 仍可用，但已 deprecated；请改用 `createClient` / `createScope`。模块改为组合 `Wecom`，`new User(config)` 仍兼容。
 
 ## 类型修正
 

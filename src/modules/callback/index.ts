@@ -1,10 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { WecomCallbackError, WecomConfigError } from '../../core/errors';
-import {
-  decryptCallback,
-  encryptCallback,
-  signCallback,
-} from './crypt';
+import { decryptCallback, encryptCallback, signCallback } from './crypt';
 import type {
   CallbackConfig,
   CallbackEncryptedBody,
@@ -87,7 +83,8 @@ export class Callback {
     plaintext: string,
     options: { timestamp?: string; nonce?: string } = {}
   ): CallbackReply {
-    const timestamp = options.timestamp ?? String(Math.floor(Date.now() / 1000));
+    const timestamp =
+      options.timestamp ?? String(Math.floor(Date.now() / 1000));
     const nonce = options.nonce ?? randomBytes(8).toString('hex');
     const encrypt = encryptCallback(
       this.config.encodingAESKey,

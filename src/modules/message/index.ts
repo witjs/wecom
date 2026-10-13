@@ -1,7 +1,8 @@
 import type { BaseRet } from '../../common/interface';
 import { WecomConfigError } from '../../core/errors';
-import type { WecomConfig } from '../../wecom';
+import type { WecomConfig } from '../../core/config';
 import { Wecom } from '../../wecom';
+import { WecomModule, isWecom } from '../../wecom-module';
 import type {
   GetMessageStatisticsDto,
   GetMessageStatisticsRet,
@@ -31,16 +32,30 @@ export type SendableMessage =
   | IMessage.TaskCard
   | IMessage.TemplateCard.TemplateCardCommon<TemplateCardPayload>;
 
-export class Message extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
+export type MessageSource =
+  | (Partial<WecomConfig> & { agentId?: number })
+  | Wecom;
+
+export class Message extends WecomModule {
+  /** Default agent id; overridden by send(..., agentId) or message.agentid. */
+  readonly agentId?: number;
+
+  constructor(source: MessageSource = {}, agentId?: number) {
+    if (isWecom(source)) {
+      super(source);
+      this.agentId = agentId;
+      return;
+    }
+    const { agentId: fromConfig, ...config } = source;
     super(config);
+    this.agentId = agentId ?? fromConfig;
   }
 
   /**
    * @description 发送应用消息
    */
   send(message: SendableMessage, agentId?: number): Promise<IMessageRet> {
-    const resolvedAgentId = message.agentid ?? agentId;
+    const resolvedAgentId = message.agentid ?? agentId ?? this.agentId;
     if (!resolvedAgentId) {
       throw new WecomConfigError('agentid should not be empty');
     }

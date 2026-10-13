@@ -1,5 +1,6 @@
 import { WecomConfigError } from '../../core/errors';
 import { Wecom } from '../../wecom';
+import { WecomModule, isWecom } from '../../wecom-module';
 import type { BaseRet } from '../../common/interface';
 import type {
   AgentListRet,
@@ -14,12 +15,22 @@ import type {
 /**
  * @description 应用管理相关接口
  */
-export class Agent extends Wecom {
-  agentId: number;
+export class Agent extends WecomModule {
+  readonly agentId: number;
 
-  constructor(config: IAgentWecom) {
-    super(config);
-    this.agentId = config.agentId;
+  constructor(config: IAgentWecom);
+  constructor(client: Wecom, agentId: number);
+  constructor(configOrClient: IAgentWecom | Wecom, agentId?: number) {
+    if (isWecom(configOrClient)) {
+      if (!agentId) {
+        throw new WecomConfigError('agentId must be specified');
+      }
+      super(configOrClient);
+      this.agentId = agentId;
+      return;
+    }
+    super(configOrClient);
+    this.agentId = configOrClient.agentId;
     if (!this.agentId) {
       throw new WecomConfigError('agentId must be specified');
     }

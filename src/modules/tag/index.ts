@@ -1,6 +1,6 @@
 import type { BaseRet } from '../../common/interface';
-import type { WecomConfig } from '../../wecom';
-import { Wecom } from '../../wecom';
+import type { ClientSource } from '../../wecom-module';
+import { WecomModule } from '../../wecom-module';
 import type {
   ITag,
   ITagCreateDto,
@@ -11,9 +11,9 @@ import type {
   TagUserRet,
 } from './interface';
 
-export class Tag extends Wecom {
-  constructor(config: Partial<WecomConfig> = {}) {
-    super(config);
+export class Tag extends WecomModule {
+  constructor(source: ClientSource = {}) {
+    super(source);
   }
 
   /**
