@@ -286,6 +286,9 @@ describe('AiBot', () => {
 
 function createFakeSocket() {
   let instance: FakeWebSocket | undefined;
+  const track = (ws: FakeWebSocket): void => {
+    instance = ws;
+  };
   let markOpened!: () => void;
   const opened = new Promise<void>((resolve) => {
     markOpened = resolve;
@@ -304,7 +307,7 @@ function createFakeSocket() {
     >();
 
     constructor(public url: string) {
-      instance = this;
+      track(this);
       queueMicrotask(() => {
         this.readyState = 1;
         this.dispatch('open');
